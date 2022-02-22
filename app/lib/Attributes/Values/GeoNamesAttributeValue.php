@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------------
  *
  * Software by Whirl-i-Gig (http://www.whirl-i-gig.com)
- * Copyright 2008-2021 Whirl-i-Gig
+ * Copyright 2008-2022 Whirl-i-Gig
  *
  * For more information visit http://www.CollectiveAccess.org
  *
@@ -408,6 +408,7 @@ class GeoNamesAttributeValue extends AttributeValue implements IAttributeValue {
                                 return [
                                     'value_longtext1' => $vs_text,
                                     'value_longtext2' => $vs_id,
+                                    'value_sortable' => $this->sortableValue($vs_text)
                                 ];
                             }
                         }
@@ -426,6 +427,7 @@ class GeoNamesAttributeValue extends AttributeValue implements IAttributeValue {
 			return [
 				'value_longtext1' => $vs_text,
 				'value_longtext2' => $vs_id,
+				'value_sortable' => $this->sortableValue($vs_text)
 			];
 		}
 	}
@@ -540,9 +542,20 @@ class GeoNamesAttributeValue extends AttributeValue implements IAttributeValue {
 	 * @return string Name of sort field
 	 */
 	public function sortField() {
-		return 'value_longtext1';
+		return 'value_sortable';
 	}
 	# ------------------------------------------------------------------
+	/**
+	 * Returns sortable value for metadata value
+	 *
+	 * @param string $value
+	 * 
+	 * @return string
+	 */
+	public function sortableValue(?string $value) {
+		return mb_strtolower(substr(trim($value), 0, 100));
+	}
+ 	# ------------------------------------------------------------------
 	/**
 	 * Returns constant for geonames attribute value
 	 * 
@@ -551,5 +564,5 @@ class GeoNamesAttributeValue extends AttributeValue implements IAttributeValue {
 	public function getType() {
 		return __CA_ATTRIBUTE_VALUE_GEONAMES__;
 	}
- 	# ------------------------------------------------------------------
+	# ------------------------------------------------------------------
 }

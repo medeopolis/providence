@@ -144,6 +144,17 @@ abstract class AttributeValue extends BaseObject {
 	}
 	# ------------------------------------------------------------------
 	/**
+	 * Returns sortable value for metadata value
+	 *
+	 * @param string $value
+	 * 
+	 * @return string
+	 */
+	public function sortableValue(?string $value) {
+		return null;
+	}
+	# ------------------------------------------------------------------
+	/**
 	 * Returns name of field in ca_attribute_values to use for sort operations
 	 *
 	 * @return string Name of sort field
