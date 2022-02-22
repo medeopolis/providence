@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------------
  *
  * Software by Whirl-i-Gig (http://www.whirl-i-gig.com)
- * Copyright 2009-2020 Whirl-i-Gig
+ * Copyright 2009-2022 Whirl-i-Gig
  *
  * For more information visit http://www.CollectiveAccess.org
  *
@@ -33,9 +33,7 @@
  /**
   *
   */
-	require_once(__CA_LIB_DIR__."/BaseRefineableSearchController.php");
 	require_once(__CA_LIB_DIR__."/Browse/ObjectBrowse.php");
-	require_once(__CA_MODELS_DIR__."/ca_search_forms.php");
  	require_once(__CA_APP_DIR__.'/helpers/accessHelpers.php');
 	require_once(__CA_LIB_DIR__.'/Media/MediaViewerManager.php');
  	
@@ -59,32 +57,39 @@
  		 *		output_format = determines format out search result output. "PDF" and "HTML" are currently supported; "HTML" is the default
  		 *		view = view with path relative to controller to use overriding default ("search/<table_name>_search_basic_html.php")
  		 *		vars = associative array with key value pairs to assign to the view
+ 		 *		search = SearchEngine object to use instead of default browse engine. [Default is null]
  		 *
  		 * Callbacks:
  		 * 		hookBeforeNewSearch() is called just before executing a new search. The first parameter is the BrowseEngine object containing the search.
  		 */
- 		public function Index($pa_options=null) {
- 			$po_search = isset($pa_options['search']) ? $pa_options['search'] : null;
- 			
- 			if (isset($pa_options['saved_search']) && $pa_options['saved_search']) {
- 				$this->opo_result_context->setSearchExpression($pa_options['saved_search']['search']);
- 				$this->opo_result_context->isNewSearch(true);
- 			}
- 			parent::Index($pa_options);
- 			
+ 		public function Index($options=null) {
  			AssetLoadManager::register('hierBrowser');
  			AssetLoadManager::register('browsable');	// need this to support browse panel when filtering/refining search results
+ 			
+ 			$po_search = isset($options['search']) ? $options['search'] : null;
+ 			
+ 			if (isset($options['saved_search']) && $options['saved_search']) {
+ 				$this->opo_result_context->setSearchExpression($options['saved_search']['search']);
+ 				$this->opo_result_context->isNewSearch(true);
+ 			}
+ 			parent::Index($options);
+ 			
  			$t_model = Datamodel::getInstanceByTableName($this->ops_tablename, true);
  			$va_access_values = caGetUserAccessValues($this->request);
  			
  			// Get elements of result context
- 			$vn_page_num 			= $this->opo_result_context->getCurrentResultsPageNumber();
- 			$vs_search 				= html_entity_decode($this->opo_result_context->getSearchExpression());	// decode entities encoded to avoid Apache request parsing issues (Eg. forward slashes [/] in searches) 
- 			$vb_is_new_search		= $this->opo_result_context->isNewSearch();
+ 			$page_num 			= $this->opo_result_context->getCurrentResultsPageNumber();
  			
- 			if ((bool)$this->request->getParameter('reset', pString) && ($this->request->getParameter('reset', pString) != 'save')) {
+ 			// Decode entities encoded to avoid Apache request parsing issues (Eg. forward slashes [/] in searches) 
+ 			$vs_search 			= html_entity_decode($this->opo_result_context->getSearchExpression());	
+ 			$is_new_search		= $this->opo_result_context->isNewSearch();
+ 			
+ 			$num_hits = 0;
+ 			
+ 			
+ 			if ((bool)$this->request->getParameter('reset', pString) && ($this->request->getParameter('reset', pString) !== 'save')) {
  				$vs_search = '';
- 				$vb_is_new_search = true;
+ 				$is_new_search = true;
  			}
  			
 			if (!($vn_items_per_page = $this->opo_result_context->getItemsPerPage())) { 
@@ -92,19 +97,17 @@
  				$this->opo_result_context->setItemsPerPage($vn_items_per_page);
  			}
  			
- 			if (!($vs_view 			= $this->opo_result_context->getCurrentView())) { 
+ 			if (!($vs_view = $this->opo_result_context->getCurrentView())) { 
  				$va_tmp = array_keys($this->opa_views);
  				$vs_view = $this->ops_view_default ? $this->ops_view_default : array_shift($va_tmp); 
  				$this->opo_result_context->setCurrentView($vs_view);
  			}
  			if (!isset($this->opa_views[$vs_view])) { 
- 				$va_tmp = array_keys($this->opa_views);
- 				$vs_view = array_shift($va_tmp); 
+ 				$vs_view = array_shift(array_keys($this->opa_views));
  			}
  			
  			if (!($vs_sort 	= $this->opo_result_context->getCurrentSort())) { 
- 				$va_tmp = array_keys($this->opa_sorts);
- 				$vs_sort = array_shift($va_tmp);
+ 				$vs_sort = array_shift(array_keys($this->opa_sorts));
  			}
  			$vs_sort_direction = $this->opo_result_context->getCurrentSortDirection();
 
@@ -116,14 +119,12 @@
  			MetaTagManager::setWindowTitle(_t('%1 search', $this->searchName('plural')));
  			
 			$vs_append_to_search = '';
- 			if ($pa_options['appendToSearch']) {
- 				$vs_append_to_search .= " AND (".$pa_options['appendToSearch'].")";
+ 			if ($options['appendToSearch']) {
+ 				$vs_append_to_search .= " AND (".$options['appendToSearch'].")";
  			}
 			//
 			// Execute the search
 			//
-			$vs_search_suffix = (caGetSearchConfig()->get('match_on_stem') && caIsSearchStem($vs_search)) ? '*' : '';
-			
 			if($vs_search){ /* any request? */
 				if(is_array($va_set_ids = caSearchIsForSets($vs_search))) {
 					// When search includes sets we add sort options for the references sets...
@@ -132,17 +133,18 @@
 					}
 					
 					// ... and default the sort to the set
-					//if ($vb_is_new_search) {
-					//	$this->opo_result_context->setCurrentSort($vs_sort = "ca_sets.set_id:{$vn_set_id}");
-					//}
+					if ($is_new_search) {
+						$this->opo_result_context->setCurrentSort($vs_sort = "ca_sets.set_id:{$vn_set_id}");
+					}
 				}
 				
-				$va_search_opts = array(
+				$search_opts = array(
 					'sort' => $vs_sort, 
-					'sort_direction' => $vs_sort_direction, 
+					'sort_direction' => $vs_sort_direction, 	// TODO: need to get rid of snakescase format
+					'sortDirection' => $vs_sort_direction, 
 					'appendToSearch' => $vs_append_to_search,
 					'checkAccess' => $va_access_values,
-					'no_cache' => $vb_is_new_search,
+					'no_cache' => $is_new_search,			 	// TODO: need to get rid of snakescase format
 					'dontCheckFacetAvailability' => true,
 					'filterNonPrimaryRepresentations' => true,
 					'rootRecordsOnly' => $this->view->getVar('hide_children'),
@@ -150,11 +152,11 @@
 					'throwExceptions' => !caGetOption('error', $pa_options, false)
 				);
 				
-				if ($vb_is_new_search ||isset($pa_options['saved_search']) || (is_subclass_of($po_search, "BrowseEngine") && !$po_search->numCriteria()) ) {
+				if ($is_new_search ||isset($options['saved_search']) || (is_subclass_of($po_search, "BrowseEngine") && !$po_search->numCriteria()) ) {
 					$vs_browse_classname = get_class($po_search);
  					$po_search = new $vs_browse_classname;
  					if (is_subclass_of($po_search, "BrowseEngine")) {
- 						$po_search->addCriteria('_search', $vs_search.$vs_search_suffix);
+ 						$po_search->addCriteria('_search', $vs_search);
  						
  						if (method_exists($this, "hookBeforeNewSearch")) {
  							$this->hookBeforeNewSearch($po_search);
@@ -179,36 +181,55 @@
 					}
 					
  					$vb_criteria_have_changed = $po_search->criteriaHaveChanged();
-					$po_search->execute($va_search_opts);
+					$po_search->execute($search_opts);
+					if($is_new_search || $vb_criteria_have_changed || $vb_sort_has_changed) {
+						$page_num = 1; 
+						$this->opo_result_context->setCurrentResultsPageNumber($page_num);
+					}
 					
 					$this->opo_result_context->setParameter('browse_id', $po_search->getBrowseID());
 					
 					if ($vs_group_name = $this->request->config->get('browse_facet_group_for_'.$this->ops_tablename)) {
  						$po_search->setFacetGroup($vs_group_name);
  					}
- 					
-					$vo_result = $po_search->getResults($va_search_opts);
-			
-					$n = (isset($pa_options['result']) && is_a($pa_options['result'], 'SearchResult')) ? $pa_options['result']->numHits() : $vo_result->numHits();
-				
-					if ($vn_page_num > ceil($n / $vn_items_per_page)) { 
-						$this->opo_result_context->setCurrentResultsPageNumber($vn_page_num = 1);	// reset page count if out of bounds
+ 			
+ 					if($options['output_format'] !== 'HTML') {
+ 						$results = $po_search->getResultsForPage(array_merge($search_opts,
+							['start' => 0 , 'limit' => 0])
+						);
+ 					} else {
+						$results = $po_search->getResultsForPage(array_merge($search_opts,
+							['start' => ($page_num - 1) * $vn_items_per_page, 'limit' => $vn_items_per_page])
+						);
 					}
+					$vo_result = $results['result'];
+					$num_hits = $results['total'];
 					
+					if($is_new_search || $vb_criteria_have_changed || $vb_sort_has_changed) {
+						// Get full results to set in result context for next/previous navigation
+						$rl = $po_search->getResultsForPage(array_merge($search_opts,
+							['start' => 0, 'limit' => 10000, 'returnIds' => true]));
+						$this->opo_result_context->setResultList($rl['result']);
+					}
 					if (!is_array($va_facets_with_info = $po_search->getInfoForAvailableFacets()) || !sizeof($va_facets_with_info)) {
 						$this->view->setVar('open_refine_controls', false);
 						$this->view->setVar('noRefineControls', false); 
 					}
 					
 				} elseif($po_search) {
-					$vo_result = $po_search->search($vs_search.$vs_search_suffix, $va_search_opts);
+					$vo_result = $po_search->search($vs_search, $search_opts);
+					$this->opo_result_context->setResultList($vo_result->getPrimaryKeyValues());
+				}
+				if($is_new_search || $vb_criteria_have_changed || $vb_sort_has_changed) {
+					$this->opo_result_context->setParameter('availableVisualizationChecked', 0);
+					$page_num = 1; 
 				}
 		} catch (SearchException $e) {
 			$this->notification->addNotification($e->getMessage(), __NOTIFICATION_TYPE_ERROR__);
 			return $this->Index(['error' => true]);
 		}
 
-				$vo_result = isset($pa_options['result']) ? $pa_options['result'] : $vo_result;
+				$vo_result = isset($options['result']) ? $options['result'] : $vo_result;
 
 				$this->opo_result_context->validateCache();
 				
@@ -233,19 +254,14 @@
 					$vo_result->filterResult('ca_objects.type_id', $vn_show_type_id);
 				}
 		
- 				if($vb_is_new_search || $vb_criteria_have_changed || $vb_sort_has_changed) {
-					$this->opo_result_context->setResultList($vo_result->getPrimaryKeyValues());
-					$this->opo_result_context->setParameter('availableVisualizationChecked', 0);
-					//if ($this->opo_result_context->searchExpressionHasChanged()) { $vn_page_num = 1; }
-					$vn_page_num = 1; 
-				}
- 				$this->view->setVar('num_hits', $vo_result->numHits());
- 				$this->view->setVar('num_pages', $vn_num_pages = ceil($vo_result->numHits()/$vn_items_per_page));
- 				$this->view->setVar('start', ($vn_page_num - 1) * $vn_items_per_page);
- 				if ($vn_page_num > $vn_num_pages) { $vn_page_num = 1; }
  				
- 				$vo_result->seek(($vn_page_num - 1) * $vn_items_per_page);
- 				$this->view->setVar('page', $vn_page_num);
+ 				$this->view->setVar('num_hits', $num_hits);
+ 				$this->view->setVar('num_pages', $vn_num_pages = ceil($num_hits/$vn_items_per_page));
+ 				$this->view->setVar('start', ($page_num - 1) * $vn_items_per_page);
+ 				if ($page_num > $vn_num_pages) { $page_num = 1; }
+ 				
+ 				$vo_result->seek(($page_num - 1) * $vn_items_per_page);
+ 				$this->view->setVar('page', $page_num);
  				$this->view->setVar('search', $vs_search);
  				$this->view->setVar('result', $vo_result);
  			}
@@ -283,7 +299,7 @@
 			
 			$this->_setBottomLineValues($vo_result, $va_display_list, $t_display);
 			
- 			switch($pa_options['output_format']) {
+ 			switch($options['output_format']) {
  				# ------------------------------------
  				case 'LABELS':
  					$this->_genLabels($vo_result, $this->request->getParameter("label_form", pString), $vs_search, $vs_search);
@@ -323,13 +339,13 @@
 					$this->opo_result_context->setAsLastFind();
 					$this->opo_result_context->saveContext();
 				
-					if (isset($pa_options['vars']) && is_array($pa_options['vars'])) { 
-						foreach($pa_options['vars'] as $vs_key => $vs_val) {
+					if (isset($options['vars']) && is_array($options['vars'])) { 
+						foreach($options['vars'] as $vs_key => $vs_val) {
 							$this->view->setVar($vs_key, $vs_val);
 						}
 					}
-					if (isset($pa_options['view']) && $pa_options['view']) { 
-						$this->render($pa_options['view']);
+					if (isset($options['view']) && $options['view']) { 
+						$this->render($options['view']);
 					} else {
 						$this->render('Search/'.$this->ops_tablename.'_search_basic_html.php');
 					}
@@ -429,9 +445,9 @@
  		/**
  		 *
  		 */ 
- 		public function getPartialResult($pa_options=null) {
- 			$pa_options['search'] = $this->opo_browse;
- 			return parent::getPartialResult($pa_options);
+ 		public function getPartialResult($options=null) {
+ 			$options['search'] = $this->opo_browse;
+ 			return parent::getPartialResult($options);
  		}
  		# -------------------------------------------------------
  		/**

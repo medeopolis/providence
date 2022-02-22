@@ -169,7 +169,8 @@ class SearchResult extends BaseObject {
 	 * @param string Table name
 	 * @return void
 	 */ 
-	public static function checkCacheSizeLimit($ps_tablename) {
+	public function checkCacheSizeLimit() {
+		if (rand(0,25) !== 12) { return; }	// run every 25th call (or so)
 		foreach ([
 			'prefetch_cache' => &self::$s_prefetch_cache,
 			'instance_cache' => &self::$s_instance_cache,
@@ -191,12 +192,26 @@ class SearchResult extends BaseObject {
 				case 'hierarchy_siblings_prefetch_cache':
 				case 'hierarchy_siblings_prefetch_cache_index':
 				case 'hierarchy_children_prefetch_cache_index':
-					if (is_array($va_cache) && is_array($va_cache[$ps_tablename]) && (sizeof($va_cache[$ps_tablename]) > SearchResult::$s_cache_size_limit)) {
-						$va_cache[$ps_tablename] = [];
+					if (is_array($va_cache)) {
+						foreach(array_keys($va_cache) as $ps_tablename) {
+							if (is_array($va_cache) && is_array($va_cache[$ps_tablename]) && (sizeof($va_cache[$ps_tablename]) > SearchResult::$s_cache_size_limit)) {
+								unset($va_cache[$ps_tablename]);
+							}
+						}
 					}
 					break;
 			}
 			
+		}
+		
+		if (sizeof($this->opa_cached_result_counts) > 100) {
+			$this->opa_cached_result_counts = []; 
+		}
+		if (sizeof($this->opa_row_ids_to_prefetch_cache) > 100) {
+			$this->opa_row_ids_to_prefetch_cache = []; 
+		}
+		if (sizeof($this->opa_template_prefetch_cache) > 100) {
+			$this->opa_template_prefetch_cache = []; 
 		}
 	}
 
@@ -257,7 +272,7 @@ class SearchResult extends BaseObject {
 	/**
 	 * 
 	 *
-	 * @param IWLPlugSearchEngineResult $po_engine_result
+	 * @param IWLPlugSearchEngineResult|String $po_engine_result
 	 * @param array $pa_tables
 	 * @param array $pa_options Options include:
 	 *		db = optional Db instance to use for database connectivity. If omitted a new database connection is used. If you need to have your result set access the database within a specific transaction you should pass the Db object used by the transaction here.
@@ -269,7 +284,7 @@ class SearchResult extends BaseObject {
 		$this->ops_table_pk = $this->opo_subject_instance->primaryKey();
 		$this->opa_cached_result_counts = array();
 		
-		$this->opo_engine_result = $po_engine_result;
+		$this->opo_engine_result = is_object($po_engine_result) ? $po_engine_result : null;
 		$this->opa_tables = $pa_tables;
 		
 		if ($o_db = caGetOption('db', $pa_options, null)) { 
@@ -387,7 +402,7 @@ class SearchResult extends BaseObject {
 	public function prefetchHierarchyParents($ps_tablename, $pn_start, $pn_num_rows, $pa_options=null) {
 		if (!$ps_tablename ) { return; }
 		
-		SearchResult::checkCacheSizeLimit($ps_tablename);
+		$this->checkCacheSizeLimit();
 		
 		// get row_ids to fetch
 		if (isset($pa_options['row_ids']) && is_array($pa_options['row_ids'])) {
@@ -624,7 +639,7 @@ class SearchResult extends BaseObject {
 	private function _getRelatedIDsForPrefetch($ps_tablename, $pn_start, $pn_num_rows, &$pa_cache, $t_rel_instance, $va_row_ids, $pa_options) {
 		$this->prefetchRelated($ps_tablename, $pn_start, $pn_num_rows, $pa_options);
 		
-		SearchResult::checkCacheSizeLimit($ps_tablename);
+		$this->checkCacheSizeLimit();
 						
 		$va_base_row_ids = array();
 		$vs_opt_md5 = caMakeCacheKeyFromOptions($pa_options);
@@ -650,6 +665,8 @@ class SearchResult extends BaseObject {
 	 * Because this can be done in a single query it'll presumably be faster than lazy loading lots of rows
 	 */
 	public function prefetch($ps_tablename, $pn_start, $pn_num_rows, $pa_options=null) {
+		$this->checkCacheSizeLimit();
+		
 		if (!$ps_tablename ) { return; }
 		
 		$vs_md5 = caMakeCacheKeyFromOptions($pa_options);
@@ -798,12 +815,13 @@ class SearchResult extends BaseObject {
 	 * 
 	 */
 	public function prefetchRelated($ps_tablename, $pn_start, $pn_num_rows, $pa_options) {
+		$this->checkCacheSizeLimit();
+		
 		if (!is_array($pa_options)) { $pa_options = array(); }
 		if (!method_exists($this->opo_subject_instance, "getRelatedItems")) { return false; }
 		unset($pa_options['request']);
 		if (sizeof($va_row_ids = $this->getRowIDsToPrefetch($pn_start, $pn_num_rows)) == 0) { return false; }
 		
-		SearchResult::checkCacheSizeLimit($this->ops_table_name);
 		
 		$pa_check_access = caGetOption('checkAccess', $pa_options, null);
 		
@@ -854,6 +872,7 @@ class SearchResult extends BaseObject {
 	 * 
 	 */
 	public function prefetchChangeLogData($ps_tablename, $pn_start, $pn_num_rows) {
+		$this->checkCacheSizeLimit();
 		if (sizeof($va_row_ids = $this->getRowIDsToPrefetch($pn_start, $pn_num_rows)) == 0) { return false; }
 		$vs_key = caMakeCacheKeyFromOptions(array_merge($va_row_ids, array('_table' => $ps_tablename)));
 		if (self::$s_timestamp_cache['fetched'][$vs_key]) { return true; }
@@ -1166,6 +1185,8 @@ class SearchResult extends BaseObject {
 		if (!$t_instance) { return null; }	// Bad table
 		
 		$vn_row_id = $this->opo_engine_result->get($this->ops_table_pk);
+		if (!$vn_row_id) { return null; } // No row loaded
+		
 		$va_val_opts['primaryKey'] = $t_instance->primaryKey();
 		
 		if ($va_path_components['hierarchical_modifier']) {
@@ -1699,7 +1720,6 @@ class SearchResult extends BaseObject {
 						}
 						ca_attributes::prefetchAttributes($this->opo_subject_instance->getDb(), $this->opn_table_num, $this->getRowIDsToPrefetch($this->opo_engine_result->currentRow(), $this->getOption('prefetch')), $va_element_ids, array('dontFetchAlreadyCachedValues' => true));
 					}
-					
 					$va_attributes = ca_attributes::getAttributes($this->opo_subject_instance->getDb(), $this->opn_table_num, $vn_row_id, array($vn_element_id), array());
 
 					$vm_val = $this->_getAttributeValue($va_attributes[$vn_element_id], $t_instance, $va_val_opts);
@@ -1899,12 +1919,13 @@ class SearchResult extends BaseObject {
 		
 		$pa_check_access		= $pa_options['checkAccess'];
 		$pb_primary_only		= $pa_options['primaryOnly'];
-		if (!is_array($pa_exclude_idnos	= $pa_options['excludeIdnos'])) { $pa_exclude_idnos = []; }
+		
+		$pa_exclude_idnos = caGetOption('excludeIdnos', $pa_options, null);
+		if (!is_array($pa_exclude_idnos) && $pa_exclude_idnos) { $pa_exclude_idnos = [$pa_exclude_idnos]; } 
 		
 		if (!($t_rel_instance = SearchResult::$s_instance_cache[$va_path_components['table_name']])) {
 			$t_rel_instance = SearchResult::$s_instance_cache[$va_path_components['table_name']] = Datamodel::getInstanceByTableName($va_path_components['table_name'], true);
 		}
-		
 		if (!($t_rel_instance instanceof BaseModel)) { return null; }
 		
 		// Handle table-only case...
@@ -1930,12 +1951,19 @@ class SearchResult extends BaseObject {
 		    if ($pb_primary_only && isset($va_rel_item['is_primary']) && !$va_rel_item['is_primary']) { continue; }
 			$va_ids[] = $va_rel_item[$vs_pk];
 		}
-		if (!sizeof($va_ids)) { return $pa_options['returnAsArray'] ? array() : null; }
+		if (!sizeof($va_ids)) { return $pa_options['returnAsArray'] ? [] : null; }
 
+		$key = caMakeCacheKeyFromOptions($va_ids, $va_path_components['table_name']);
 		
-		if (!($qr_rel = caMakeSearchResult($va_path_components['table_name'], $va_ids, array('instance' => $t_rel_instance)))) { return null; }
+		if (MemoryCache::contains($key,'SeachResultRelCache')) {
+			$qr_rel = MemoryCache::fetch($key,'SeachResultRelCache');
+			$qr_rel->seek(0);	// TODO: won't work with PDO?
+		} else {
+			if (!($qr_rel = caMakeSearchResult($va_path_components['table_name'], $va_ids, ['instance' => $t_rel_instance]))) { return null; }
+			MemoryCache::save($key, $qr_rel, 'SeachResultRelCache');
+		}
 
-		$va_return_values = array();
+		$va_return_values = [];
 		$va_spec = array();
 		foreach($va_path_components['components'] as $vs_v) {
 			if ($vs_v) { $va_spec[] = $vs_v; }
@@ -1945,7 +1973,7 @@ class SearchResult extends BaseObject {
 		$vs_rel_table_name = $t_rel_instance->tableName();
 		
 		$pa_restrict_to_lists = caGetOption('list', $pa_options, null, ['castTo' => 'array']);
-		if (is_array($pa_restrict_to_lists)) { $pa_restrict_to_lists = caMakeListIDList($pa_restrict_to_lists); }
+		if (is_array($pa_restrict_to_lists) && sizeof($pa_restrict_to_lists)) { $pa_restrict_to_lists = caMakeListIDList($pa_restrict_to_lists); }
 		
 		// Make sure spec has a table name, otherwise we can get caught in an infinite loop when we pull using the spec
 		if ((substr($va_spec[0], 0, 3) !== 'ca_') || !Datamodel::tableExists($va_spec[0])) { array_unshift($va_spec, $va_path_components['table_name']); }
@@ -1956,7 +1984,7 @@ class SearchResult extends BaseObject {
 				continue;
 			}
 			
-			if (in_array($qr_rel->get("{$vs_rel_table_name}.{$vs_idno_fld}"), $pa_exclude_idnos)) {
+			if (is_array($pa_exclude_idnos) && sizeof($pa_exclude_idnos) && in_array($qr_rel->get("{$vs_rel_table_name}.{$vs_idno_fld}"), $pa_exclude_idnos)) {
 				continue;
 			}
 			
@@ -1979,6 +2007,7 @@ class SearchResult extends BaseObject {
 				$va_return_values[] = $vm_val;
 			}
 		}
+		
 		if ($va_path_components['is_count']) {
 			return $pa_options['returnAsArray'] ? [sizeof($va_return_values)] : sizeof($va_return_values); 
 		}
@@ -2153,7 +2182,7 @@ class SearchResult extends BaseObject {
 		$va_return_values = [];
 		
 		$include_value_ids = caGetOption('includeValueIDs', $pa_options, false);
-		$pa_exclude_idnos = caGetOption('excludeIdnos', $pa_options, []);
+		$pa_exclude_idnos = caGetOption('excludeIdnos', $pa_options, null);
 		if (!is_array($pa_exclude_idnos) && $pa_exclude_idnos) { $pa_exclude_idnos = [$pa_exclude_idnos]; } 
 		
 		$vn_id = $this->get($pt_instance->primaryKey(true));
@@ -2241,7 +2270,7 @@ class SearchResult extends BaseObject {
 							
 							if ($qr_res->nextHit()) {
 								if (($t_instance = $o_value->elementTypeToInstance($o_value->getType())) && ($vs_idno_fld = $t_instance->getProperty('ID_NUMBERING_ID_FIELD'))) {
-									if (in_array($qr_res->get($vs_auth_table_name.'.'.$vs_idno_fld), $pa_exclude_idnos)) {
+									if (is_array($pa_exclude_idnos) && sizeof($pa_exclude_idnos) && in_array($qr_res->get($vs_auth_table_name.'.'.$vs_idno_fld), $pa_exclude_idnos)) {
 										continue;
 									}
 								}
@@ -2315,7 +2344,7 @@ class SearchResult extends BaseObject {
 							case __CA_ATTRIBUTE_VALUE_LIST__:
 								$t_element = ca_metadata_elements::getInstance($o_value->getElementID());
 								$vn_list_id = $t_element->get('list_id');
-								if (in_array($o_value->getDisplayValue(array('output' => 'idno', 'list_id' => $vn_list_id)), $pa_exclude_idnos)) {
+								if (is_array($pa_exclude_idnos) && sizeof($pa_exclude_idnos) && in_array($o_value->getDisplayValue(array('output' => 'idno', 'list_id' => $vn_list_id)), $pa_exclude_idnos)) {
 									continue(2);
 								}
 						
@@ -2379,7 +2408,7 @@ class SearchResult extends BaseObject {
 								}
 								continue(2);
 							default:
-								if (in_array($o_value->getDisplayValue(array('output' => 'idno')), $pa_exclude_idnos)) {
+								if (is_array($pa_exclude_idnos) && sizeof($pa_exclude_idnos) && in_array($o_value->getDisplayValue(array('output' => 'idno')), $pa_exclude_idnos)) {
 									continue(2);
 								}
 								$vs_val_proc = $o_value->getDisplayValue(array_merge($pa_options, array('output' => $pa_options['output'])));

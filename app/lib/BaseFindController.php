@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------------
  *
  * Software by Whirl-i-Gig (http://www.whirl-i-gig.com)
- * Copyright 2009-2021 Whirl-i-Gig
+ * Copyright 2009-2022 Whirl-i-Gig
  *
  * For more information visit http://www.CollectiveAccess.org
  *
@@ -35,15 +35,7 @@
   */
   
  	require_once(__CA_APP_DIR__.'/helpers/printHelpers.php');
- 	require_once(__CA_LIB_DIR__.'/ResultContext.php');
- 	require_once(__CA_MODELS_DIR__.'/ca_bundle_displays.php');
- 	require_once(__CA_MODELS_DIR__."/ca_sets.php");
-	require_once(__CA_LIB_DIR__."/AccessRestrictions.php");
- 	require_once(__CA_LIB_DIR__.'/Visualizer.php');
-	require_once(__CA_LIB_DIR__.'/Parsers/ZipStream.php');
  	require_once(__CA_LIB_DIR__.'/Print/PDFRenderer.php');
-	require_once(__CA_MODELS_DIR__.'/ca_data_exporters.php');
- 	require_once(__CA_LIB_DIR__."/ApplicationPluginManager.php");
  	
 	class BaseFindController extends ActionController {
 		# ------------------------------------------------------------------
@@ -93,6 +85,7 @@
                         } elseif($vn_type_id = Session::getVar($this->ops_tablename.'_type_id')) {
                             $this->opn_type_restriction_id = $vn_type_id;
                         }
+                    
                         $this->opb_type_restriction_has_changed =  $pb_type_restriction_has_changed;	// get change status
                     }
 				}	
@@ -194,10 +187,22 @@
 				foreach($display_list as $i => $va_display_item) {
 					$tmp = explode('.', $va_display_item['bundle_name']);
 					
+					// Convert bare label and intrinsics to use primary table
+					if(sizeof($tmp) === 1) {
+						if(
+							in_array($tmp[0], ['preferred_labels', 'nonpreferred_labels'])
+							||
+							$t_instance->hasField($tmp[0])
+						){
+							$va_display_item['bundle_name'] = $this->ops_tablename.'.'.$tmp[0];
+							array_unshift($tmp, $this->ops_tablename);
+						} 
+					}
+					
 					if (
 						(($tmp[0] === $vs_label_table_name) && ($tmp[1] === $vs_label_display_field))
 						||
-						(($tmp[0] == $this->ops_tablename) && ($tmp[1] === 'preferred_labels'))
+						(($tmp[0] == $this->ops_tablename) && (in_array($tmp[1], ['preferred_labels', 'nonpreferred_labels'], true)))
 					) {
 						$display_list[$i]['is_sortable'] = true;
 						$display_list[$i]['bundle_sort'] = $vs_label_table_name.'.'.$t_instance->getLabelSortField();
@@ -211,7 +216,7 @@
 						continue;
 					}
 
-					if ($tmp[0] != $this->ops_tablename) { 
+					if (Datamodel::tableExists($tmp[0]) && ($tmp[0] !== $this->ops_tablename)) { 
 					    // Sort on related tables
 						if (($t_rel = Datamodel::getInstance($tmp[0], true)) && method_exists($t_rel, "getLabelTableInstance") && ($t_rel_label = $t_rel->getLabelTableInstance())) {
                             $display_list[$i]['is_sortable'] = true; 
@@ -221,8 +226,7 @@
                         }
 						continue; 
 					}
-					
-					if ($t_instance->hasField($tmp[1])) {
+					if (($tmp[0] === $this->ops_tablename) && $t_instance->hasField($tmp[1])) {
 						if($t_instance->getFieldInfo($tmp[1], 'FIELD_TYPE') == FT_MEDIA) { // sorting media fields doesn't really make sense and can lead to sql errors
 							continue;
 						}

@@ -1103,7 +1103,7 @@ class BaseFindEngine extends BaseObject {
 		}
 		$attr_val_sort_field = ca_metadata_elements::getElementSortField($element_code);
 		
-
+		if(!$attr_val_sort_field) { return $values; }
 		$sql = "SELECT a.row_id, cav.{$attr_val_sort_field} val
 					FROM ca_attribute_values cav
 					INNER JOIN ca_attributes AS a ON a.attribute_id = cav.attribute_id
@@ -1133,6 +1133,7 @@ class BaseFindEngine extends BaseObject {
 		}
 		$attr_val_sort_field = ca_metadata_elements::getElementSortField($element_code);
 
+		if(!$attr_val_sort_field) { return $values; }
 		$sql = "SELECT a.row_id, cav.{$attr_val_sort_field} val
 					FROM ca_attribute_values cav
 					INNER JOIN ca_attributes AS a ON a.attribute_id = cav.attribute_id
@@ -1215,7 +1216,7 @@ class BaseFindEngine extends BaseObject {
 			case 2:
 				$t = Datamodel::getInstance($table, true);
 			
-				if($t->isSelfRelationship()) {
+				if(method_exists($t, 'isSelfRelationship') && ($t->isSelfRelationship())) {
 					$joins[] = "INNER JOIN {$rel_table} AS s ON (s.{$rel_table_pk} = t.".$t->getLeftTableFieldName().") OR (s.{$rel_table_pk} = t.".$t->getRightTableFieldName().")";
 				} else {
 					$joins[] = "INNER JOIN {$rel_table} AS s ON s.{$rel_table_pk} = t.{$rel_table_pk}";
