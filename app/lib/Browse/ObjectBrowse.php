@@ -44,7 +44,7 @@ class ObjectBrowse extends BaseBrowse {
 	 */
 	protected $ops_tablename = "ca_objects";
 	protected $ops_primary_key = "object_id";
-	# ----------------------------------------------------------------------
+	# ------------------------------------------------------
 	public function __construct($pn_browse_id=null, $ps_context='') {
 		parent::__construct($this->ops_tablename, $pn_browse_id, $ps_context);
 	}
