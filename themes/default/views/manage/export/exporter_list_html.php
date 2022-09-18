@@ -29,8 +29,8 @@
 $va_exporter_list = $this->getVar('exporter_list');
 
 if (!$this->request->isAjax()) {
-    if(sizeof($va_exporter_list)>0){
-?>
+    if (sizeof($va_exporter_list)>0) {
+        ?>
 <script language="JavaScript" type="text/javascript">
 	jQuery(document).ready(function(){
 		jQuery('#caExporterList').caFormatListTable();
@@ -38,15 +38,15 @@ if (!$this->request->isAjax()) {
 </script>
 <?php
     }
-?>
+    ?>
 <div class="sectionBox">
 	<?php
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="jQuery(\'#caExporterList\').caFilterTable(this.value); return false;" size="20"/></div>',
-			'',
-			caFormJSButton($this->request, __CA_NAV_ICON_ADD__, _t("Add exporters"), 'caAddExportersButton', array('onclick' => 'jQuery("#exporterUploadArea").slideToggle(150); return false;'))
-		);
-	?>
+            print caFormControlBox(
+        '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="jQuery(\'#caExporterList\').caFilterTable(this.value); return false;" size="20"/></div>',
+        '',
+        caFormJSButton($this->request, __CA_NAV_ICON_ADD__, _t("Add exporters"), 'caAddExportersButton', array('onclick' => 'jQuery("#exporterUploadArea").slideToggle(150); return false;'))
+    );
+    ?>
 	
 	
 	<div id="batchProcessingTableProgressGroup" style="display: none;">
@@ -81,8 +81,8 @@ if (!$this->request->isAjax()) {
 			</thead>
 			<tbody>
 <?php
-	foreach($va_exporter_list as $va_exporter) {
-?>
+    foreach ($va_exporter_list as $va_exporter) {
+        ?>
 			<tr>
 				<td>
 					<?php print $va_exporter['label']; ?>
@@ -102,14 +102,14 @@ if (!$this->request->isAjax()) {
 				</td>
 			</tr>
 <?php
-	}
+    }
 ?>
 			</tbody>
 		</table>
 	</div>
 <?php
 if (!$this->request->isAjax()) {
-?>
+    ?>
 </div>
 <div class="editorBottomPadding"><!-- empty --></div>
 

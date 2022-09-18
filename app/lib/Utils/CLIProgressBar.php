@@ -13,16 +13,15 @@
  */
 
 /**
- * ProgressBar 
+ * ProgressBar
  *
  * Static wrapper class for generating progress bars for cli tasks
- * 
+ *
  */
 class CLIProgressBar
 {
-
     /**
-     * Merged with options passed in start function 
+     * Merged with options passed in start function
      */
     protected static $defaults = array(
         'format' => "\r:message::padding:%.01f%% %2\$d/%3\$d ETC: %4\$s. Elapsed: %5\$s [%6\$s]",
@@ -32,12 +31,12 @@ class CLIProgressBar
     );
 
     /**
-     * Runtime options 
+     * Runtime options
      */
     protected static $options = array();
 
     /**
-     * How much have we done already 
+     * How much have we done already
      */
     protected static $done = 0;
 
@@ -62,21 +61,21 @@ class CLIProgressBar
     protected static $start;
 
     /**
-     * The width in characters the whole rendered string must fit in. defaults to the width of the 
+     * The width in characters the whole rendered string must fit in. defaults to the width of the
      * terminal window
      */
     protected static $width;
 
     /**
-     * What's the total number of times we're going to call set 
+     * What's the total number of times we're going to call set
      */
     protected static $total;
 
     /**
      * Show a progress bar, actually not usually called explicitly. Called by next()
-     * 
+     *
      * @param int $done what fraction of $total to set as progress uses internal counter if not passed
-     * 
+     *
      * @static
      * @return string, the formatted progress bar prefixed with a carriage return
      */
@@ -89,7 +88,7 @@ class CLIProgressBar
         $now = time();
 
         if (self::$total) {
-            $fractionComplete = (double) (self::$done / self::$total);
+            $fractionComplete = (float) (self::$done / self::$total);
         } else {
             $fractionComplete = 0;
         }
@@ -156,7 +155,7 @@ class CLIProgressBar
 
     /**
      * reset internal state, and send a new line so that the progress bar text is "finished"
-     * 
+     *
      * @static
      * @return string, a new line
      */
@@ -168,7 +167,7 @@ class CLIProgressBar
 
     /**
      * Increment the internal counter, and returns the result of display
-     * 
+     *
      * @param int    $inc     Amount to increment the internal counter
      * @param string $message If passed, overrides the existing message
      *
@@ -185,10 +184,10 @@ class CLIProgressBar
 
         return self::display();
     }
-    
+
     /**
      * Force counter to value
-     * 
+     *
      * @param int    $index    Index to jump to
      * @param string $message If passed, overrides the existing message
      *
@@ -208,7 +207,7 @@ class CLIProgressBar
 
     /**
      * Called by start and finish
-     * 
+     *
      * @param array $options array
      *
      * @static
@@ -237,16 +236,17 @@ class CLIProgressBar
         self::setWidth($options['width']);
     }
 
-	/**
-     * 
+    /**
+     *
      */
-	public static function stripReturns($text) {
-		return preg_replace('![\r\n\t]+!', ' ', $text);
-	}
-	
+    public static function stripReturns($text)
+    {
+        return preg_replace('![\r\n\t]+!', ' ', $text);
+    }
+
     /**
      * change the message to be used the next time the display method is called
-     * 
+     *
      * @param string $message the string to display
      *
      * @static
@@ -259,7 +259,7 @@ class CLIProgressBar
 
     /**
      * change the total on a running progress bar
-     * 
+     *
      * @param int $total the new number of times we're expecting to run for
      *
      * @static
@@ -272,11 +272,11 @@ class CLIProgressBar
 
     /**
      * Initialize a progress bar
-     * 
+     *
      * @param mixed $total   number of times we're going to call set
      * @param int   $message message to prefix the bar with
      * @param int   $options overrides for default options
-     * 
+     *
      * @static
      * @return string - the progress bar string with 0 progress
      */
@@ -294,7 +294,7 @@ class CLIProgressBar
 
     /**
      * Convert a number of seconds into something human readable like "2 days, 4 hrs"
-     * 
+     *
      * @param int    $seconds how far in the future/past to display
      * @param string $nowText if there are no seconds, what text to display
      *
@@ -333,10 +333,10 @@ class CLIProgressBar
         if ($hours) {
             $return[] = sprintf("%02dh", $hours);
         }
-        if ($minutes){
+        if ($minutes) {
             $return[] = sprintf("%02dm", $minutes);
         }
-        if ($seconds){
+        if ($seconds) {
             $return[] = sprintf("%02ds", $seconds);
         }
         if (!$return) {
@@ -347,7 +347,7 @@ class CLIProgressBar
 
     /**
      * Set the width the rendered text must fit in
-     * 
+     *
      * @param int $width passed in options
      *
      * @static
@@ -355,11 +355,11 @@ class CLIProgressBar
      */
     protected static function setWidth($width = null)
     {
-    	$height = null;
+        $height = null;
         if ($width === null) {
-			if (DIRECTORY_SEPARATOR === '/') {
-				$width = `tput cols`;
-			}
+            if (DIRECTORY_SEPARATOR === '/') {
+                $width = `tput cols`;
+            }
             if ($width < 80) {
                 $width = 80;
             }

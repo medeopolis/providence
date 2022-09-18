@@ -63,8 +63,8 @@ class Zend_Search_Lucene_Search_QueryParserContext
     /**
      * Entries grouping mode
      */
-    const GM_SIGNS   = 0;  // Signs mode: '+term1 term2 -term3 +(subquery1) -(subquery2)'
-    const GM_BOOLEAN = 1;  // Boolean operators mode: 'term1 and term2  or  (subquery1) and not (subquery2)'
+    public const GM_SIGNS   = 0;  // Signs mode: '+term1 term2 -term3 +(subquery1) -(subquery2)'
+    public const GM_BOOLEAN = 1;  // Boolean operators mode: 'term1 and term2  or  (subquery1) and not (subquery2)'
 
     /**
      * Grouping mode
@@ -118,7 +118,7 @@ class Zend_Search_Lucene_Search_QueryParserContext
      */
     public function getField()
     {
-        return ($this->_nextEntryField !== null)  ?  $this->_nextEntryField : $this->_defaultField;
+        return ($this->_nextEntryField !== null) ? $this->_nextEntryField : $this->_defaultField;
     }
 
     /**
@@ -149,7 +149,7 @@ class Zend_Search_Lucene_Search_QueryParserContext
 
         if ($sign == Zend_Search_Lucene_Search_QueryToken::TT_REQUIRED) {
             $this->_nextEntrySign = true;
-        } else if ($sign == Zend_Search_Lucene_Search_QueryToken::TT_PROHIBITED) {
+        } elseif ($sign == Zend_Search_Lucene_Search_QueryToken::TT_PROHIBITED) {
             $this->_nextEntrySign = false;
         } else {
             #require_once 'Zend/Search/Lucene/Exception.php';
@@ -266,7 +266,7 @@ class Zend_Search_Lucene_Search_QueryParserContext
         }
 
         foreach ($this->_entries as $entryId => $entry) {
-            $sign = ($this->_signs[$entryId] !== null) ?  $this->_signs[$entryId] : $defaultSign;
+            $sign = ($this->_signs[$entryId] !== null) ? $this->_signs[$entryId] : $defaultSign;
             $query->addSubquery($entry->getQuery($this->_encoding), $sign);
         }
 

@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * app/controllers/lookup/RelationshipTypeController.php : 
+ * app/controllers/lookup/RelationshipTypeController.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,35 +15,38 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 	require_once(__CA_LIB_DIR__."/BaseLookupController.php");
- 	
- 	class RelationshipTypeController extends BaseLookupController {
- 		# -------------------------------------------------------
- 		protected $opb_uses_hierarchy_browser = true;
- 		protected $ops_table_name = 'ca_relationship_types';		// name of "subject" table (what we're editing)
- 		protected $ops_name_singular = 'relationship_type';
- 		protected $ops_search_class = 'RelationshipTypeSearch';
- 		# -------------------------------------------------------
- 		/**
- 		 *
- 		 */
-		public function Get($pa_additional_query_params=null, $pa_options=null) {
-			if ($pn_table_num = (int)$this->request->getParameter('table_num', pInteger)) {
-				if(!is_array($pa_additional_query_params)) { $pa_additional_query_params = array(); }
-				$pa_options['filters'] = array(array("ca_relationship_types.table_num", "=", $pn_table_num));
-			}
-			return parent::Get($pa_additional_query_params, $pa_options);
-		}
- 		# -------------------------------------------------------
- 	}
- ?>
+require_once(__CA_LIB_DIR__."/BaseLookupController.php");
+
+class RelationshipTypeController extends BaseLookupController
+{
+    # -------------------------------------------------------
+    protected $opb_uses_hierarchy_browser = true;
+    protected $ops_table_name = 'ca_relationship_types';		// name of "subject" table (what we're editing)
+    protected $ops_name_singular = 'relationship_type';
+    protected $ops_search_class = 'RelationshipTypeSearch';
+    # -------------------------------------------------------
+    /**
+     *
+     */
+    public function Get($pa_additional_query_params=null, $pa_options=null)
+    {
+        if ($pn_table_num = (int)$this->request->getParameter('table_num', pInteger)) {
+            if (!is_array($pa_additional_query_params)) {
+                $pa_additional_query_params = array();
+            }
+            $pa_options['filters'] = array(array("ca_relationship_types.table_num", "=", $pn_table_num));
+        }
+        return parent::Get($pa_additional_query_params, $pa_options);
+    }
+    # -------------------------------------------------------
+}

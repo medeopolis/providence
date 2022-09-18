@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * themes/default/views/find/ca_storage_locations_search_builder_html.php 
+ * themes/default/views/find/ca_storage_locations_search_builder_html.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,21 +15,21 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
- */ 
-	$vo_result 				= $this->getVar('result');
- 	$vo_result_context 		= $this->getVar('result_context');
- 	
- 	if(!$this->request->isAjax()) {
- ?>
+ */
+$vo_result 				= $this->getVar('result');
+$vo_result_context 		= $this->getVar('result_context');
+
+if (!$this->request->isAjax()) {
+    ?>
 	<div class="searchBuilderContainer">
 		<?= $this->render('SearchBuilder/search_controls_html.php'); ?>
 		<div id="searchBuilder"></div>
@@ -42,34 +42,36 @@
 	</div>
  	<div id="resultBox">
 <?php
-	}
-	if($vo_result) {
-		$vs_view = $this->getVar('current_view');
-		if ($vo_result->numHits() == 0) { $vs_view = 'no_results'; }
-		print $this->render('Results/paging_controls_html.php');
-		print $this->render('Results/search_options_html.php');
-?>
+}
+if ($vo_result) {
+    $vs_view = $this->getVar('current_view');
+    if ($vo_result->numHits() == 0) {
+        $vs_view = 'no_results';
+    }
+    print $this->render('Results/paging_controls_html.php');
+    print $this->render('Results/search_options_html.php');
+    ?>
 
 	<div class="sectionBox">
 <?php
-		switch($vs_view) {
-			case 'no_results':
-				print $this->render('Results/no_results_html.php');
-				break;
-			default:
-				print $this->render('Results/ca_storage_locations_results_list_html.php');
-				break;
-		}
-?>		
+            switch($vs_view) {
+                case 'no_results':
+                    print $this->render('Results/no_results_html.php');
+                    break;
+                default:
+                    print $this->render('Results/ca_storage_locations_results_list_html.php');
+                    break;
+            }
+    ?>		
 	</div><!-- end sectionbox -->
 <?php
-		print $this->render('Results/paging_controls_minimal_html.php');
-	}
-	
-	if(!$this->request->isAjax()) {
-?>
+            print $this->render('Results/paging_controls_minimal_html.php');
+}
+
+if (!$this->request->isAjax()) {
+    ?>
 </div><!-- end resultbox -->
 	
 <div class="editorBottomPadding"><!-- empty --></div>
 <?php
-	}
+}

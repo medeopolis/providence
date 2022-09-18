@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * views/pageFormat/pageHeader.php : 
+ * views/pageFormat/pageHeader.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,24 +15,24 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
- 	if(!($vs_window_title = trim(MetaTagManager::getWindowTitle()))) {
- 		$va_breadcrumb = $this->getVar('nav')->getDestinationAsBreadCrumbTrail();
- 		if (is_array($va_breadcrumb) && sizeof($va_breadcrumb)) {
- 			$vs_window_title = array_pop($va_breadcrumb);
- 		}
- 	}
-	$vs_window_title = strip_tags($vs_window_title);
+
+if (!($vs_window_title = trim(MetaTagManager::getWindowTitle()))) {
+    $va_breadcrumb = $this->getVar('nav')->getDestinationAsBreadCrumbTrail();
+    if (is_array($va_breadcrumb) && sizeof($va_breadcrumb)) {
+        $vs_window_title = array_pop($va_breadcrumb);
+    }
+}
+$vs_window_title = strip_tags($vs_window_title);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -49,22 +49,22 @@
 		
         <link rel="stylesheet" type="text/css" href="<?php print $this->request->getAssetsUrlPath(); ?>/mirador/css/mirador-combined.css"/>	
 <?php
-	print AssetLoadManager::getLoadHTML($this->request, ['outputTarget' => 'header']);
-	print MetaTagManager::getHTML();
-	
-	if ($vs_local_css_url_path = $this->request->getUrlPathForThemeFile("css/local.css")) {
-		print "<link rel='stylesheet' href='{$vs_local_css_url_path}' type='text/css' media='screen' />
+    print AssetLoadManager::getLoadHTML($this->request, ['outputTarget' => 'header']);
+print MetaTagManager::getHTML();
+
+if ($vs_local_css_url_path = $this->request->getUrlPathForThemeFile("css/local.css")) {
+    print "<link rel='stylesheet' href='{$vs_local_css_url_path}' type='text/css' media='screen' />
 ";
-	}
-	
-	//
-	// Pull in JS and CSS for debug bar
-	// 
-	if(Debug::isEnabled()) {
-		$o_debugbar_renderer = Debug::$bar->getJavascriptRenderer();
-		$o_debugbar_renderer->setBaseUrl(__CA_URL_ROOT__.$o_debugbar_renderer->getBaseUrl());
-		print $o_debugbar_renderer->renderHead();
-	}
+}
+
+    //
+// Pull in JS and CSS for debug bar
+    //
+if (Debug::isEnabled()) {
+    $o_debugbar_renderer = Debug::$bar->getJavascriptRenderer();
+    $o_debugbar_renderer->setBaseUrl(__CA_URL_ROOT__.$o_debugbar_renderer->getBaseUrl());
+    print $o_debugbar_renderer->renderHead();
+}
 ?>
 		<script type="text/javascript">
 			// initialise plugins

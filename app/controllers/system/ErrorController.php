@@ -15,10 +15,10 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
@@ -28,24 +28,26 @@
 
 require_once(__CA_LIB_DIR__."/ApplicationError.php");
 
-class ErrorController extends ActionController {
-	# -------------------------------------------------------
-	function Show() {
-		$o_purify = caGetHTMLPurifier();
-		
-		$va_nums = explode(';', $this->request->getParameter('n', pString));
-		
-		$va_error_messages = array();
-		if (is_array($va_nums)) {
-			$o_err = new ApplicationError(0, '', '', '', false, false);
-			foreach($va_nums as $vn_error_number) {
-				$o_err->setError($vn_error_number, '', '', false, false);
-				$va_error_messages[] = $o_err->getErrorMessage();
-			}
-		}
-		$this->view->setVar('error_messages', $va_error_messages);
-		$this->view->setVar('referrer', $o_purify->purify($this->request->getParameter('r', pString)));
-		$this->render('error_html.php');
-	}
-	# -------------------------------------------------------
+class ErrorController extends ActionController
+{
+    # -------------------------------------------------------
+    public function Show()
+    {
+        $o_purify = caGetHTMLPurifier();
+
+        $va_nums = explode(';', $this->request->getParameter('n', pString));
+
+        $va_error_messages = array();
+        if (is_array($va_nums)) {
+            $o_err = new ApplicationError(0, '', '', '', false, false);
+            foreach ($va_nums as $vn_error_number) {
+                $o_err->setError($vn_error_number, '', '', false, false);
+                $va_error_messages[] = $o_err->getErrorMessage();
+            }
+        }
+        $this->view->setVar('error_messages', $va_error_messages);
+        $this->view->setVar('referrer', $o_purify->purify($this->request->getParameter('r', pString)));
+        $this->render('error_html.php');
+    }
+    # -------------------------------------------------------
 }

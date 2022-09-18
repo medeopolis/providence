@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * themes/default/views/find/Results/ajax_results_editable_complex_data_form_html.php 
+ * themes/default/views/find/Results/ajax_results_editable_complex_data_form_html.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,63 +15,64 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
- 	$t_subject = 		$this->getVar('t_subject');
- 	$vn_subject_id = 	$t_subject->getPrimaryKey();
- 	
- 	$va_bundles = 		$this->getVar('bundles');
- 	$vs_bundle = 		$this->getVar('bundle');
- 	$vn_row = 			$this->getVar('row');
- 	$vn_col = 			$this->getVar('col');
- 	$placement_id = 	$this->getVar('placement_id');
- 	
- 	$vb_can_edit = true;
+
+$t_subject = 		$this->getVar('t_subject');
+$vn_subject_id = 	$t_subject->getPrimaryKey();
+
+$va_bundles = 		$this->getVar('bundles');
+$vs_bundle = 		$this->getVar('bundle');
+$vn_row = 			$this->getVar('row');
+$vn_col = 			$this->getVar('col');
+$placement_id = 	$this->getVar('placement_id');
+
+$vb_can_edit = true;
 ?>
 	
 <?php
 
-	$va_form_elements = $t_subject->getBundleFormHTMLForScreen(null, array(
-			'request' => $this->request, 
-			'formName' => 'complex',
-			'bundles' => $va_bundles,
-			'dontAllowBundleShowHide' => true
-	));
-	
-	print caFormTag($this->request, '#', 'caEditableResultsComplexDataForm', null, 'POST', 'multipart/form-data', null, array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true, 'disableSubmit' => true));
+    $va_form_elements = $t_subject->getBundleFormHTMLForScreen(null, array(
+            'request' => $this->request,
+            'formName' => 'complex',
+            'bundles' => $va_bundles,
+            'dontAllowBundleShowHide' => true
+    ));
+
+print caFormTag($this->request, '#', 'caEditableResultsComplexDataForm', null, 'POST', 'multipart/form-data', null, array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true, 'disableSubmit' => true));
 ?>
 		<div class="caResultsComplexDataEditorErrorContainer" id="caEditableResultsComplexDataFormErrors"> </div>
 		
 		<div id="caResultsComplexDataEditorPanelControlButtons">
 <?php
-		if ($vb_can_edit) {
-			print caFormControlBox(caFormJSButton($this->request, __CA_NAV_ICON_SAVE__, _t("Save"), "caEditableResultsComplexDataFormSaveButton", array("onclick" => "caEditableResultsComplexDataFormHandler.save(event);"))
-				.' '.caFormJSButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), "caEditableResultsComplexDataFormCancelButton", array("onclick" => "jQuery(\"#caEditableResultsComplexDataForm\").parent().parent().data(\"panel\").hidePanel();")), 
-				'',
-				''
-			);
-		}
+        if ($vb_can_edit) {
+            print caFormControlBox(
+                caFormJSButton($this->request, __CA_NAV_ICON_SAVE__, _t("Save"), "caEditableResultsComplexDataFormSaveButton", array("onclick" => "caEditableResultsComplexDataFormHandler.save(event);"))
+                .' '.caFormJSButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), "caEditableResultsComplexDataFormCancelButton", array("onclick" => "jQuery(\"#caEditableResultsComplexDataForm\").parent().parent().data(\"panel\").hidePanel();")),
+                '',
+                ''
+            );
+        }
 ?>
 		</div>
 		<div class="caResultsComplexDataEditorSectionBox">
 			<div style="margin: 5px;"> </div>
 <?php
-		print join("\n", $va_form_elements); 
+        print join("\n", $va_form_elements);
 
-		print caHTMLHiddenInput('id', array('value' => $vn_subject_id));
-		print caHTMLHiddenInput('bundle', array('value' => $vs_bundle));
-		print caHTMLHiddenInput('row', array('value' => $vn_row));
-		print caHTMLHiddenInput('col', array('value' => $vn_col));
-		print caHTMLHiddenInput('placement_id', array('value' => $placement_id));
+print caHTMLHiddenInput('id', array('value' => $vn_subject_id));
+print caHTMLHiddenInput('bundle', array('value' => $vs_bundle));
+print caHTMLHiddenInput('row', array('value' => $vn_row));
+print caHTMLHiddenInput('col', array('value' => $vn_col));
+print caHTMLHiddenInput('placement_id', array('value' => $placement_id));
 ?>
 		</div>
 	</form>

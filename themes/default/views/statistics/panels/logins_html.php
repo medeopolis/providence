@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * themes/default/statistics/panels/logins_html.php : 
+ * themes/default/statistics/panels/logins_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,10 +15,10 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
@@ -26,8 +26,8 @@
  * ----------------------------------------------------------------------
  */
 
-	$data = $this->getVar('data');
-	$totals = is_array($data['logins']) ? $data['logins'] : [];
+$data = $this->getVar('data');
+$totals = is_array($data['logins']) ? $data['logins'] : [];
 ?>
 	<h3><?php print _t('Logins'); ?></h3>
 	
@@ -36,31 +36,30 @@
 	<br/>
 	<?php } ?>
 <?php
-	if(is_array($totals['counts'])) { 
-		if(is_array($totals['counts']['by_class'])) { 
-?>
+if (is_array($totals['counts'])) {
+    if (is_array($totals['counts']['by_class'])) {
+        ?>
 		<div><?php print _t("User accounts:"); ?></div>
 		<ul>
 	<?php
-			foreach($totals['counts']['by_class'] as $class => $total) {
-				print "<li>{$class}: {$total}</li>\n";
-			}
-	?>
+                    foreach ($totals['counts']['by_class'] as $class => $total) {
+                        print "<li>{$class}: {$total}</li>\n";
+                    }
+        ?>
 		</ul>
 <?php
-		}
-		
-		if(is_array($totals['counts']['by_interval'])) { 
-?>
+    }
+
+    if (is_array($totals['counts']['by_interval'])) {
+        ?>
 		<div><?php print _t("User logins:"); ?></div>
 		<ul>
 	<?php
-			foreach($totals['counts']['by_interval'] as $interval => $total) {
-				print "<li>{$interval}: {$total}</li>\n";
-			}
-	?>
+                    foreach ($totals['counts']['by_interval'] as $interval => $total) {
+                        print "<li>{$interval}: {$total}</li>\n";
+                    }
+        ?>
 		</ul>
 <?php
-		}
-		
-	}
+    }
+}

@@ -38,12 +38,12 @@ $va_attribute_types = $this->getVar('attribute_types');
 </script>
 <div class="sectionBox">
 	<?php
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>',
-			'',
-			caNavHeaderButton($this->request, __CA_NAV_ICON_ADD__, _t("New"), 'administrate/setup', 'Elements', 'Edit', array('element_id' => 0))
-		);
-	?>
+        print caFormControlBox(
+    '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>',
+    '',
+    caNavHeaderButton($this->request, __CA_NAV_ICON_ADD__, _t("New"), 'administrate/setup', 'Elements', 'Edit', array('element_id' => 0))
+);
+?>
 
 	<table id="caItemList" class="listtable">
 		<thead>
@@ -68,8 +68,8 @@ $va_attribute_types = $this->getVar('attribute_types');
 		</thead>
 		<tbody>
 <?php
-	foreach($va_element_list as $va_element) {
-?>
+foreach ($va_element_list as $va_element) {
+    ?>
 		<tr>
 			<td>
 				<?php print $va_element['display_label']; ?>
@@ -82,35 +82,35 @@ $va_attribute_types = $this->getVar('attribute_types');
 			</td>
 			<td>
 <?php
-	if (is_array($va_element['restrictions']) && sizeof($va_element['restrictions'])) {
-?>
+        if (is_array($va_element['restrictions']) && sizeof($va_element['restrictions'])) {
+            ?>
 				<table>
 <?php
-		foreach($va_element['restrictions'] as $vs_table => $va_type_list) {
-			foreach($va_type_list as $vn_type_id => $vs_type_name) {
-				print ucfirst($vs_table)." [{$vs_type_name}]<br/>\n";
-			}
-		}
-?>
+                    foreach ($va_element['restrictions'] as $vs_table => $va_type_list) {
+                        foreach ($va_type_list as $vn_type_id => $vs_type_name) {
+                            print ucfirst($vs_table)." [{$vs_type_name}]<br/>\n";
+                        }
+                    }
+            ?>
 				</table>
 <?php
-	}
-?>
+        }
+    ?>
 			</td>
 			<td>
 <?php
-	if (is_array($va_element['ui_counts']) && sizeof($va_element['ui_counts'])) {
-?>
+        if (is_array($va_element['ui_counts']) && sizeof($va_element['ui_counts'])) {
+            ?>
 				<table>
 <?php
-		foreach($va_element['ui_counts'] as $vs_table => $vn_count) {
-			print ucfirst($vs_table)." ({$vn_count})<br/>\n";
-		}
-?>
+                    foreach ($va_element['ui_counts'] as $vs_table => $vn_count) {
+                        print ucfirst($vs_table)." ({$vn_count})<br/>\n";
+                    }
+            ?>
 				</table>
 <?php
-	}
-?>
+        }
+    ?>
 			</td>
 			<td class="listtableEditDelete">
 				<?php print caNavButton($this->request, __CA_NAV_ICON_EDIT__, _t("Edit"), 'editIcon', 'administrate/setup', 'Elements', 'Edit', array('element_id' => $va_element['element_id']), array(), array('icon_position' => __CA_NAV_ICON_ICON_POS_LEFT__, 'use_class' => 'list-button', 'no_background' => true, 'dont_show_content' => true)); ?>
@@ -119,8 +119,8 @@ $va_attribute_types = $this->getVar('attribute_types');
 			</td>
 		</tr>
 <?php
-		TooltipManager::add('.editIcon', _t("Edit"));
-	}
+            TooltipManager::add('.editIcon', _t("Edit"));
+}
 ?>
 		</tbody>
 	</table>

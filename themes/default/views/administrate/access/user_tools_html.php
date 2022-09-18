@@ -15,26 +15,26 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
- # --- NOTE:  Can't use a form here because the entire user list is wrapped in a form tag hence the js - forms within forms are a no-no
+
+# --- NOTE:  Can't use a form here because the entire user list is wrapped in a form tag hence the js - forms within forms are a no-no
 ?>
 <div id="searchToolsBox">
 	<div class="bg">
 	<div class="col">
 <?php
-		print _t("Download user report as").":<br/>";
-		$va_options = array(_t("Tab delimited") => "tab", _t("Comma delimited (CSV)") => "csv");
-		print caHTMLSelect('download_format', $va_options, array('id' => 'download_format', 'class' => 'searchToolsSelect'), array('width' => '110px'))."\n";
+        print _t("Download user report as").":<br/>";
+$va_options = array(_t("Tab delimited") => "tab", _t("Comma delimited (CSV)") => "csv");
+print caHTMLSelect('download_format', $va_options, array('id' => 'download_format', 'class' => 'searchToolsSelect'), array('width' => '110px'))."\n";
 ?>
 		<a href="#" id="download_format_link" class="button"><?php print _t('Download'); ?></a>
 	</div>

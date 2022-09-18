@@ -25,5 +25,4 @@
  *
  * ----------------------------------------------------------------------
  */
- 	print json_encode($this->getVar('geonames_list'));
-?>
+print json_encode($this->getVar('geonames_list'));

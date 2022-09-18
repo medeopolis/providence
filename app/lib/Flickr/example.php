@@ -9,7 +9,7 @@
  * flickr.people.getInfo.  Enabling caching will help a whole lot with
  * this as there are many people who post multiple photos at once.
  *
- * Obviously, you'll want to replace the "<api key>" with one provided 
+ * Obviously, you'll want to replace the "<api key>" with one provided
  * by Flickr: http://www.flickr.com/services/api/key.gne
  */
 
@@ -27,4 +27,3 @@ foreach ($recent['photo'] as $photo) {
     echo $owner['username'];
     echo "</a><br>";
 }
-?>

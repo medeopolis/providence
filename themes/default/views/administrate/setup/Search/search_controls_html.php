@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * themes/default/views/find/search_controls_html.php 
+ * themes/default/views/find/search_controls_html.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,48 +15,53 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 	
- 	$t_subject = $this->getVar('t_subject');
- 	$vs_table = $t_subject->tableName();
- 	$va_lookup_urls = caJSONLookupServiceUrl($this->request, $vs_table, array('noInline' => 1));
- 	
- 	$vs_type_id_form_element = '';
-	if ($vn_type_id = intval($this->getVar('type_id'))) {
-		$vs_type_id_form_element = '<input type="hidden" name="type_id" value="'.$vn_type_id.'"/>';
-	}
-	if (!$this->request->isAjax()) {
-		if (!$this->getVar('uses_hierarchy_browser')) {
-?>
+
+$t_subject = $this->getVar('t_subject');
+$vs_table = $t_subject->tableName();
+$va_lookup_urls = caJSONLookupServiceUrl($this->request, $vs_table, array('noInline' => 1));
+
+$vs_type_id_form_element = '';
+if ($vn_type_id = intval($this->getVar('type_id'))) {
+    $vs_type_id_form_element = '<input type="hidden" name="type_id" value="'.$vn_type_id.'"/>';
+}
+if (!$this->request->isAjax()) {
+    if (!$this->getVar('uses_hierarchy_browser')) {
+        ?>
 		<?php print caFormTag($this->request, 'Index', 'BasicSearchForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true)); ?>
-<?php 
-			print caFormControlBox(
-				'<div class="simple-search-box">'._t('Search').': <input type="text" id="BasicSearchInput" name="search" value="'.htmlspecialchars($this->getVar('search'), ENT_QUOTES, 'UTF-8').'" size="40"/>'.$vs_type_id_form_element.'</div>',
-				'',
-				caFormSearchButton($this->request, __CA_NAV_ICON_SEARCH__, _t("Search"), 'BasicSearchForm')
-			); 
-?>
+<?php
+        print caFormControlBox(
+            '<div class="simple-search-box">'._t('Search').': <input type="text" id="BasicSearchInput" name="search" value="'.htmlspecialchars($this->getVar('search'), ENT_QUOTES, 'UTF-8').'" size="40"/>'.$vs_type_id_form_element.'</div>',
+            '',
+            caFormSearchButton($this->request, __CA_NAV_ICON_SEARCH__, _t("Search"), 'BasicSearchForm')
+        );
+        ?>
 		</form>
 <?php
-		} else {
-			print caFormTag($this->request, 'Index', 'BasicSearchForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true));
-				print caFormControlBox(
-					'<div class="simple-search-box">'._t('Search').': <input type="text" id="browseSearch" name="search" value="'.htmlspecialchars($this->getVar('search'), ENT_QUOTES, 'UTF-8').'" size="40"/></div>'.
-						caFormJSButton($this->request, __CA_NAV_ICON_SEARCH__, _t("Search"), 'submitSearch',
-						array('href' => '#', 'onclick' => 'caCloseBrowser(); jQuery("#resultBox").load("'.caNavUrl($this->request, $this->request->getModulePath(), $this->request->getController(), 'Index', array('search' => '')).'" + escape(jQuery("#browseSearch").attr("value"))); return false;')),
-					'',
-					'<a href="#" id="browseToggle" class="form-button"></a>'
-				); 
-?>
+    } else {
+        print caFormTag($this->request, 'Index', 'BasicSearchForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true));
+        print caFormControlBox(
+            '<div class="simple-search-box">'._t('Search').': <input type="text" id="browseSearch" name="search" value="'.htmlspecialchars($this->getVar('search'), ENT_QUOTES, 'UTF-8').'" size="40"/></div>'.
+                caFormJSButton(
+                    $this->request,
+                    __CA_NAV_ICON_SEARCH__,
+                    _t("Search"),
+                    'submitSearch',
+                    array('href' => '#', 'onclick' => 'caCloseBrowser(); jQuery("#resultBox").load("'.caNavUrl($this->request, $this->request->getModulePath(), $this->request->getController(), 'Index', array('search' => '')).'" + escape(jQuery("#browseSearch").attr("value"))); return false;')
+                ),
+            '',
+            '<a href="#" id="browseToggle" class="form-button"></a>'
+        );
+        ?>
 			</form>
 			<div id="browse" class="hierarchyWindow">
 				<div class='subTitle'><?php print _t("Hierarchy"); ?></div>
@@ -64,46 +69,46 @@
 				<!--- BEGIN HIERARCHY BROWSER TYPE MENU --->
 				<div id='browseTypeMenu'>
 <?php
-		if ($this->getVar('num_types') > 0) {	
-?>
+                if ($this->getVar('num_types') > 0) {
+                    ?>
 					<form action='#'>	
 <?php
-			if($vs_table == 'ca_list_items') {
-?>
+                                if ($vs_table == 'ca_list_items') {
+                                    ?>
 						<div style="float: right;">
 							<?php print caNavLink($this->request, caNavIcon(__CA_NAV_ICON_ADD__, "30px").' '._t('Add new list'), 'list-link', 'administrate/setup/list_editor', 'ListEditor', 'Edit', array('list_id' => 0)); ?>
 						</div>
-<?php	
-			}
-						print "<div>";
-						print _t('Add under %2 new %1', $this->getVar('type_menu').' <a href="#" onclick="_navigateToNewForm(jQuery(\'#hierTypeList\').val())">'.caNavIcon(__CA_NAV_ICON_ADD__, 1)."</a>", "<span id='browseCurrentSelection'>?</span>");
-						print "</div>";
-?>
+<?php
+                                }
+                                            print "<div>";
+                    print _t('Add under %2 new %1', $this->getVar('type_menu').' <a href="#" onclick="_navigateToNewForm(jQuery(\'#hierTypeList\').val())">'.caNavIcon(__CA_NAV_ICON_ADD__, 1)."</a>", "<span id='browseCurrentSelection'>?</span>");
+                    print "</div>";
+                    ?>
 					</form>
 <?php
-		} else {
-?>
+                } else {
+                    ?>
 				<form action='#'>
-<?php	
-			if($vs_table == 'ca_list_items') {
-?>
+<?php
+                                if ($vs_table == 'ca_list_items') {
+                                    ?>
 						<div style="float: right;">
 							<?php print caNavLink($this->request, caNavIcon(__CA_NAV_ICON_ADD__, 1).' '._t('Add new list'), 'list-link', 'administrate/setup/list_editor', 'ListEditor', 'Edit', array('list_id' => 0)); ?>
 						</div>
-<?php	
-			}
-					print "<div>";
-					if ($this->getVar('num_types') > 0) {
-						print _t('Add under %2 new %1', $this->getVar('type_menu').' <a href="#" onclick="_navigateToNewForm(jQuery(\'#hierTypeList\').val())">'.caNavIcon(__CA_NAV_ICON_ADD__, 1)."</a>", "<span id='browseCurrentSelection'>?</span>");
-					} else {
-						print _t('Add under %2 new %1', _t('item').' <a href="#" onclick="_navigateToNewForm(0)">'.caNavIcon(__CA_NAV_ICON_ADD__, 1)."</a>", "<span id='browseCurrentSelection'>?</span>");
-					}
-					print "</div>";
-?>
+<?php
+                                }
+                                        print "<div>";
+                    if ($this->getVar('num_types') > 0) {
+                        print _t('Add under %2 new %1', $this->getVar('type_menu').' <a href="#" onclick="_navigateToNewForm(jQuery(\'#hierTypeList\').val())">'.caNavIcon(__CA_NAV_ICON_ADD__, 1)."</a>", "<span id='browseCurrentSelection'>?</span>");
+                    } else {
+                        print _t('Add under %2 new %1', _t('item').' <a href="#" onclick="_navigateToNewForm(0)">'.caNavIcon(__CA_NAV_ICON_ADD__, 1)."</a>", "<span id='browseCurrentSelection'>?</span>");
+                    }
+                    print "</div>";
+                    ?>
 				</form>
 <?php
-		}
-?>	
+                }
+        ?>	
 				</div><!-- end browseTypeMenu -->		
 				<!--- END HIERARCHY BROWSER TYPE MENU --->
 				<div class='clear' style='height:1px;'><!-- empty --></div>
@@ -114,8 +119,8 @@
 				</div><!-- end hierarchyBrowser -->
 						<?php print _t("◉ = Default"); ?>
 <?php
-	if ($vs_table == 'ca_list_items') {
-?>
+        if ($vs_table == 'ca_list_items') {
+            ?>
 						&nbsp;&nbsp;&nbsp;
 						<?php print _t("⨂ = Disabled"); ?>
 						&nbsp;&nbsp;&nbsp;
@@ -123,8 +128,8 @@
 						&nbsp;&nbsp;&nbsp;
 						<?php print _t("⟗ = System list"); ?>
 <?php
-	}
-?>
+        }
+        ?>
 			</div><!-- end browse -->
 			<script type="text/javascript">
 				var oHierBrowser;
@@ -186,7 +191,7 @@
 						return false;
 					});
 				
-					if (<?php print ($this->getVar('force_hierarchy_browser_open') ? 'true' : "!stateCookieJar.get('".$vs_table."BrowserIsClosed')"); ?>) {
+					if (<?php print($this->getVar('force_hierarchy_browser_open') ? 'true' : "!stateCookieJar.get('".$vs_table."BrowserIsClosed')"); ?>) {
 						jQuery("#browseToggle").html('<?php print '<span class="form-button">'.addslashes(_t('Close hierarchy viewer')).'</span>';?>');
 					} else {
 						jQuery("#browse").hide();
@@ -213,5 +218,5 @@
 				<!--- END HIERARCHY BROWSER --->
 			<br />
 	<?php
-		}
-	}
+    }
+}

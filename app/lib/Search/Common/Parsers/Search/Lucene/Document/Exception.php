@@ -33,5 +33,5 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Search_Lucene_Document_Exception extends Zend_Search_Lucene_Exception
-{}
-
+{
+}

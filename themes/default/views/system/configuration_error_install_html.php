@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * themes/default/views/system/configuration_error_intstall_html.php : 
+ * themes/default/views/system/configuration_error_intstall_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -37,9 +37,9 @@
 	<br/><br/>
 <?php
 foreach (self::$opa_error_messages as $vs_message) {
-?>
+    ?>
 	<div class="permissionError">
-		<?= caNavIcon(__CA_NAV_ICON_ALERT__ , 2, ['class' => 'permissionErrorIcon']); ?>
+		<?= caNavIcon(__CA_NAV_ICON_ALERT__, 2, ['class' => 'permissionErrorIcon']); ?>
 		<?= $vs_message; ?>
 		<div style='clear:both; height:1px;'><!-- empty --></div>
 	</div>

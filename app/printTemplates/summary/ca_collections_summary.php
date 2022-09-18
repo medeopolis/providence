@@ -15,10 +15,10 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
@@ -38,14 +38,14 @@
  *
  * ----------------------------------------------------------------------
  */
- 
- 	$t_item = $this->getVar('t_subject');
-	$t_display = $this->getVar('t_display');
-	$va_placements = $this->getVar("placements");
 
-	print $this->render("pdfStart.php");
-	print $this->render("header.php");
-	print $this->render("footer.php");	
+$t_item = $this->getVar('t_subject');
+$t_display = $this->getVar('t_display');
+$va_placements = $this->getVar("placements");
+
+print $this->render("pdfStart.php");
+print $this->render("header.php");
+print $this->render("footer.php");
 
 ?>
 	<div class="title">
@@ -74,21 +74,25 @@
 	
 	
 <?php
-	foreach($va_placements as $vn_placement_id => $va_bundle_info){
-		if (!is_array($va_bundle_info)) break;
-		
-		if (!strlen($vs_display_value = $t_display->getDisplayValue($t_item, $vn_placement_id, array('purify' => true)))) {
-			if (!(bool)$t_display->getSetting('show_empty_values')) { continue; }
-			$vs_display_value = "&lt;"._t('not defined')."&gt;";
-		} 
-		
-		print '<div class="data"><span class="label">'."{$va_bundle_info['display']} </span><span> {$vs_display_value}</span></div>\n";
-	}
-	
-	if ($t_item->get("ca_collections.children.collection_id") || $t_item->get("ca_objects.object_id")){
-		print "<hr/><br/>Collection Contents";
-		if ($t_item->get('ca_collections.collection_id')) {
-			print caGetCollectionLevelSummary($this->request, array($t_item->get('ca_collections.collection_id')), 1);
-		}
-	}
-	print $this->render("pdfEnd.php");
+    foreach ($va_placements as $vn_placement_id => $va_bundle_info) {
+        if (!is_array($va_bundle_info)) {
+            break;
+        }
+
+        if (!strlen($vs_display_value = $t_display->getDisplayValue($t_item, $vn_placement_id, array('purify' => true)))) {
+            if (!(bool)$t_display->getSetting('show_empty_values')) {
+                continue;
+            }
+            $vs_display_value = "&lt;"._t('not defined')."&gt;";
+        }
+
+        print '<div class="data"><span class="label">'."{$va_bundle_info['display']} </span><span> {$vs_display_value}</span></div>\n";
+    }
+
+    if ($t_item->get("ca_collections.children.collection_id") || $t_item->get("ca_objects.object_id")) {
+        print "<hr/><br/>Collection Contents";
+        if ($t_item->get('ca_collections.collection_id')) {
+            print caGetCollectionLevelSummary($this->request, array($t_item->get('ca_collections.collection_id')), 1);
+        }
+    }
+    print $this->render("pdfEnd.php");

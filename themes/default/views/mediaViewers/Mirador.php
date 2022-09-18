@@ -29,13 +29,13 @@
  *
  * ----------------------------------------------------------------------
  */
- 
-	$vs_data_url = $this->getVar('data_url');
-	$vn_page = (int)$this->getVar('page');
-	$ps_id = 'mirador_'.preg_replace("/[^A-Za-z0-9]+/", "_", $this->getVar('identifier'));
-	
-	$vs_width = caParseElementDimension($this->getVar('width') ? $this->getVar('width') : $this->getVar('viewer_width'), ['returnAsString' => true, 'default' => '100%']);
-	$vs_height = caParseElementDimension($this->getVar('height') ? $this->getVar('height') : $this->getVar('viewer_height'), ['returnAsString' => true, 'default' => '100%']);
+
+$vs_data_url = $this->getVar('data_url');
+$vn_page = (int)$this->getVar('page');
+$ps_id = 'mirador_'.preg_replace("/[^A-Za-z0-9]+/", "_", $this->getVar('identifier'));
+
+$vs_width = caParseElementDimension($this->getVar('width') ? $this->getVar('width') : $this->getVar('viewer_width'), ['returnAsString' => true, 'default' => '100%']);
+$vs_height = caParseElementDimension($this->getVar('height') ? $this->getVar('height') : $this->getVar('viewer_height'), ['returnAsString' => true, 'default' => '100%']);
 ?>
 <script type="text/javascript" src="<?php print $this->request->getAssetsUrlPath(); ?>/mirador/mirador.js"></script>
 <script type="text/javascript">

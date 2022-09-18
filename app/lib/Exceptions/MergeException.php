@@ -35,4 +35,6 @@
  */
 
 
-class MergeException extends Exception {}
+class MergeException extends Exception
+{
+}

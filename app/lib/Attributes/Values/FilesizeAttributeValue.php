@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/Attributes/Values/FilesizeAttributeValue.php : 
+ * app/lib/Attributes/Values/FilesizeAttributeValue.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,10 +15,10 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
@@ -29,10 +29,10 @@
  *
  * ----------------------------------------------------------------------
  */
- 
- /**
-  *
-  */
+
+/**
+ *
+ */
 define("__CA_ATTRIBUTE_VALUE_FILESIZE__", 33);
 
 require_once(__CA_LIB_DIR__.'/Attributes/Values/IAttributeValue.php');
@@ -67,13 +67,13 @@ $_ca_attribute_settings['FilesizeAttributeValue'] = [		// global
         'description' => _t('Check this option if you don\'t want your measurements to be locale-specific. (The default is not to be.)')
     ],
     'singleValuePerLocale' => array(
-		'formatType' => FT_NUMBER,
-		'displayType' => DT_CHECKBOXES,
-		'default' => 0,
-		'width' => 1, 'height' => 1,
-		'label' => _t('Allow single value per locale'),
-		'description' => _t('Check this option to restrict entry to a single value per-locale.')
-	),
+        'formatType' => FT_NUMBER,
+        'displayType' => DT_CHECKBOXES,
+        'default' => 0,
+        'width' => 1, 'height' => 1,
+        'label' => _t('Allow single value per locale'),
+        'description' => _t('Check this option to restrict entry to a single value per-locale.')
+    ),
     'requireValue' => [
         'formatType' => FT_NUMBER,
         'displayType' => DT_CHECKBOXES,
@@ -83,21 +83,21 @@ $_ca_attribute_settings['FilesizeAttributeValue'] = [		// global
         'description' => _t('Check this option if you want an error to be thrown if this measurement is left blank.')
     ],
     'allowDuplicateValues' => [
-		'formatType' => FT_NUMBER,
-		'displayType' => DT_CHECKBOXES,
-		'default' => 0,
-		'width' => 1, 'height' => 1,
-		'label' => _t('Allow duplicate values?'),
-		'description' => _t('Check this option if you want to allow duplicate values to be set when element is not in a container and is repeating.')
-	],
-	'raiseErrorOnDuplicateValue' => array(
-		'formatType' => FT_NUMBER,
-		'displayType' => DT_CHECKBOXES,
-		'default' => 0,
-		'width' => 1, 'height' => 1,
-		'label' => _t('Show error message for duplicate values?'),
-		'description' => _t('Check this option to show an error message when value is duplicate and <em>allow duplicate values</em> is not set.')
-	),
+        'formatType' => FT_NUMBER,
+        'displayType' => DT_CHECKBOXES,
+        'default' => 0,
+        'width' => 1, 'height' => 1,
+        'label' => _t('Allow duplicate values?'),
+        'description' => _t('Check this option if you want to allow duplicate values to be set when element is not in a container and is repeating.')
+    ],
+    'raiseErrorOnDuplicateValue' => array(
+        'formatType' => FT_NUMBER,
+        'displayType' => DT_CHECKBOXES,
+        'default' => 0,
+        'width' => 1, 'height' => 1,
+        'label' => _t('Show error message for duplicate values?'),
+        'description' => _t('Check this option to show an error message when value is duplicate and <em>allow duplicate values</em> is not set.')
+    ),
     'canBeUsedInSort' => [
         'formatType' => FT_NUMBER,
         'displayType' => DT_CHECKBOXES,
@@ -158,18 +158,21 @@ $_ca_attribute_settings['FilesizeAttributeValue'] = [		// global
     ]
 ];
 
-class FilesizeAttributeValue extends AttributeValue implements IAttributeValue {
+class FilesizeAttributeValue extends AttributeValue implements IAttributeValue
+{
     # ------------------------------------------------------------------
     private $ops_text_value;
     private $opn_decimal_value;
     private $config;
     # ------------------------------------------------------------------
-    public function __construct($value_array=null) {
+    public function __construct($value_array=null)
+    {
         parent::__construct($value_array);
     }
     # ------------------------------------------------------------------
-    public function loadTypeSpecificValueFromRow($value_array) {
-        $this->ops_text_value = $value_array['value_longtext1'];			
+    public function loadTypeSpecificValueFromRow($value_array)
+    {
+        $this->ops_text_value = $value_array['value_longtext1'];
         $this->opn_decimal_value = $value_array['value_decimal1'];
     }
     # ------------------------------------------------------------------
@@ -181,14 +184,16 @@ class FilesizeAttributeValue extends AttributeValue implements IAttributeValue {
      *
      * @return String Value for display
      */
-    public function getDisplayValue($options=null) {
+    public function getDisplayValue($options=null)
+    {
         if ($units = caGetOption('normalize', $options, true)) {
-        	return caHumanFilesize($this->opn_decimal_value);
+            return caHumanFilesize($this->opn_decimal_value);
         }
         return $this->ops_text_value;
     }
     # ------------------------------------------------------------------
-    public function parseValue($value, $element_info, $options=null) {
+    public function parseValue($value, $element_info, $options=null)
+    {
         $size_in_bytes = caParseHumanFilesize($value);
         $settings = $this->getSettingValuesFromElementArray($element_info, ['requireValue']);
         if (!$settings['requireValue'] && !strlen(trim($value))) {
@@ -198,7 +203,7 @@ class FilesizeAttributeValue extends AttributeValue implements IAttributeValue {
             ];
         }
 
-        if(is_null($size_in_bytes)) {
+        if (is_null($size_in_bytes)) {
             $this->postError(1970, _t('%1 is not a valid file size', $element_info['displayLabel']), 'FilesizeAttributeValue->parseValue()');
             return false;
         }
@@ -212,15 +217,16 @@ class FilesizeAttributeValue extends AttributeValue implements IAttributeValue {
     /**
      *
      */
-    public function htmlFormElement($element_info, $options=null) {
+    public function htmlFormElement($element_info, $options=null)
+    {
         $settings = $this->getSettingValuesFromElementArray($element_info, ['fieldWidth', 'fieldHeight']);
         $class = trim((isset($options['class']) && $options['class']) ? $options['class'] : 'filesizeBg');
-        
+
         return caHTMLTextInput(
-            '{fieldNamePrefix}'.$element_info['element_id'].'_{n}', 
+            '{fieldNamePrefix}'.$element_info['element_id'].'_{n}',
             [
                 'size' => (isset($options['width']) && $options['width'] > 0) ? $options['width'] : $settings['fieldWidth'],
-                'height' => (isset($options['height']) && $options['height'] > 0) ? $options['height'] : $settings['fieldHeight'], 
+                'height' => (isset($options['height']) && $options['height'] > 0) ? $options['height'] : $settings['fieldHeight'],
                 'value' => '{{'.$element_info['element_id'].'}}',
                 'id' => '{fieldNamePrefix}'.$element_info['element_id'].'_{n}',
                 'class' => $class
@@ -228,26 +234,29 @@ class FilesizeAttributeValue extends AttributeValue implements IAttributeValue {
         );
     }
     # ------------------------------------------------------------------
-    public function getAvailableSettings($element_info=null) {
+    public function getAvailableSettings($element_info=null)
+    {
         global $_ca_attribute_settings;
         return $_ca_attribute_settings['FilesizeAttributeValue'];
     }
     # ------------------------------------------------------------------
     /**
      * Returns name of field in ca_attribute_values to use for sort operations
-     * 
+     *
      * @return string Name of sort field
      */
-    public function sortField() {
+    public function sortField()
+    {
         return 'value_decimal1';
     }
     # ------------------------------------------------------------------
     /**
      * Returns constant for length attribute value
-     * 
+     *
      * @return int Attribute value type code
      */
-    public function getType() {
+    public function getType()
+    {
         return __CA_ATTRIBUTE_VALUE_FILESIZE__;
     }
     # ------------------------------------------------------------------

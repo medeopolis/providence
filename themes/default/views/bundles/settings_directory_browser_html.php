@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * themes/default/views/bundles/settings_directory_browser_html.php 
+ * themes/default/views/bundles/settings_directory_browser_html.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,26 +15,26 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
-	AssetLoadManager::register("directoryBrowser");
- 					
-	$vs_id = $this->getVar('id');
-	$vs_default = $this->getVar('defaultPath');
+AssetLoadManager::register("directoryBrowser");
+
+$vs_id = $this->getVar('id');
+$vs_default = $this->getVar('defaultPath');
 ?>
 <div id="<?php print $vs_id; ?>directoryBrowser" class='directoryBrowserSmall'>
 	<!-- Content for directory browser is dynamically inserted here by ca.hierbrowser -->
 </div><!-- end directoryBrowser -->
 <?php
-	print caHTMLHiddenInput($vs_id, array('value' => '', 'id' => $vs_id));	
+    print caHTMLHiddenInput($vs_id, array('value' => '', 'id' => $vs_id));
 ?>
 <script type="text/javascript">
 	var oDirBrowser;

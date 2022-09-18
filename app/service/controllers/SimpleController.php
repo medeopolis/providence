@@ -28,27 +28,30 @@
 require_once(__CA_LIB_DIR__.'/Service/BaseServiceController.php');
 require_once(__CA_LIB_DIR__.'/Service/SimpleService.php');
 
-class SimpleController extends BaseServiceController {
-	# -------------------------------------------------------
-	public function __construct(&$po_request, &$po_response, $pa_view_paths) {
-		parent::__construct($po_request, $po_response, $pa_view_paths);
-	}
-	# -------------------------------------------------------
-	public function __call($ps_endpoint, $pa_args) {
-		try {
-			$va_content = SimpleService::dispatch($ps_endpoint, $this->getRequest());
-		} catch(Exception $e) {
-			$this->getView()->setVar('errors', array($e->getMessage()));
-			$this->render('json/json_error.php');
-			return;
-		}
+class SimpleController extends BaseServiceController
+{
+    # -------------------------------------------------------
+    public function __construct(&$po_request, &$po_response, $pa_view_paths)
+    {
+        parent::__construct($po_request, $po_response, $pa_view_paths);
+    }
+    # -------------------------------------------------------
+    public function __call($ps_endpoint, $pa_args)
+    {
+        try {
+            $va_content = SimpleService::dispatch($ps_endpoint, $this->getRequest());
+        } catch(Exception $e) {
+            $this->getView()->setVar('errors', array($e->getMessage()));
+            $this->render('json/json_error.php');
+            return;
+        }
 
-		if(intval($this->getRequest()->getParameter('pretty', pInteger))>0) {
-			$this->getView()->setVar('pretty_print', true);
-		}
+        if (intval($this->getRequest()->getParameter('pretty', pInteger))>0) {
+            $this->getView()->setVar('pretty_print', true);
+        }
 
-		$this->getView()->setVar('content', $va_content);
-		$this->render('json/json.php');
-	}
-	# -------------------------------------------------------
+        $this->getView()->setVar('content', $va_content);
+        $this->render('json/json.php');
+    }
+    # -------------------------------------------------------
 }

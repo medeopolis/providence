@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * themes/default/views/find/SearchBuilder/search_controls_html.php 
+ * themes/default/views/find/SearchBuilder/search_controls_html.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,63 +15,63 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 	
- 	$t_subject = 			$this->getVar('t_subject');
- 	$vs_table = 			$t_subject->tableName();
- 	$va_lookup_urls = 		caJSONLookupServiceUrl($this->request, $vs_table, array('noInline' => 1));
- 	$vo_result_context =	$this->getVar('result_context');
- 	
- 	$vs_type_id_form_element = '';
-	if ($vn_type_id = intval($this->getVar('type_id'))) {
-		$vs_type_id_form_element = '<input type="hidden" name="type_id" value="'.$vn_type_id.'"/>';
-	}
-	
-	$show_query = ($this->request->user->getPreference('show_search_builder_query') === 'show');
-	
-	if (!$this->request->isAjax()) {
-		if (!$this->getVar('uses_hierarchy_browser')) {
-?>
+
+$t_subject = 			$this->getVar('t_subject');
+$vs_table = 			$t_subject->tableName();
+$va_lookup_urls = 		caJSONLookupServiceUrl($this->request, $vs_table, array('noInline' => 1));
+$vo_result_context =	$this->getVar('result_context');
+
+$vs_type_id_form_element = '';
+if ($vn_type_id = intval($this->getVar('type_id'))) {
+    $vs_type_id_form_element = '<input type="hidden" name="type_id" value="'.$vn_type_id.'"/>';
+}
+
+$show_query = ($this->request->user->getPreference('show_search_builder_query') === 'show');
+
+if (!$this->request->isAjax()) {
+    if (!$this->getVar('uses_hierarchy_browser')) {
+        ?>
 		<?php print caFormTag($this->request, 'Index', 'SearchBuilderForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true)); ?>
-<?php 
-			print '<input type="'.($show_query ? 'text' : 'hidden').'" id="SearchBuilderInput" name="search" size="80" value="'.htmlspecialchars($this->getVar('search'), ENT_QUOTES, 'UTF-8').'" />'.$vs_type_id_form_element;
-?>
+<?php
+        print '<input type="'.($show_query ? 'text' : 'hidden').'" id="SearchBuilderInput" name="search" size="80" value="'.htmlspecialchars($this->getVar('search'), ENT_QUOTES, 'UTF-8').'" />'.$vs_type_id_form_element;
+        ?>
 		</form>
 	<?php
-		} else {
-			print caFormTag($this->request, 'Index', 'SearchBuilderForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true));
-			print '<input type="'.($show_query ? 'text' : 'hidden').'" id="SearchBuilderInput" name="search" value="'.htmlspecialchars($this->getVar('search'), ENT_QUOTES, 'UTF-8').'"/>'.$vs_type_id_form_element;
-?>
+    } else {
+        print caFormTag($this->request, 'Index', 'SearchBuilderForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true));
+        print '<input type="'.($show_query ? 'text' : 'hidden').'" id="SearchBuilderInput" name="search" value="'.htmlspecialchars($this->getVar('search'), ENT_QUOTES, 'UTF-8').'"/>'.$vs_type_id_form_element;
+        ?>
 			</form>
 			<div id="browse">
 				<div class='subTitle' style='background-color: #eeeeee; padding:5px 0px 5px 5px;'><?php print _t("Hierarchy"); ?></div>
 <?php
-		if ($this->request->user->canDoAction('can_edit_'.$vs_table) && ($this->getVar('num_types') > 0)) {	
-?>
+                if ($this->request->user->canDoAction('can_edit_'.$vs_table) && ($this->getVar('num_types') > 0)) {
+                    ?>
 				<!--- BEGIN HIERARCHY BROWSER TYPE MENU --->
 				<div id='browseTypeMenu'>
 					<form action='#'>
-<?php	
-						print "<div>";
-						print _t('Add under %2 new %1', $this->getVar('type_menu').' <a href="#" onclick="_navigateToNewForm(jQuery(\'#hierTypeList\').val())">'.caNavIcon(__CA_NAV_ICON_ADD__, 1)."</a>", "<span id='browseCurrentSelection'></span>");
-						print "</div>";
-?>
+<?php
+                                            print "<div>";
+                    print _t('Add under %2 new %1', $this->getVar('type_menu').' <a href="#" onclick="_navigateToNewForm(jQuery(\'#hierTypeList\').val())">'.caNavIcon(__CA_NAV_ICON_ADD__, 1)."</a>", "<span id='browseCurrentSelection'></span>");
+                    print "</div>";
+                    ?>
 					</form>
 	
 				</div><!-- end browseTypeMenu -->		
 				<!--- END HIERARCHY BROWSER TYPE MENU --->
 <?php
-		}
-?>
+                }
+        ?>
 				<div class='clear' style='height:1px;'><!-- empty --></div>
 				
 				<!--- BEGIN HIERARCHY BROWSER --->
@@ -136,7 +136,7 @@
 						return false;
 					});
 					
-					if (<?php print ($this->getVar('force_hierarchy_browser_open') ? 'true' : "!stateCookieJar.get('{$vs_table}BrowserIsClosed')"); ?>) {
+					if (<?php print($this->getVar('force_hierarchy_browser_open') ? 'true' : "!stateCookieJar.get('{$vs_table}BrowserIsClosed')"); ?>) {
 						jQuery("#browseToggle").html('<?php print '<span class="form-button">'.addslashes(_t('Close hierarchy viewer')).'</span>';?>');
 					} else {
 						jQuery("#browse").hide();
@@ -166,8 +166,8 @@
 				<!--- END HIERARCHY BROWSER --->
 			<br />
 	<?php
-		}
-	}
+    }
+}
 ?>
 
 <script type="text/javascript">

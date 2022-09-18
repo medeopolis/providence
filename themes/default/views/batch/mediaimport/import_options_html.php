@@ -26,20 +26,20 @@
  * ----------------------------------------------------------------------
  */
 
-	AssetLoadManager::register("fileupload");
+AssetLoadManager::register("fileupload");
 
- 	$t_instance = $this->getVar('t_instance');
- 	$o_config = $t_instance->getAppConfig();
- 	$t_rep = $this->getVar('t_rep');
+$t_instance = $this->getVar('t_instance');
+$o_config = $t_instance->getAppConfig();
+$t_rep = $this->getVar('t_rep');
 
- 	$va_last_settings = $this->getVar('batch_mediaimport_last_settings');
+$va_last_settings = $this->getVar('batch_mediaimport_last_settings');
 
-	print $vs_control_box = caFormControlBox(
-		caFormJSButton($this->request, __CA_NAV_ICON_SAVE__, _t("Execute media import"), 'caBatchMediaImportFormButton', array('onclick' => 'caShowConfirmBatchExecutionPanel(); return false;')).' '.
-		caFormNavButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), '', 'batch', 'MediaImport', 'Index/'.$this->request->getActionExtra(), array()),
-		'',
-		''
-	);
+print $vs_control_box = caFormControlBox(
+    caFormJSButton($this->request, __CA_NAV_ICON_SAVE__, _t("Execute media import"), 'caBatchMediaImportFormButton', array('onclick' => 'caShowConfirmBatchExecutionPanel(); return false;')).' '.
+    caFormNavButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), '', 'batch', 'MediaImport', 'Index/'.$this->request->getActionExtra(), array()),
+    '',
+    ''
+);
 
 ?>
 	<div id="batchProcessingTableProgressGroup" style="display: none;">
@@ -49,8 +49,8 @@
 
 	<div class="sectionBox">
 <?php
-		print caFormTag($this->request, 'Save/'.$this->request->getActionExtra(), 'caBatchMediaImportForm', null, 'POST', 'multipart/form-data', '_top', array('noCSRFToken' => false, 'disableUnsavedChangesWarning' => true, 'noTimestamp' => true));
-		print caHTMLHiddenInput('import_target', array('value' => $this->getVar('import_target')));
+        print caFormTag($this->request, 'Save/'.$this->request->getActionExtra(), 'caBatchMediaImportForm', null, 'POST', 'multipart/form-data', '_top', array('noCSRFToken' => false, 'disableUnsavedChangesWarning' => true, 'noTimestamp' => true));
+print caHTMLHiddenInput('import_target', array('value' => $this->getVar('import_target')));
 ?>
 		<div class='bundleLabel'>
 			<span class="formLabelText"><?= _t('Import target'); ?></span>
@@ -58,8 +58,8 @@
 				<div class="caLabelList" >
 					<p>
 						<?php
-						print $this->getVar('import_target');
-						?>
+                        print $this->getVar('import_target');
+?>
 					</p>
 				</div>
 			</div>
@@ -109,18 +109,18 @@
 	});
 </script>
 <?php
-		print caHTMLHiddenInput('directory', array('value' => '', 'id' => 'caDirectoryValue'));
+        print caHTMLHiddenInput('directory', array('value' => '', 'id' => 'caDirectoryValue'));
 ?>
 				</div>
 				<div style="margin: 8px 0px 0px 0px; padding-bottom:5px;">
 <?php
-				$va_opts = array('id' => 'caIncludeSubDirectories', 'value' => 1);
-				if (isset($va_last_settings['includeSubDirectories']) && $va_last_settings['includeSubDirectories']) {
-					$va_opts['checked'] = 1;
-				}
-				print caHTMLCheckboxInput('include_subdirectories', $va_opts).' '._t('Include all sub-directories');
-				$va_opts['style'] = 'margin-left: 10px';
-				print caHTMLCheckboxInput('delete_media_on_import', $va_opts).' '._t('Delete media after import');
+                $va_opts = array('id' => 'caIncludeSubDirectories', 'value' => 1);
+if (isset($va_last_settings['includeSubDirectories']) && $va_last_settings['includeSubDirectories']) {
+    $va_opts['checked'] = 1;
+}
+print caHTMLCheckboxInput('include_subdirectories', $va_opts).' '._t('Include all sub-directories');
+$va_opts['style'] = 'margin-left: 10px';
+print caHTMLCheckboxInput('delete_media_on_import', $va_opts).' '._t('Delete media after import');
 ?>
 				</div>
 			</div>
@@ -131,7 +131,7 @@
 					<div class="caLabelList" >
 						<p>
 <?php
-			print $this->getVar('import_mode');
+            print $this->getVar('import_mode');
 ?>
 						</p>
 					</div>
@@ -147,29 +147,29 @@
 								<tr>
 									<td class='formLabel'>
 <?php
-										print _t('Type used for newly created %1', caGetTableDisplayName($t_instance->tableName(), false))."<br/>\n".$this->getVar($t_instance->tableName().'_type_list')."\n";
+                                        print _t('Type used for newly created %1', caGetTableDisplayName($t_instance->tableName(), false))."<br/>\n".$this->getVar($t_instance->tableName().'_type_list')."\n";
 ?>
 									</td>
 									<td class='formLabel'>
 <?php
-										print _t('Type used for newly created parent %1', caGetTableDisplayName($t_instance->tableName(), false))."<br/>\n".$this->getVar($t_instance->tableName().'_parent_type_list')."\n";
+                                        print _t('Type used for newly created parent %1', caGetTableDisplayName($t_instance->tableName(), false))."<br/>\n".$this->getVar($t_instance->tableName().'_parent_type_list')."\n";
 ?>
 									</td>
 									<td class='formLabel'>
 <?php
-										print _t('Type used for newly created child %1', caGetTableDisplayName($t_instance->tableName(), false))."<br/>\n".$this->getVar($t_instance->tableName().'_child_type_list')."\n";
+                                        print _t('Type used for newly created child %1', caGetTableDisplayName($t_instance->tableName(), false))."<br/>\n".$this->getVar($t_instance->tableName().'_child_type_list')."\n";
 ?>
 									</td>
 									<td class='formLabel'>
 <?php
-										print _t('Type used for newly created object representations')."<br/>\n".$this->getVar('ca_object_representations_type_list')."</div>\n";
+                                        print _t('Type used for newly created object representations')."<br/>\n".$this->getVar('ca_object_representations_type_list')."</div>\n";
 ?>
 									</td>
-<?php if($vs_reltypes = $this->getVar($t_instance->tableName().'_representation_relationship_type')) { ?>
+<?php if ($vs_reltypes = $this->getVar($t_instance->tableName().'_representation_relationship_type')) { ?>
 									<td class='formLabel'>
 										<?php
-										print _t('Type used for relationship')."<br/>\n".$vs_reltypes."</div>\n";
-										?>
+                                        print _t('Type used for relationship')."<br/>\n".$vs_reltypes."</div>\n";
+    ?>
 									</td>
 <?php } ?>
 								</tr>
@@ -185,33 +185,39 @@
 					<div style='padding:10px 0px 10px 10px;'>
 						<table>
 <?php
-	if (is_array($this->getVar('available_sets')) && sizeof($this->getVar('available_sets'))) {
-?>
+    if (is_array($this->getVar('available_sets')) && sizeof($this->getVar('available_sets'))) {
+        ?>
 							<tr>
 								<td><?php
-									$va_attrs = array('value' => 'add', 'checked' => 1, 'id' => 'caAddToSet');
-									if (isset($va_last_settings['setMode']) && ($va_last_settings['setMode'] == 'add')) { $va_attrs['checked'] = 1; }
-									print caHTMLRadioButtonInput('set_mode', $va_attrs);
-								?></td>
+                                            $va_attrs = array('value' => 'add', 'checked' => 1, 'id' => 'caAddToSet');
+        if (isset($va_last_settings['setMode']) && ($va_last_settings['setMode'] == 'add')) {
+            $va_attrs['checked'] = 1;
+        }
+        print caHTMLRadioButtonInput('set_mode', $va_attrs);
+        ?></td>
 								<td class='formLabel'><?= _t('Add imported media to set %1', caHTMLSelect('set_id', $this->getVar('available_sets'), array('id' => 'caAddToSetID', 'class' => 'searchSetsSelect', 'width' => '300px'), array('value' => null, 'width' => '170px'))); ?></td>
 							</tr>
 <?php
-	}
+    }
 ?>
 							<tr>
 								<td><?php
-									$va_attrs = array('value' => 'create', 'id' => 'caCreateSet');
-									if (isset($va_last_settings['setMode']) && ($va_last_settings['setMode'] == 'create')) { $va_attrs['checked'] = 1; }
-									print caHTMLRadioButtonInput('set_mode', $va_attrs);
-								?></td>
+                                    $va_attrs = array('value' => 'create', 'id' => 'caCreateSet');
+if (isset($va_last_settings['setMode']) && ($va_last_settings['setMode'] == 'create')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('set_mode', $va_attrs);
+?></td>
 								<td class='formLabel'><?= _t('Create set %1 with imported media', caHTMLTextInput('set_create_name', array('value' => '', 'width' => '200px', 'id' => 'caSetCreateName'))); ?></td>
 							</tr>
 							<tr>
 								<td><?php
-									$va_attrs = array('value' => 'none', 'id' => 'caNoSet');
-									if (!((isset($va_last_settings['setMode']) && (in_array($va_last_settings['setMode'], array('add', 'create')))))) { $va_attrs['checked'] = 1; }
-									print caHTMLRadioButtonInput('set_mode', $va_attrs);
-								?></td>
+    $va_attrs = array('value' => 'none', 'id' => 'caNoSet');
+if (!((isset($va_last_settings['setMode']) && (in_array($va_last_settings['setMode'], array('add', 'create')))))) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('set_mode', $va_attrs);
+?></td>
 								<td class='formLabel'><?= _t('Do not associate imported media with a set'); ?></td>
 							</tr>
 						</table>
@@ -246,34 +252,42 @@
 						<table>
 							<tr>
 								<td><?php
-									$va_attrs = array('value' => 'form', 'checked' => 1, 'id' => 'caIdnoFormMode');
-									if (isset($va_last_settings['idnoMode']) && ($va_last_settings['idnoMode'] == 'form')) { $va_attrs['checked'] = 1; }
-									print caHTMLRadioButtonInput('idno_mode', $va_attrs);
-								?></td>
-								<td class='formLabel' id='caIdnoFormModeForm'><?= _t('Set %1 identifier to %2', caGetTableDisplayName($t_instance->tableName(), false),  $t_instance->htmlFormElement('idno', '^ELEMENT', array('request' => $this->request))); ?></td>
+    $va_attrs = array('value' => 'form', 'checked' => 1, 'id' => 'caIdnoFormMode');
+if (isset($va_last_settings['idnoMode']) && ($va_last_settings['idnoMode'] == 'form')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('idno_mode', $va_attrs);
+?></td>
+								<td class='formLabel' id='caIdnoFormModeForm'><?= _t('Set %1 identifier to %2', caGetTableDisplayName($t_instance->tableName(), false), $t_instance->htmlFormElement('idno', '^ELEMENT', array('request' => $this->request))); ?></td>
 							</tr>
 							<tr>
 								<td><?php
-									$va_attrs = array('value' => 'filename', 'id' => 'caIdnoFilenameMode');
-									if (isset($va_last_settings['idnoMode']) && ($va_last_settings['idnoMode'] == 'filename')) { $va_attrs['checked'] = 1; }
-									print caHTMLRadioButtonInput('idno_mode', $va_attrs);
-								?></td>
+    $va_attrs = array('value' => 'filename', 'id' => 'caIdnoFilenameMode');
+if (isset($va_last_settings['idnoMode']) && ($va_last_settings['idnoMode'] == 'filename')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('idno_mode', $va_attrs);
+?></td>
 								<td class='formLabel'><?= _t('Set %1 identifier to file name', caGetTableDisplayName($t_instance->tableName(), false)); ?></td>
 							</tr>
 							<tr>
 								<td><?php
-									$va_attrs = array('value' => 'filename_no_ext', 'id' => 'caIdnoFilenameNoExtMode');
-									if (isset($va_last_settings['idnoMode']) && ($va_last_settings['idnoMode'] == 'filename_no_ext')) { $va_attrs['checked'] = 1; }
-									print caHTMLRadioButtonInput('idno_mode', $va_attrs);
-									?></td>
+    $va_attrs = array('value' => 'filename_no_ext', 'id' => 'caIdnoFilenameNoExtMode');
+if (isset($va_last_settings['idnoMode']) && ($va_last_settings['idnoMode'] == 'filename_no_ext')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('idno_mode', $va_attrs);
+?></td>
 								<td class='formLabel'><?= _t('Set %1 identifier to file name without extension', caGetTableDisplayName($t_instance->tableName(), false)); ?></td>
 							</tr>
 							<tr>
 								<td><?php
-									$va_attrs = array('value' => 'directory_and_filename', 'id' => 'caIdnoDirectoryAndFilenameMode');
-									if (isset($va_last_settings['idnoMode']) && ($va_last_settings['idnoMode'] == 'directory_and_filename')) { $va_attrs['checked'] = 1; }
-									print caHTMLRadioButtonInput('idno_mode', $va_attrs);
-								?></td>
+$va_attrs = array('value' => 'directory_and_filename', 'id' => 'caIdnoDirectoryAndFilenameMode');
+if (isset($va_last_settings['idnoMode']) && ($va_last_settings['idnoMode'] == 'directory_and_filename')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('idno_mode', $va_attrs);
+?></td>
 								<td class='formLabel'><?= _t('Set %1 identifier to directory and file name', caGetTableDisplayName($t_instance->tableName(), false)); ?></td>
 							</tr>
 						</table>
@@ -309,50 +323,62 @@
 						<table>
 							<tr>
 								<td><?php
-									$va_attrs = array('value' => 'blank', 'checked' => 1, 'id' => 'caLabelBlankMode');
-									if (isset($va_last_settings['labelMode']) && ($va_last_settings['labelMode'] == 'blank')) { $va_attrs['checked'] = 1; }
-									print caHTMLRadioButtonInput('label_mode', $va_attrs);
-								?></td>
+    $va_attrs = array('value' => 'blank', 'checked' => 1, 'id' => 'caLabelBlankMode');
+if (isset($va_last_settings['labelMode']) && ($va_last_settings['labelMode'] == 'blank')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('label_mode', $va_attrs);
+?></td>
 								<td class='formLabel'><?= _t('Set %1 title to %2', caGetTableDisplayName($t_instance->tableName(), false), '['.caGetBlankLabelText($t_instance->tableName()).']'); ?></td>
 							</tr>
 							<tr>
 								<td><?php
-									$va_attrs = array('value' => 'user', 'id' => 'caLabelUserMode');
-									if (isset($va_last_settings['labelMode']) && ($va_last_settings['labelMode'] == 'user')) { $va_attrs['checked'] = 1; }
-									print caHTMLRadioButtonInput('label_mode', $va_attrs);
-								?></td>
+    $va_attrs = array('value' => 'user', 'id' => 'caLabelUserMode');
+if (isset($va_last_settings['labelMode']) && ($va_last_settings['labelMode'] == 'user')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('label_mode', $va_attrs);
+?></td>
 								<td class='formLabel'><?= _t('Set %1 title to %2', caGetTableDisplayName($t_instance->tableName(), false), caHTMLTextInput('label_text', ['id' => 'caLabelUserModeText', 'value' => $va_last_settings['labelText']], ['width' => '400px'])); ?></td>
 							</tr>
 							<tr>
 								<td><?php
-									$va_attrs = array('value' => 'form', 'id' => 'caLabelIdnoMode');
-									if (isset($va_last_settings['labelMode']) && ($va_last_settings['labelMode'] == 'idno')) { $va_attrs['checked'] = 1; }
-									print caHTMLRadioButtonInput('label_mode', $va_attrs);
-								?></td>
+    $va_attrs = array('value' => 'form', 'id' => 'caLabelIdnoMode');
+if (isset($va_last_settings['labelMode']) && ($va_last_settings['labelMode'] == 'idno')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('label_mode', $va_attrs);
+?></td>
 								<td class='formLabel' id='caIdnoFormModeForm'><?= _t('Set %1 title to identifier', caGetTableDisplayName($t_instance->tableName(), false)); ?></td>
 							</tr>
 							<tr>
 								<td><?php
-									$va_attrs = array('value' => 'filename', 'id' => 'caLabelFilenameMode');
-									if (isset($va_last_settings['labelMode']) && ($va_last_settings['labelMode'] == 'filename')) { $va_attrs['checked'] = 1; }
-									print caHTMLRadioButtonInput('label_mode', $va_attrs);
-								?></td>
+    $va_attrs = array('value' => 'filename', 'id' => 'caLabelFilenameMode');
+if (isset($va_last_settings['labelMode']) && ($va_last_settings['labelMode'] == 'filename')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('label_mode', $va_attrs);
+?></td>
 								<td class='formLabel'><?= _t('Set %1 title to file name', caGetTableDisplayName($t_instance->tableName(), false)); ?></td>
 							</tr>
 							<tr>
 								<td><?php
-									$va_attrs = array('value' => 'filename_no_ext', 'id' => 'caLabelFilenameNoExtMode');
-									if (isset($va_last_settings['labelMode']) && ($va_last_settings['labelMode'] == 'filename_no_ext')) { $va_attrs['checked'] = 1; }
-									print caHTMLRadioButtonInput('label_mode', $va_attrs);
-									?></td>
+    $va_attrs = array('value' => 'filename_no_ext', 'id' => 'caLabelFilenameNoExtMode');
+if (isset($va_last_settings['labelMode']) && ($va_last_settings['labelMode'] == 'filename_no_ext')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('label_mode', $va_attrs);
+?></td>
 								<td class='formLabel'><?= _t('Set %1 title to file name without extension', caGetTableDisplayName($t_instance->tableName(), false)); ?></td>
 							</tr>
 							<tr>
 								<td><?php
-									$va_attrs = array('value' => 'directory_and_filename', 'id' => 'caLabelDirectoryAndFilenameMode');
-									if (isset($va_last_settings['labelMode']) && ($va_last_settings['labelMode'] == 'directory_and_filename')) { $va_attrs['checked'] = 1; }
-									print caHTMLRadioButtonInput('label_mode', $va_attrs);
-								?></td>
+$va_attrs = array('value' => 'directory_and_filename', 'id' => 'caLabelDirectoryAndFilenameMode');
+if (isset($va_last_settings['labelMode']) && ($va_last_settings['labelMode'] == 'directory_and_filename')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('label_mode', $va_attrs);
+?></td>
 								<td class='formLabel'><?= _t('Set %1 title to directory and file name', caGetTableDisplayName($t_instance->tableName(), false)); ?></td>
 							</tr>
 						</table>
@@ -388,26 +414,26 @@
 								<tr style="vertical-align: top;">
 									<td class='formLabel'>
 <?php
-											print _t('Set %1 status to<br/>%2', caGetTableDisplayName($t_instance->tableName(), false), $t_instance->htmlFormElement('status', '', array('name' => $t_instance->tableName().'_status')));
-											print "<br/>";
-											print _t('Set %1 access to<br/>%2', caGetTableDisplayName($t_instance->tableName(), false), $t_instance->htmlFormElement('access', '', array('name' => $t_instance->tableName().'_access')));
+            print _t('Set %1 status to<br/>%2', caGetTableDisplayName($t_instance->tableName(), false), $t_instance->htmlFormElement('status', '', array('name' => $t_instance->tableName().'_status')));
+print "<br/>";
+print _t('Set %1 access to<br/>%2', caGetTableDisplayName($t_instance->tableName(), false), $t_instance->htmlFormElement('access', '', array('name' => $t_instance->tableName().'_access')));
 
-											if ($this->getVar($t_instance->tableName().'_mapping_list_count') > 0) {
-												print "<br/>";
-												print _t('Extract embedded metadata into %1 using mapping<br/>%2', caGetTableDisplayName($t_instance->tableName(), false), $this->getVar($t_instance->tableName().'_mapping_list'));
-											}
+if ($this->getVar($t_instance->tableName().'_mapping_list_count') > 0) {
+    print "<br/>";
+    print _t('Extract embedded metadata into %1 using mapping<br/>%2', caGetTableDisplayName($t_instance->tableName(), false), $this->getVar($t_instance->tableName().'_mapping_list'));
+}
 ?>
 									</td>
 									<td class='formLabel'>
 <?php
-											print _t('Set representation status to<br/>%1', $t_rep->htmlFormElement('status', '', array('name' => 'ca_object_representations_status')));
-											print "<br/>";
-											print _t('Set representation access to<br/>%1', $t_rep->htmlFormElement('access', '', array('name' => 'ca_object_representations_access')));
+                                            print _t('Set representation status to<br/>%1', $t_rep->htmlFormElement('status', '', array('name' => 'ca_object_representations_status')));
+print "<br/>";
+print _t('Set representation access to<br/>%1', $t_rep->htmlFormElement('access', '', array('name' => 'ca_object_representations_access')));
 
-											if ($this->getVar('ca_object_representations_mapping_list_count') > 0) {
-												print "<br/>";
-												print _t('Extract embedded metadata into representation using mapping<br/>%1', $this->getVar('ca_object_representations_mapping_list'));
-											}
+if ($this->getVar('ca_object_representations_mapping_list_count') > 0) {
+    print "<br/>";
+    print _t('Extract embedded metadata into representation using mapping<br/>%1', $this->getVar('ca_object_representations_mapping_list'));
+}
 ?>
 									</td>
 								</tr>
@@ -447,15 +473,15 @@
 							<tr>
 								<td class='formLabel'>
 									<?php
-									print $this->getVar('match_mode');
-									print "\n<br/>\n";
-									print _t('where identifier %1 value', $this->getVar('match_type'));
-									?>
+                                    print $this->getVar('match_mode');
+print "\n<br/>\n";
+print _t('where identifier %1 value', $this->getVar('match_type'));
+?>
 								</td>
 								<td class='formLabel'>
 									<?php
-									print _t("Limit to types")."<br/>\n".$this->getVar($t_instance->tableName().'_limit_to_types_list');
-									?>
+print _t("Limit to types")."<br/>\n".$this->getVar($t_instance->tableName().'_limit_to_types_list');
+?>
 								</td>
 							</tr>
 						</table>
@@ -471,34 +497,42 @@
 							<table>
 								<tr>
 									<td><?php
-										$va_attrs = array('value' => 'form', 'checked' => 1, 'id' => 'caRepresentationIdnoFormMode');
-										if (isset($va_last_settings['representationIdnoMode']) && ($va_last_settings['representationIdnoMode'] == 'form')) { $va_attrs['checked'] = 1; }
-										print caHTMLRadioButtonInput('representation_idno_mode', $va_attrs);
-										?></td>
-									<td class='formLabel' id='caRepresentationIdnoFormModeForm'><?= _t('Set %1 identifier to %2', caGetTableDisplayName('ca_object_representations', false) , $t_rep->htmlFormElement('idno', '^ELEMENT', array('request' => $this->request))); ?></td>
+    $va_attrs = array('value' => 'form', 'checked' => 1, 'id' => 'caRepresentationIdnoFormMode');
+if (isset($va_last_settings['representationIdnoMode']) && ($va_last_settings['representationIdnoMode'] == 'form')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('representation_idno_mode', $va_attrs);
+?></td>
+									<td class='formLabel' id='caRepresentationIdnoFormModeForm'><?= _t('Set %1 identifier to %2', caGetTableDisplayName('ca_object_representations', false), $t_rep->htmlFormElement('idno', '^ELEMENT', array('request' => $this->request))); ?></td>
 								</tr>
 								<tr>
 									<td><?php
-										$va_attrs = array('value' => 'filename', 'id' => 'caRepresentationIdnoFilenameMode');
-										if (isset($va_last_settings['representationIdnoMode']) && ($va_last_settings['representationIdnoMode'] == 'filename')) { $va_attrs['checked'] = 1; }
-										print caHTMLRadioButtonInput('representation_idno_mode', $va_attrs);
-										?></td>
+$va_attrs = array('value' => 'filename', 'id' => 'caRepresentationIdnoFilenameMode');
+if (isset($va_last_settings['representationIdnoMode']) && ($va_last_settings['representationIdnoMode'] == 'filename')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('representation_idno_mode', $va_attrs);
+?></td>
 									<td class='formLabel'><?= _t('Set %1 identifier to file name', caGetTableDisplayName('ca_object_representations', false)); ?></td>
 								</tr>
 								<tr>
 									<td><?php
-										$va_attrs = array('value' => 'filename_no_ext', 'id' => 'caRepresentationIdnoFilenameNoExtMode');
-										if (isset($va_last_settings['representationIdnoMode']) && ($va_last_settings['representationIdnoMode'] == 'filename_no_ext')) { $va_attrs['checked'] = 1; }
-										print caHTMLRadioButtonInput('representation_idno_mode', $va_attrs);
-										?></td>
+$va_attrs = array('value' => 'filename_no_ext', 'id' => 'caRepresentationIdnoFilenameNoExtMode');
+if (isset($va_last_settings['representationIdnoMode']) && ($va_last_settings['representationIdnoMode'] == 'filename_no_ext')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('representation_idno_mode', $va_attrs);
+?></td>
 									<td class='formLabel'><?= _t('Set %1 identifier to file name without extension', caGetTableDisplayName('ca_object_representations', false)); ?></td>
 								</tr>
 								<tr>
 									<td><?php
-										$va_attrs = array('value' => 'directory_and_filename', 'id' => 'caRepresentationIdnoDirectoryAndFilenameMode');
-										if (isset($va_last_settings['representationIdnoMode']) && ($va_last_settings['representationIdnoMode'] == 'directory_and_filename')) { $va_attrs['checked'] = 1; }
-										print caHTMLRadioButtonInput('representation_idno_mode', $va_attrs);
-										?></td>
+$va_attrs = array('value' => 'directory_and_filename', 'id' => 'caRepresentationIdnoDirectoryAndFilenameMode');
+if (isset($va_last_settings['representationIdnoMode']) && ($va_last_settings['representationIdnoMode'] == 'directory_and_filename')) {
+    $va_attrs['checked'] = 1;
+}
+print caHTMLRadioButtonInput('representation_idno_mode', $va_attrs);
+?></td>
 									<td class='formLabel'><?= _t('Set %1 identifier to directory and file name', caGetTableDisplayName('ca_object_representations', false)); ?></td>
 								</tr>
 							</table>
@@ -532,38 +566,46 @@
 						<div class="caLabelList" >
 							<p class="bundleDisplayPlacementEditorHelpText">
 	<?php
-		print _t('Relationships will be created by matching the identifier extracted from the media file name with identifiers in related records.');
-	?>
+        print _t('Relationships will be created by matching the identifier extracted from the media file name with identifiers in related records.');
+?>
 							</p>
 							<div style='padding:10px 0px 10px 10px;'>
 								<table>
 	<?php
-		foreach(array('ca_entities', 'ca_places', 'ca_occurrences', 'ca_collections') as $vs_rel_table) {
-			if ($o_config->get("{$vs_rel_table}_disable")) { continue; }
-			if (!($t_rel_table = Datamodel::getInstanceByTableName($vs_rel_table))) { continue; }
-			$t_rel = ca_relationship_types::getRelationshipTypeInstance($t_instance->tableName(), $vs_rel_table);
-			if (!$t_rel) { continue; }
-	?>
+    foreach (array('ca_entities', 'ca_places', 'ca_occurrences', 'ca_collections') as $vs_rel_table) {
+        if ($o_config->get("{$vs_rel_table}_disable")) {
+            continue;
+        }
+        if (!($t_rel_table = Datamodel::getInstanceByTableName($vs_rel_table))) {
+            continue;
+        }
+        $t_rel = ca_relationship_types::getRelationshipTypeInstance($t_instance->tableName(), $vs_rel_table);
+        if (!$t_rel) {
+            continue;
+        }
+        ?>
 									<tr>
 										<td class='formLabel'>
 	<?php
-				$checked = (is_array($va_last_settings['create_relationship_for']) && in_array($vs_rel_table, $va_last_settings['create_relationship_for'])) ? true : false;
-				$default_rel_type_id = isset($va_last_settings['relationship_type_id_for_'.$vs_rel_table]) ? $va_last_settings['relationship_type_id_for_'.$vs_rel_table] : null;
-				print caHTMLCheckboxInput('create_relationship_for[]', array('value' => $vs_rel_table,  'id' => "caCreateRelationshipForMedia{$vs_rel_table}", 'checked' => $checked, 'onclick' => "jQuery('#caRelationshipTypeIdFor{$vs_rel_table}').prop('disabled', !jQuery('#caCreateRelationshipForMedia{$vs_rel_table}').prop('checked'))"), ['dontConvertAttributeQuotesToEntities' => true]);
-				print ' '._t("to %1 with relationship type", $t_rel_table->getProperty('NAME_SINGULAR'));
-	?>
+                    $checked = (is_array($va_last_settings['create_relationship_for']) && in_array($vs_rel_table, $va_last_settings['create_relationship_for'])) ? true : false;
+        $default_rel_type_id = isset($va_last_settings['relationship_type_id_for_'.$vs_rel_table]) ? $va_last_settings['relationship_type_id_for_'.$vs_rel_table] : null;
+        print caHTMLCheckboxInput('create_relationship_for[]', array('value' => $vs_rel_table,  'id' => "caCreateRelationshipForMedia{$vs_rel_table}", 'checked' => $checked, 'onclick' => "jQuery('#caRelationshipTypeIdFor{$vs_rel_table}').prop('disabled', !jQuery('#caCreateRelationshipForMedia{$vs_rel_table}').prop('checked'))"), ['dontConvertAttributeQuotesToEntities' => true]);
+        print ' '._t("to %1 with relationship type", $t_rel_table->getProperty('NAME_SINGULAR'));
+        ?>
 										</td>
 										<td class='formLabel'>
 	<?php
-				$opts = ['name' => "relationship_type_id_for_{$vs_rel_table}", 'id' => "caRelationshipTypeIdFor{$vs_rel_table}"];
-				if(!$checked) { $opts['disabled'] = true; }
-				print $t_rel->getRelationshipTypesAsHTMLSelect('ltor', null, null, $opts, ['value' => $default_rel_type_id]);
-	?>
+                    $opts = ['name' => "relationship_type_id_for_{$vs_rel_table}", 'id' => "caRelationshipTypeIdFor{$vs_rel_table}"];
+        if (!$checked) {
+            $opts['disabled'] = true;
+        }
+        print $t_rel->getRelationshipTypesAsHTMLSelect('ltor', null, null, $opts, ['value' => $default_rel_type_id]);
+        ?>
 										</td>
 									</tr>
 	<?php
-		}
-	?>
+    }
+?>
 								</table>
 							</div>
 						</div>
@@ -575,13 +617,13 @@
 						<div class="caLabelList" >
 							<p class="bundleDisplayPlacementEditorHelpText">
 	<?php
-		print _t('List names of files you wish to skip during import below, one per line. You may use asterisks ("*") as wildcards to make partial matches. Values enclosed in "/" characters will be treated as <a href="http://www.pcre.org/pcre.txt" target="_new">Perl-compatible regular expressions</a>.');
-	?>
+    print _t('List names of files you wish to skip during import below, one per line. You may use asterisks ("*") as wildcards to make partial matches. Values enclosed in "/" characters will be treated as <a href="http://www.pcre.org/pcre.txt" target="_new">Perl-compatible regular expressions</a>.');
+?>
 							</p>
 							<p>
 	<?php
-				print caHTMLTextInput('skip_file_list', array('value' => $va_last_settings['skipFileList'],  'id' => "caSkipFilesList"), array('width' => '700px', 'height' => '100px'));
-	?>
+            print caHTMLTextInput('skip_file_list', array('value' => $va_last_settings['skipFileList'],  'id' => "caSkipFilesList"), array('width' => '700px', 'height' => '100px'));
+?>
 							</p>
 						</div>
 					</div>
@@ -595,25 +637,25 @@
 									<td>
 							<p class='formLabel'>
 	<?php
-								print _t('Log level').'<br/>';
-								print caHTMLSelect('log_level', caGetLogLevels(), array('id' => 'caLogLevel'), array('value' => $va_last_settings['logLevel']));
-	?>
+                            print _t('Log level').'<br/>';
+print caHTMLSelect('log_level', caGetLogLevels(), array('id' => 'caLogLevel'), array('value' => $va_last_settings['logLevel']));
+?>
 							</p>
 									</td>
 									<td>
 							<p class='formLabel'>
 	<?php
-				print caHTMLCheckboxInput('allow_duplicate_media', array('value' => 1,  'id' => 'caAllowDuplicateMedia', 'checked' => $va_last_settings['allowDuplicateMedia']), []);
-				print " "._t('Allow duplicate media?');
-	?>
+            print caHTMLCheckboxInput('allow_duplicate_media', array('value' => 1,  'id' => 'caAllowDuplicateMedia', 'checked' => $va_last_settings['allowDuplicateMedia']), []);
+print " "._t('Allow duplicate media?');
+?>
 							</p>
 									</td>
 									<td>
 							<p class='formLabel'>
 	<?php
-				print caHTMLCheckboxInput('replace_existing_media', array('value' => 1,  'id' => 'caReplaceExistingMedia', 'checked' => 0), array());
-				print " "._t('Replace existing media?');
-	?>
+            print caHTMLCheckboxInput('replace_existing_media', array('value' => 1,  'id' => 'caReplaceExistingMedia', 'checked' => 0), array());
+print " "._t('Replace existing media?');
+?>
 							</p>
 									</td>
 								</tr>
@@ -624,9 +666,9 @@
 		</div>
 
 <?php
-			print $this->render("mediaimport/confirm_html.php");
+        print $this->render("mediaimport/confirm_html.php");
 
-			print $vs_control_box;
+print $vs_control_box;
 ?>
 		</form>
 	</div>

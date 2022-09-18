@@ -34,7 +34,7 @@
  * @file A class to interact with the VIAF API
  */
 
-use \GuzzleHttp\Client;
+use GuzzleHttp\Client;
 
 require_once(__CA_LIB_DIR__ . "/Plugins/IWLPlugInformationService.php");
 require_once(__CA_LIB_DIR__ . "/Plugins/InformationService/BaseInformationServicePlugin.php");
@@ -46,11 +46,10 @@ $g_information_service_settings_viaf = [];
 
 class WLPlugInformationServiceVIAF extends BaseInformationServicePlugin implements IWLPlugInformationService
 {
-
     # ------------------------------------------------
-    static $s_settings;
-    const VIAF_SERVICES_BASE_URL = 'http://www.viaf.org/viaf';
-    const VIAF_LOOKUP = 'search';
+    public static $s_settings;
+    public const VIAF_SERVICES_BASE_URL = 'http://www.viaf.org/viaf';
+    public const VIAF_LOOKUP = 'search';
     private $o_client;
     # ------------------------------------------------
 
@@ -82,21 +81,21 @@ class WLPlugInformationServiceVIAF extends BaseInformationServicePlugin implemen
             ]
         ]);
         $va_raw_resultlist = json_decode($vo_response->getBody(), true);
-    
+
         $va_return = [];
         if (is_array($response_data = $va_raw_resultlist['searchRetrieveResponse']['records'])) {
-			foreach ($response_data as $data){
-				if (!($label = $data['record']['recordData']['mainHeadings']['data'][0]['text'])) {
-					$label = $data['record']['recordData']['mainHeadings']['data']['text'];
-				}
-				$label = str_replace("|", ":", $label);
-				$va_return['results'][] = [
-					'label' => $label,
-					'url' => self::VIAF_SERVICES_BASE_URL."/".$data['record']['recordData']['viafID'],
-					'idno' => $data['record']['recordData']['viafID']
-				];
-			}
-		}
+            foreach ($response_data as $data) {
+                if (!($label = $data['record']['recordData']['mainHeadings']['data'][0]['text'])) {
+                    $label = $data['record']['recordData']['mainHeadings']['data']['text'];
+                }
+                $label = str_replace("|", ":", $label);
+                $va_return['results'][] = [
+                    'label' => $label,
+                    'url' => self::VIAF_SERVICES_BASE_URL."/".$data['record']['recordData']['viafID'],
+                    'idno' => $data['record']['recordData']['viafID']
+                ];
+            }
+        }
         return $va_return;
     }
 
@@ -108,13 +107,16 @@ class WLPlugInformationServiceVIAF extends BaseInformationServicePlugin implemen
     /**
      * @return Guzzle\Http\Client
      */
-    public function getClient() {
-        if (!isset ($this->o_client))
+    public function getClient()
+    {
+        if (!isset($this->o_client)) {
             $this->o_client = new \GuzzleHttp\Client(['base_uri' => self::VIAF_SERVICES_BASE_URL."/".self::VIAF_LOOKUP]);
+        }
 
         $o_conf = Configuration::load();
-        if($vs_proxy = $o_conf->get('web_services_proxy_url')) /* proxy server is configured */
+        if ($vs_proxy = $o_conf->get('web_services_proxy_url')) { /* proxy server is configured */
             $this->o_client->getConfig()->add('proxy', $vs_proxy);
+        }
 
         return $this->o_client;
     }

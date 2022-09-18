@@ -26,39 +26,39 @@ class KLogger
      * Error severity, from low to high. From BSD syslog RFC, secion 4.1.1
      * @link http://www.faqs.org/rfcs/rfc3164.html
      */
-    const EMERG  = 0;  // Emergency: system is unusable
-    const ALERT  = 1;  // Alert: action must be taken immediately
-    const CRIT   = 2;  // Critical: critical conditions
-    const ERR    = 3;  // Error: error conditions
-    const WARN   = 4;  // Warning: warning conditions
-    const NOTICE = 5;  // Notice: normal but significant condition
-    const INFO   = 6;  // Informational: informational messages
-    const DEBUG  = 7;  // Debug: debug messages
+    public const EMERG  = 0;  // Emergency: system is unusable
+    public const ALERT  = 1;  // Alert: action must be taken immediately
+    public const CRIT   = 2;  // Critical: critical conditions
+    public const ERR    = 3;  // Error: error conditions
+    public const WARN   = 4;  // Warning: warning conditions
+    public const NOTICE = 5;  // Notice: normal but significant condition
+    public const INFO   = 6;  // Informational: informational messages
+    public const DEBUG  = 7;  // Debug: debug messages
 
     //custom logging level
     /**
      * Log nothing at all
      */
-    const OFF    = 8;
+    public const OFF    = 8;
     /**
      * Alias for CRIT
      * @deprecated
      */
-    const FATAL  = 2;
+    public const FATAL  = 2;
 
     /**
      * Internal status codes
      */
-    const STATUS_LOG_OPEN    = 1;
-    const STATUS_OPEN_FAILED = 2;
-    const STATUS_LOG_CLOSED  = 3;
+    public const STATUS_LOG_OPEN    = 1;
+    public const STATUS_OPEN_FAILED = 2;
+    public const STATUS_LOG_CLOSED  = 3;
 
     /**
      * We need a default argument value in order to add the ability to easily
      * print out objects etc. But we can't use NULL, 0, FALSE, etc, because those
      * are often the values the developers will test for. So we'll make one up.
      */
-    const NO_ARGUMENTS = 'KLogger::NO_ARGUMENTS';
+    public const NO_ARGUMENTS = 'KLogger::NO_ARGUMENTS';
 
     /**
      * Current status of the log file
@@ -131,7 +131,7 @@ class KLogger
         if ($severity === false) {
             $severity = self::$_defaultSeverity;
         }
-        
+
         if ($logDirectory === false) {
             if (count(self::$instances) > 0) {
                 return current(self::$instances);
@@ -167,15 +167,15 @@ class KLogger
 
         $this->_logFilePath = $logDirectory
             . DIRECTORY_SEPARATOR
-            . 'log_' . ($logName  ? "{$logName}_" : "")
+            . 'log_' . ($logName ? "{$logName}_" : "")
             . date('Y-m-d')
             . '.txt';
 
         $this->_severityThreshold = $severity;
         if (!file_exists($logDirectory)) {
             if (!@mkdir($logDirectory, self::$_defaultPermissions, true)) {
-            	$this->_logStatus = self::STATUS_OPEN_FAILED;
-            	$this->_messageQueue[] = $this->_messages['openfail'];
+                $this->_logStatus = self::STATUS_OPEN_FAILED;
+                $this->_messageQueue[] = $this->_messages['openfail'];
             }
         }
 
@@ -243,7 +243,7 @@ class KLogger
 
     /**
      * Sets the date format used by all instances of KLogger
-     * 
+     *
      * @param string $dateFormat Valid format string for date()
      */
     public static function setDateFormat($dateFormat)
@@ -277,7 +277,7 @@ class KLogger
 
     /**
      * Writes a $line to the log with a severity level of WARN. Generally
-     * corresponds to E_WARNING, E_USER_WARNING, E_CORE_WARNING, or 
+     * corresponds to E_WARNING, E_USER_WARNING, E_CORE_WARNING, or
      * E_COMPILE_WARNING
      *
      * @param string $line Information to log
@@ -356,14 +356,14 @@ class KLogger
     {
         if ($this->_severityThreshold >= $severity) {
             $status = $this->_getTimeLine($severity);
-            
+
             $line = "$status $line";
-            
-            if($args !== self::NO_ARGUMENTS) {
+
+            if ($args !== self::NO_ARGUMENTS) {
                 /* Print the passed object value */
                 $line = $line . '; ' . var_export($args, true);
             }
-            
+
             $this->writeFreeFormLine($line . PHP_EOL);
         }
     }

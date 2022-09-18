@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * views/manage/tools/tool_run_html.php : 
+ * views/manage/tools/tool_run_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,27 +15,27 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	$o_tool = 				$this->getVar('tool');
-	$vs_tool_identifier = 	$o_tool->getToolIdentifier();
-	
-	$va_settings = 			$this->getVar('available_settings');
-	$va_setting_values = 	$this->getVar('setting_values');
-	
-	$vs_form_id = 			$this->getVar('form_id');
-	$vs_command = 			$this->getVar('command');
-	$vs_job_id = 			$this->getVar('job_id');
- ?>
+
+$o_tool = 				$this->getVar('tool');
+$vs_tool_identifier = 	$o_tool->getToolIdentifier();
+
+$va_settings = 			$this->getVar('available_settings');
+$va_setting_values = 	$this->getVar('setting_values');
+
+$vs_form_id = 			$this->getVar('form_id');
+$vs_command = 			$this->getVar('command');
+$vs_job_id = 			$this->getVar('job_id');
+?>
  
 <h1><?php print _t('Running %1: %2', $o_tool->getToolName(), $vs_command); ?></h1>
 

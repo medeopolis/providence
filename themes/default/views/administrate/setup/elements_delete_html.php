@@ -26,11 +26,11 @@
  * ----------------------------------------------------------------------
  */
 
-	$t_element = $this->getVar('t_element');
-	$vn_element_id = $this->getVar('element_id');
+$t_element = $this->getVar('t_element');
+$vn_element_id = $this->getVar('element_id');
 ?>
 <div class="sectionBox">
 <?php
-	print caDeleteWarningBox($this->request, $t_element, $t_element->getLabelForDisplay(false), 'administrate/setup', 'Elements', 'Index', array('element_id' => $vn_element_id));
+    print caDeleteWarningBox($this->request, $t_element, $t_element->getLabelForDisplay(false), 'administrate/setup', 'Elements', 'Index', array('element_id' => $vn_element_id));
 ?>
 </div>

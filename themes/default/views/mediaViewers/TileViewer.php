@@ -29,9 +29,9 @@
  *
  * ----------------------------------------------------------------------
  */
- 
-	
-	print $this->getVar('viewerHTML');
+
+
+print $this->getVar('viewerHTML');
 ?>
 <script type="text/javascript">
 	var caRepresentationAnnotationEditor;

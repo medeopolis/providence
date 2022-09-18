@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * bundles/ca_editor_ui_screens.php : 
+ * bundles/ca_editor_ui_screens.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,36 +15,36 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
- 
-	AssetLoadManager::register('sortableUI');
 
-	$vs_id_prefix 		= $this->getVar('placement_code').$this->getVar('id_prefix');
-	$t_ui 					= $this->getVar('t_ui');	
-	$t_screen				= $this->getVar('t_screen');
-	
-	$va_initial_values = $this->getVar('screens');	// list of existing screens
-	$va_errors = array();
-	$va_failed_inserts = array();
- 
- 	print caEditorBundleShowHideControl($this->request, $vs_id_prefix);
-	print caEditorBundleMetadataDictionary($this->request, $vs_id_prefix, $va_settings);
+
+AssetLoadManager::register('sortableUI');
+
+$vs_id_prefix 		= $this->getVar('placement_code').$this->getVar('id_prefix');
+$t_ui 					= $this->getVar('t_ui');
+$t_screen				= $this->getVar('t_screen');
+
+$va_initial_values = $this->getVar('screens');	// list of existing screens
+$va_errors = array();
+$va_failed_inserts = array();
+
+print caEditorBundleShowHideControl($this->request, $vs_id_prefix);
+print caEditorBundleMetadataDictionary($this->request, $vs_id_prefix, $va_settings);
 ?>
 <div id="<?php print $vs_id_prefix; ?>">
 <?php
-	//
-	// The bundle template - used to generate each bundle in the form
-	//
+    //
+    // The bundle template - used to generate each bundle in the form
+    //
 ?>
 	<textarea class='caItemTemplate' style='display: none;'>
 		<div id="<?php print $vs_id_prefix; ?>Item_{n}" class="labelInfo">
@@ -71,7 +71,7 @@
 			</table>
 		</div>
 <?php
-	print TooltipManager::getLoadHTML('bundle_ca_editor_ui_screens');
+    print TooltipManager::getLoadHTML('bundle_ca_editor_ui_screens');
 ?>
 	</textarea>
 	
@@ -85,7 +85,7 @@
 
 <input type="hidden" id="<?php print $vs_id_prefix; ?>_ScreenBundleList" name="<?php print $vs_id_prefix; ?>_ScreenBundleList" value=""/>
 <?php
-	// order element
+    // order element
 ?>
 			
 <script type="text/javascript">

@@ -15,81 +15,85 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	$vs_id_prefix 		= $this->getVar('placement_code').$this->getVar('id_prefix');
-	$t_instance 		= $this->getVar('t_instance');
-	/** @var BundlableLabelableBaseModelWithAttributes $t_item */
-	$t_item 			= $this->getVar('t_item');			// related item
-	/** @var BaseRelationshipModel $t_item_rel */
-	$t_item_rel 		= $this->getVar('t_item_rel');
-	$t_subject 			= $this->getVar('t_subject');
-	$va_settings 		= $this->getVar('settings');
-	$vs_add_label 		= $this->getVar('add_label');
-	$va_rel_types		= $this->getVar('relationship_types');
-	$vs_placement_code 	= $this->getVar('placement_code');
-	/** @var BaseSearchResult $vo_result */
-	$vo_result			= $this->getVar('result');
-	$vn_placement_id	= (int)$va_settings['placement_id'];
-	$vb_batch			= $this->getVar('batch');
-	$t_display 			= $this->getVar('display');
-	$va_display_list	= $this->getVar('display_list');
-	$va_initial_values	= $this->getVar('initialValues');
-	$vs_bundle_name		= $this->getVar('bundle_name');
-	$vs_interstitial_selector = $vs_id_prefix . 'Item_';
 
-	$va_ids = array();
-	foreach($va_initial_values as $vn_rel_id => $va_rel_info) {
-		if(array_search($va_rel_info['id'], $va_ids, true)) { continue; }
-		$va_ids[$vn_rel_id] = $va_rel_info['id'];
-	}
+$vs_id_prefix 		= $this->getVar('placement_code').$this->getVar('id_prefix');
+$t_instance 		= $this->getVar('t_instance');
+/** @var BundlableLabelableBaseModelWithAttributes $t_item */
+$t_item 			= $this->getVar('t_item');			// related item
+/** @var BaseRelationshipModel $t_item_rel */
+$t_item_rel 		= $this->getVar('t_item_rel');
+$t_subject 			= $this->getVar('t_subject');
+$va_settings 		= $this->getVar('settings');
+$vs_add_label 		= $this->getVar('add_label');
+$va_rel_types		= $this->getVar('relationship_types');
+$vs_placement_code 	= $this->getVar('placement_code');
+/** @var BaseSearchResult $vo_result */
+$vo_result			= $this->getVar('result');
+$vn_placement_id	= (int)$va_settings['placement_id'];
+$vb_batch			= $this->getVar('batch');
+$t_display 			= $this->getVar('display');
+$va_display_list	= $this->getVar('display_list');
+$va_initial_values	= $this->getVar('initialValues');
+$vs_bundle_name		= $this->getVar('bundle_name');
+$vs_interstitial_selector = $vs_id_prefix . 'Item_';
 
-	$va_additional_search_controller_params = array(
-		'ids' => json_encode($va_ids),
-		'interstitialPrefix' => $vs_interstitial_selector,
-		'relatedRelTable' => $t_item_rel->tableName(),
-		'primaryTable' => $t_subject->tableName(),
-		'primaryID' => $t_subject->getPrimaryKey(),
-		'relatedTable' => $t_item->tableName(),
-		'idPrefix' => $vs_id_prefix
-	);
+$va_ids = array();
+foreach ($va_initial_values as $vn_rel_id => $va_rel_info) {
+    if (array_search($va_rel_info['id'], $va_ids, true)) {
+        continue;
+    }
+    $va_ids[$vn_rel_id] = $va_rel_info['id'];
+}
 
-	$vs_url_string = '';
-	foreach($va_additional_search_controller_params as $vs_key => $vs_val) {
-		if ($vs_key == 'ids') { continue; }
-		$vs_url_string .= '/' . $vs_key . '/' . urlencode($vs_val);
-	}
+$va_additional_search_controller_params = array(
+    'ids' => json_encode($va_ids),
+    'interstitialPrefix' => $vs_interstitial_selector,
+    'relatedRelTable' => $t_item_rel->tableName(),
+    'primaryTable' => $t_subject->tableName(),
+    'primaryID' => $t_subject->getPrimaryKey(),
+    'relatedTable' => $t_item->tableName(),
+    'idPrefix' => $vs_id_prefix
+);
 
-	$vb_read_only		=	((isset($va_settings['readonly']) && $va_settings['readonly'])  || ($this->request->user->getBundleAccessLevel($t_instance->tableName(), $vs_bundle_name) == __CA_BUNDLE_ACCESS_READONLY__));
-	$vb_dont_show_del	=	((isset($va_settings['dontShowDeleteButton']) && $va_settings['dontShowDeleteButton'])) ? true : false;
-	
-	// params to pass during related item lookup
-	$va_lookup_params = array(
-		'type' => isset($va_settings['restrict_to_type']) ? $va_settings['restrict_to_type'] : '',
-		'noSubtypes' => (int)$va_settings['dont_include_subtypes_in_type_restriction'],
-		'noInline' => (bool) preg_match("/QuickAdd$/", $this->request->getController()) ? 1 : 0
-	);
-		
-	if ($vb_batch) {
-		print caBatchEditorRelationshipModeControl($t_item, $vs_id_prefix.$t_item->tableNum().'_rel');
-	} else {
-		print caEditorBundleShowHideControl($this->request, $vs_id_prefix.$t_item->tableNum().'_rel', $va_settings, caInitialValuesArrayHasValue($vs_id_prefix.$t_item->tableNum().'_rel', $this->getVar('initialValues')));
-	}
-	print caEditorBundleMetadataDictionary($this->request, $vs_id_prefix.$t_item->tableNum().'_rel', $va_settings);
-	
-	$va_errors = array();
-	foreach($va_action_errors = $this->request->getActionErrors($vs_placement_code) as $o_error) {
-		$va_errors[] = $o_error->getErrorDescription();
-	}
+$vs_url_string = '';
+foreach ($va_additional_search_controller_params as $vs_key => $vs_val) {
+    if ($vs_key == 'ids') {
+        continue;
+    }
+    $vs_url_string .= '/' . $vs_key . '/' . urlencode($vs_val);
+}
+
+$vb_read_only		=	((isset($va_settings['readonly']) && $va_settings['readonly'])  || ($this->request->user->getBundleAccessLevel($t_instance->tableName(), $vs_bundle_name) == __CA_BUNDLE_ACCESS_READONLY__));
+$vb_dont_show_del	=	((isset($va_settings['dontShowDeleteButton']) && $va_settings['dontShowDeleteButton'])) ? true : false;
+
+// params to pass during related item lookup
+$va_lookup_params = array(
+    'type' => isset($va_settings['restrict_to_type']) ? $va_settings['restrict_to_type'] : '',
+    'noSubtypes' => (int)$va_settings['dont_include_subtypes_in_type_restriction'],
+    'noInline' => (bool) preg_match("/QuickAdd$/", $this->request->getController()) ? 1 : 0
+);
+
+if ($vb_batch) {
+    print caBatchEditorRelationshipModeControl($t_item, $vs_id_prefix.$t_item->tableNum().'_rel');
+} else {
+    print caEditorBundleShowHideControl($this->request, $vs_id_prefix.$t_item->tableNum().'_rel', $va_settings, caInitialValuesArrayHasValue($vs_id_prefix.$t_item->tableNum().'_rel', $this->getVar('initialValues')));
+}
+print caEditorBundleMetadataDictionary($this->request, $vs_id_prefix.$t_item->tableNum().'_rel', $va_settings);
+
+$va_errors = array();
+foreach ($va_action_errors = $this->request->getActionErrors($vs_placement_code) as $o_error) {
+    $va_errors[] = $o_error->getErrorDescription();
+}
 ?>
 <script type="text/javascript">
 	function caAsyncSearchResultForm<?= $vs_id_prefix; ?>(data) {
@@ -121,14 +125,14 @@
 	}
 
 <?php
-	if(sizeof($va_initial_values)) {
-		// when ready, pull in the result list via the RelatedList search controller and the JS helper caAsyncSearchResultForm() above
-?>
+    if (sizeof($va_initial_values)) {
+        // when ready, pull in the result list via the RelatedList search controller and the JS helper caAsyncSearchResultForm() above
+        ?>
 		jQuery(document).ready(function() {
 			jQuery.post('<?= caNavUrl($this->request, 'find', 'RelatedList', 'Index', []); ?>', <?= json_encode($va_additional_search_controller_params); ?>, caAsyncSearchResultForm<?= $vs_id_prefix; ?>);
 		});
 <?php
-	}
+    }
 ?>
 </script>
 <div id="<?= $vs_id_prefix.$t_item->tableNum().'_rel'; ?>" <?= $vb_batch ? "class='editorBatchBundleContent'" : ''; ?>>
@@ -141,9 +145,9 @@
 		<?= sizeof($va_initial_values) ? caBusyIndicatorIcon($this->request).' '._t('Loading') : _t('No related %1', $t_item->getProperty('NAME_PLURAL')); ?>
 	</div>
 <?php
-	//
-	// Template to generate controls for creating new relationship
-	//
+    //
+    // Template to generate controls for creating new relationship
+    //
 ?>
 	<textarea class='caNewItemTemplate' style='display: none;'>
 		<div style="clear: both; width: 1px; height: 1px;"><!-- empty --></div>
@@ -155,11 +159,11 @@
 					</td>
 					<td>
 <?php
-	if (sizeof($this->getVar('relationship_types_by_sub_type'))) {
-?>
+    if (sizeof($this->getVar('relationship_types_by_sub_type'))) {
+        ?>
 						<select name="<?= $vs_id_prefix; ?>_type_id{n}" id="<?= $vs_id_prefix; ?>_type_id{n}" style="display: none;"></select>
 <?php
-	}
+    }
 ?>
 						<input type="hidden" name="<?= $vs_id_prefix; ?>_id{n}" id="<?= $vs_id_prefix; ?>_id{n}" value="{id}"/>
 					</td>
@@ -176,22 +180,22 @@
 	<div class="bundleContainerRelatedList">
 		<div class="caItemList">
 <?php
-	if (sizeof($va_errors)) {
-?>
+    if (sizeof($va_errors)) {
+        ?>
 		<span class="formLabelError"><?= join("; ", $va_errors); ?><br class="clear"/></span>
 <?php
-	}
+    }
 ?>
 		
 		</div>
 		<input type="hidden" name="<?= $vs_id_prefix; ?>BundleList" id="<?= $vs_id_prefix; ?>BundleList" value=""/>
 		<div style="clear: both; width: 1px; height: 1px;"><!-- empty --></div>
 <?php
-	if (!$vb_read_only) {
-?>	
+    if (!$vb_read_only) {
+        ?>	
 		<div class='button labelInfo caAddItemButton'><a href='#'><?= caNavIcon(__CA_NAV_ICON_ADD__, '15px'); ?> <?= $vs_add_label ? $vs_add_label : _t("Add relationship"); ?></a></div>
 <?php
-	}
+    }
 ?>
 	</div>
 </div>
@@ -290,11 +294,11 @@
 
 		// only init bundle if there are no values, otherwise we do it after the content is loaded
 <?php
-		if(!sizeof($va_initial_values)) {
-?>
+        if (!sizeof($va_initial_values)) {
+            ?>
 			caRelationBundle<?= $vs_id_prefix; ?> = caUI.initRelationBundle('#<?= $vs_id_prefix.$t_item->tableNum().'_rel'; ?>', initiRelationBundleOptions<?= $vs_id_prefix; ?>);
 <?php
-		}
+        }
 ?>
 		jQuery('#tableContent<?= $vs_id_prefix; ?>').on('click', 'input.addItemToBatchControl', function(e) {
 			let ids = caGetSelectedItemIDsForRelatedList<?= $vs_id_prefix; ?>();

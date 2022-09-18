@@ -34,4 +34,6 @@
  *
  */
 
-class MediaUploadManageSessionException extends Exception {}
+class MediaUploadManageSessionException extends Exception
+{
+}

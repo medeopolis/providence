@@ -25,14 +25,14 @@
  *
  * ----------------------------------------------------------------------
  */
-	$va_list 		= $this->getVar('rule_list');
+$va_list 		= $this->getVar('rule_list');
 
-	$vs_new_menu = '<div class="sf-small-menu form-header-button rounded">'.
-		'<div class="caNavHeaderIcon">'.
-		'<a href="#" onclick="_navigateToNewForm(jQuery(\'#tableList\').val());">'.caNavIcon(__CA_NAV_ICON_ADD__, 2).'</a>'.
-		'</div>'.
-		'<form action="#">'._t('New metadata alert rule for ').' '.caHTMLSelect('table_num', caGetPrimaryTablesForHTMLSelect(true, ['ca_media_upload_sessions']), array('id' => 'tableList')).'</form>'.
-		'</div>';
+$vs_new_menu = '<div class="sf-small-menu form-header-button rounded">'.
+    '<div class="caNavHeaderIcon">'.
+    '<a href="#" onclick="_navigateToNewForm(jQuery(\'#tableList\').val());">'.caNavIcon(__CA_NAV_ICON_ADD__, 2).'</a>'.
+    '</div>'.
+    '<form action="#">'._t('New metadata alert rule for ').' '.caHTMLSelect('table_num', caGetPrimaryTablesForHTMLSelect(true, ['ca_media_upload_sessions']), array('id' => 'tableList')).'</form>'.
+    '</div>';
 ?>
 <script language="JavaScript" type="text/javascript">
 /* <![CDATA[ */
@@ -46,13 +46,13 @@
 /* ]]> */
 </script>
 <div class="sectionBox">
-	<?php 
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caMetadataAlertList\').caFilterTable(this.value); return false;" size="20"/></div>',
-			'', 
-			$vs_new_menu
-		);
-	?>
+	<?php
+        print caFormControlBox(
+            '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caMetadataAlertList\').caFilterTable(this.value); return false;" size="20"/></div>',
+            '',
+            $vs_new_menu
+        );
+?>
 	
 	<table id="caMetadataAlertList" class="listtable">
 		<thead>
@@ -74,9 +74,9 @@
 		</thead>
 		<tbody>
 <?php
-	if (sizeof($va_list)) {
-		foreach($va_list as $va_rule) {
-?>
+if (sizeof($va_list)) {
+    foreach ($va_list as $va_rule) {
+        ?>
 			<tr>
 				<td>
 					<div class="caMetadataAlertListName"><?php print $va_rule['name'].($va_rule['code'] ? "<br/>(".$va_rule['code'].")" : ""); ?></div>
@@ -96,9 +96,9 @@
 				</td>
 			</tr>
 <?php
-		}
-	} else {
-?>
+    }
+} else {
+    ?>
 		<tr>
 			<td colspan='8'>
 				<div align="center">
@@ -107,9 +107,9 @@
 			</td>
 		</tr>
 <?php
-	}
-	TooltipManager::add('.deleteIcon', _t("Delete"));
-	TooltipManager::add('.editIcon', _t("Edit"));
+}
+TooltipManager::add('.deleteIcon', _t("Delete"));
+TooltipManager::add('.editIcon', _t("Edit"));
 ?>
 		</tbody>
 	</table>

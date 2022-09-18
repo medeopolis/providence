@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * themes/views/manage/tools/confirm_html.php : 
+ * themes/views/manage/tools/confirm_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,23 +15,23 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	AssetLoadManager::register("panel");
-	
-	$vb_queue_enabled = (bool)$this->request->config->get('queue_enabled');
- 	$va_last_settings = $this->getVar('batch_mediaimport_last_settings');
- 	
- 	$vs_tool_identifier = $this->getVar('tool_identifier');
+
+AssetLoadManager::register("panel");
+
+$vb_queue_enabled = (bool)$this->request->config->get('queue_enabled');
+$va_last_settings = $this->getVar('batch_mediaimport_last_settings');
+
+$vs_tool_identifier = $this->getVar('tool_identifier');
 ?>
 <script type="text/javascript">
 	var caConfirmBatchExecutionPanel;
@@ -66,70 +66,70 @@
 
 			<div class="caConfirmBatchExecutionPanelAlertText" id="caConfirmBatchExecutionPanelAlertText">
 <?php
-				print _t("You are about to run <em>%1</em> in <em>%2</em>.");
+                print _t("You are about to run <em>%1</em> in <em>%2</em>.");
 ?>			
 			</div>
 			<div class="caConfirmBatchExecutionPanelAlertControls">
 				<table class="caConfirmBatchExecutionPanelAlertControls">
 					<tr style="vertical-align: top;">
 <?php
-	$vb_queue_enabled = false; // TODO: add support for background processing
-	if ($vb_queue_enabled) {
-?>
+    $vb_queue_enabled = false; // TODO: add support for background processing
+if ($vb_queue_enabled) {
+    ?>
 				<td class="caConfirmBatchExecutionPanelAlertControls">
 <?php
-					$va_opts = array('id' => 'caRunBatchInBackground', 'value' => 1);
-					if (isset($va_last_settings['runInBackground']) && $va_last_settings['runInBackground']) {
-						$va_opts['checked'] = 1;
-					}
-					print caHTMLCheckboxInput('run_in_background', $va_opts);
-?>
+                        $va_opts = array('id' => 'caRunBatchInBackground', 'value' => 1);
+    if (isset($va_last_settings['runInBackground']) && $va_last_settings['runInBackground']) {
+        $va_opts['checked'] = 1;
+    }
+    print caHTMLCheckboxInput('run_in_background', $va_opts);
+    ?>
 				</td>
 				<td class="caConfirmBatchExecutionPanelAlertControls">
 <?php
-					print _t('Process in background');
-?>
+                        print _t('Process in background');
+    ?>
 
 				</td>
 <?php
-	}
-	if ($vs_email = trim($this->request->user->get('email'))) {
-?>
+}
+if ($vs_email = trim($this->request->user->get('email'))) {
+    ?>
 				<td class="caConfirmBatchExecutionPanelAlertControl">
-<?php			
-					$va_opts = array('id' => 'caSendEmailWhenDone', 'value' => 1);
-					if (isset($va_last_settings['sendMail']) && $va_last_settings['sendMail']) {
-						$va_opts['checked'] = 1;
-					}
-					print caHTMLCheckboxInput('send_email_when_done', $va_opts);
-?>
-				</td>
-				<td class="caConfirmBatchExecutionPanelAlertControl">
-<?php					
-					print _t('Send email to <strong>%1</strong> when done', $vs_email);
-?>			
-				</td>
 <?php
-	}
-	
-	if (($vs_sms = trim($this->request->user->get('sms_number'))) && (bool)$this->request->config->get('enable_sms_notifications')) {
-?>
-				<td class="caConfirmBatchExecutionPanelAlertControl">
-<?php			
-					$va_opts = array('id' => 'caSendSMSWhenDone', 'value' => 1);
-					if (isset($va_last_settings['sendSMS']) && $va_last_settings['sendSMS']) {
-						$va_opts['checked'] = 1;
-					}
-					print caHTMLCheckboxInput('send_sms_when_done', $va_opts);
-?>
+                        $va_opts = array('id' => 'caSendEmailWhenDone', 'value' => 1);
+    if (isset($va_last_settings['sendMail']) && $va_last_settings['sendMail']) {
+        $va_opts['checked'] = 1;
+    }
+    print caHTMLCheckboxInput('send_email_when_done', $va_opts);
+    ?>
 				</td>
 				<td class="caConfirmBatchExecutionPanelAlertControl">
 <?php
-					print _t('Send SMS to <strong>%1</strong> when done', $vs_sms);
-?>			
+                        print _t('Send email to <strong>%1</strong> when done', $vs_email);
+    ?>			
 				</td>
 <?php
-	}
+}
+
+if (($vs_sms = trim($this->request->user->get('sms_number'))) && (bool)$this->request->config->get('enable_sms_notifications')) {
+    ?>
+				<td class="caConfirmBatchExecutionPanelAlertControl">
+<?php
+                        $va_opts = array('id' => 'caSendSMSWhenDone', 'value' => 1);
+    if (isset($va_last_settings['sendSMS']) && $va_last_settings['sendSMS']) {
+        $va_opts['checked'] = 1;
+    }
+    print caHTMLCheckboxInput('send_sms_when_done', $va_opts);
+    ?>
+				</td>
+				<td class="caConfirmBatchExecutionPanelAlertControl">
+<?php
+                        print _t('Send SMS to <strong>%1</strong> when done', $vs_sms);
+    ?>			
+				</td>
+<?php
+}
 ?>				
 					</tr>
 				</table>

@@ -25,7 +25,7 @@
  *
  * ----------------------------------------------------------------------
  */
-	$va_group_list = $this->getVar('group_list');
+$va_group_list = $this->getVar('group_list');
 
 ?>
 <script language="JavaScript" type="text/javascript">
@@ -34,13 +34,13 @@
 	});
 </script>
 <div class="sectionBox">
-	<?php 
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>', 
-			'', 
-			caNavHeaderButton($this->request, __CA_NAV_ICON_ADD__, _t("New team"), 'manage', 'groups', 'Edit', array('group_id' => 0))
-		); 
-	?>
+	<?php
+        print caFormControlBox(
+            '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>',
+            '',
+            caNavHeaderButton($this->request, __CA_NAV_ICON_ADD__, _t("New team"), 'manage', 'groups', 'Edit', array('group_id' => 0))
+        );
+?>
 	
 	<h1><?php print _t('Your project teams'); ?></h1>
 	
@@ -67,9 +67,9 @@
 		</thead>
 		<tbody>
 <?php
-	if (sizeof($va_group_list)) {
-		foreach($va_group_list as $va_group) {
-?>
+if (sizeof($va_group_list)) {
+    foreach ($va_group_list as $va_group) {
+        ?>
 			<tr>
 				<td>
 					<?php print $va_group['name']; ?>
@@ -81,7 +81,7 @@
 					<?php print $va_group['description']; ?>
 				</td>
 				<td>
-					<?php print ((bool)$va_group['for_public_use'] ? _t('Yes') : _t('No')); ?>
+					<?php print((bool)$va_group['for_public_use'] ? _t('Yes') : _t('No')); ?>
 				</td>
 				<td>
 					<?php print $va_group['member_list']; ?>
@@ -93,9 +93,9 @@
 				</td>
 			</tr>
 <?php
-		}
-	} else {
-?>
+    }
+} else {
+    ?>
 			<tr>
 				<td colspan="6">
 					<div align="center">
@@ -104,7 +104,7 @@
 				</td>
 			</tr>
 <?php
-	}
+}
 ?>
 		</tbody>
 	</table>

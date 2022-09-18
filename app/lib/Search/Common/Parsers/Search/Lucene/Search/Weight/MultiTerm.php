@@ -65,8 +65,10 @@ class Zend_Search_Lucene_Search_Weight_MultiTerm extends Zend_Search_Lucene_Sear
      * @param Zend_Search_Lucene_Search_Query $query
      * @param Zend_Search_Lucene_Interface    $reader
      */
-    public function __construct(Zend_Search_Lucene_Search_Query $query,
-                                Zend_Search_Lucene_Interface    $reader)
+    public function __construct(
+        Zend_Search_Lucene_Search_Query $query,
+        Zend_Search_Lucene_Interface    $reader
+    )
     {
         $this->_query   = $query;
         $this->_reader  = $reader;
@@ -135,5 +137,3 @@ class Zend_Search_Lucene_Search_Weight_MultiTerm extends Zend_Search_Lucene_Sear
         }
     }
 }
-
-

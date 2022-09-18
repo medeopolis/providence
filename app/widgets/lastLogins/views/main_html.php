@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * app/widgets/count/views/main_html.php : 
+ * app/widgets/count/views/main_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,22 +15,22 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
- 	$po_request				= $this->getVar('request');
-	$va_settings 			= $this->getVar('settings');
-	$vs_widget_id 			= $this->getVar('widget_id');
-	$va_login_list			= $this->getVar('login_list');
-	$show_ips				= $this->getVar('show_ips');
+
+$po_request				= $this->getVar('request');
+$va_settings 			= $this->getVar('settings');
+$vs_widget_id 			= $this->getVar('widget_id');
+$va_login_list			= $this->getVar('login_list');
+$show_ips				= $this->getVar('show_ips');
 ?>
 
 <div class="dashboardWidgetContentContainer dashboardWidgetScrollMedium">
@@ -38,17 +38,19 @@
 		<tr>
 			<th><?= _t('Date/time');?></th>
 			<th><?= _t('User');?></th>
-			<?php if($show_ips) { ?><th><?= _t('IP address');?></th><?php } ?>
+			<?php if ($show_ips) { ?><th><?= _t('IP address');?></th><?php } ?>
 		</tr>
 			
 <?php
-	foreach($va_login_list as $vn_i => $va_login) {
-		print "<tr>";
-		print "<td>".date("n/d/y, g:iA T", $va_login['date_time'])."</td>";
-		print "<td>".$va_login['fname'].' '.$va_login['lname'].' ('.$va_login['username'].")</td>";
-		if($show_ips) { print "<td>".$va_login['ip']."</td>"; }
-		print "</tr>\n";
-	}
+    foreach ($va_login_list as $vn_i => $va_login) {
+        print "<tr>";
+        print "<td>".date("n/d/y, g:iA T", $va_login['date_time'])."</td>";
+        print "<td>".$va_login['fname'].' '.$va_login['lname'].' ('.$va_login['username'].")</td>";
+        if ($show_ips) {
+            print "<td>".$va_login['ip']."</td>";
+        }
+        print "</tr>\n";
+    }
 ?>
 	</table>
 </div>

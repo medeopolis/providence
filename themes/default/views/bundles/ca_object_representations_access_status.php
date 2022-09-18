@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * bundles/ca_object_representations_access_status.php : 
+ * bundles/ca_object_representations_access_status.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,35 +15,35 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	$vs_id_prefix 				= $this->getVar('placement_code').$this->getVar('id_prefix');
-	$vn_table_num 				= $this->getVar('table_num');
-	
-	$t_subject					= $this->getVar('t_subject');
-	$va_settings 				= $this->getVar('settings');
-	$va_errors 					= $this->getVar('errors');
-	
-	$vb_batch					=	$this->getVar('batch');
-	
-	$t_rep = new ca_object_representations();
 
-	//if (!$vb_batch) { return; }
-	
-	print "<div class='editorBatchModeControl'>"._t("In batch")." ".
-		caHTMLSelect($vs_id_prefix."_batch_mode", array(
-			_t("do not use") => "_disabled_", 
-			_t('set') => '_set_'
-		), array('id' => $vs_id_prefix.$t_subject->tableNum()."_rel_batch_mode_select"))."</div>\n";
+$vs_id_prefix 				= $this->getVar('placement_code').$this->getVar('id_prefix');
+$vn_table_num 				= $this->getVar('table_num');
+
+$t_subject					= $this->getVar('t_subject');
+$va_settings 				= $this->getVar('settings');
+$va_errors 					= $this->getVar('errors');
+
+$vb_batch					=	$this->getVar('batch');
+
+$t_rep = new ca_object_representations();
+
+//if (!$vb_batch) { return; }
+
+print "<div class='editorBatchModeControl'>"._t("In batch")." ".
+    caHTMLSelect($vs_id_prefix."_batch_mode", array(
+        _t("do not use") => "_disabled_",
+        _t('set') => '_set_'
+    ), array('id' => $vs_id_prefix.$t_subject->tableNum()."_rel_batch_mode_select"))."</div>\n";
 ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
@@ -73,5 +73,5 @@
 	</div>
 </div>
 <?php
-	print TooltipManager::getLoadHTML('bundle_ca_object_representations_access_status');
+    print TooltipManager::getLoadHTML('bundle_ca_object_representations_access_status');
 ?>

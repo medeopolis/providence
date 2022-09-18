@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/Attributes/Values/ExternalMediaAttributeValue.php : 
+ * app/lib/Attributes/Values/ExternalMediaAttributeValue.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,10 +15,10 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
@@ -29,10 +29,10 @@
  *
  * ----------------------------------------------------------------------
  */
- 
- /**
-  *
-  */
+
+/**
+ *
+ */
 define("__CA_ATTRIBUTE_VALUE_EXTERNAL_MEDIA__", 34);
 
 require_once(__CA_LIB_DIR__.'/Attributes/Values/IAttributeValue.php');
@@ -68,13 +68,13 @@ $_ca_attribute_settings['ExternalMediaAttributeValue'] = [		// global
         'description' => _t('Check this option if you don\'t want your media to be locale-specific. (The default is not to be.)')
     ],
     'singleValuePerLocale' => array(
-		'formatType' => FT_NUMBER,
-		'displayType' => DT_CHECKBOXES,
-		'default' => 0,
-		'width' => 1, 'height' => 1,
-		'label' => _t('Allow single value per locale'),
-		'description' => _t('Check this option to restrict entry to a single value per-locale.')
-	),
+        'formatType' => FT_NUMBER,
+        'displayType' => DT_CHECKBOXES,
+        'default' => 0,
+        'width' => 1, 'height' => 1,
+        'label' => _t('Allow single value per locale'),
+        'description' => _t('Check this option to restrict entry to a single value per-locale.')
+    ),
     'canBeUsedInSort' => [
         'formatType' => FT_NUMBER,
         'displayType' => DT_CHECKBOXES,
@@ -117,36 +117,39 @@ $_ca_attribute_settings['ExternalMediaAttributeValue'] = [		// global
         'validForRootOnly' => 1,
         'description' => _t('Delimiter to use between multiple values when used in a display.')
     ],
-	'mediaWidth' => array(
-		'formatType' => FT_NUMBER,
-		'displayType' => DT_FIELD,
-		'default' => '670px',
-		'width' => 5, 'height' => 1,
-		'label' => _t('Default width of media display in user interface'),
-		'description' => _t('Width in pixels of the media display.')
-	),
-	'mediaHeight' => array(
-		'formatType' => FT_NUMBER,
-		'displayType' => DT_FIELD,
-		'default' => '200px',
-		'width' => 5, 'height' => 1,
-		'label' => _t('Height of media display in user interface'),
-		'description' => _t('Height in pixels of the media display.')
-	)
+    'mediaWidth' => array(
+        'formatType' => FT_NUMBER,
+        'displayType' => DT_FIELD,
+        'default' => '670px',
+        'width' => 5, 'height' => 1,
+        'label' => _t('Default width of media display in user interface'),
+        'description' => _t('Width in pixels of the media display.')
+    ),
+    'mediaHeight' => array(
+        'formatType' => FT_NUMBER,
+        'displayType' => DT_FIELD,
+        'default' => '200px',
+        'width' => 5, 'height' => 1,
+        'label' => _t('Height of media display in user interface'),
+        'description' => _t('Height in pixels of the media display.')
+    )
 ];
 
-class ExternalMediaAttributeValue extends AttributeValue implements IAttributeValue {
+class ExternalMediaAttributeValue extends AttributeValue implements IAttributeValue
+{
     # ------------------------------------------------------------------
     private $url_value;
     private $url_source;
     private $config;
     # ------------------------------------------------------------------
-    public function __construct($value_array=null) {
+    public function __construct($value_array=null)
+    {
         parent::__construct($value_array);
     }
     # ------------------------------------------------------------------
-    public function loadTypeSpecificValueFromRow($value_array) {
-        $this->url_value = $value_array['value_longtext1'];		
+    public function loadTypeSpecificValueFromRow($value_array)
+    {
+        $this->url_value = $value_array['value_longtext1'];
         $this->url_source = $value_array['value_longtext2'];
     }
     # ------------------------------------------------------------------
@@ -158,16 +161,17 @@ class ExternalMediaAttributeValue extends AttributeValue implements IAttributeVa
      *
      * @return String  for display
      */
-    public function getDisplayValue($options=null) {
-        if(caGetOption('embed', $options, false)) {
-        	$t_element = ca_metadata_elements::getInstance($this->getElementCode());
-        	return caGetExternalMediaEmbedCode($this->url_value, ['width' => caGetOption('width', $options, $t_element->getSetting('mediaWidth')), 'height' => caGetOption('height', $options, $t_element->getSetting('mediaHeight'))]);
+    public function getDisplayValue($options=null)
+    {
+        if (caGetOption('embed', $options, false)) {
+            $t_element = ca_metadata_elements::getInstance($this->getElementCode());
+            return caGetExternalMediaEmbedCode($this->url_value, ['width' => caGetOption('width', $options, $t_element->getSetting('mediaWidth')), 'height' => caGetOption('height', $options, $t_element->getSetting('mediaHeight'))]);
         }
         return $this->url_value;
     }
     # ------------------------------------------------------------------
-    public function parseValue($value, $element_info, $options=null) {
-      
+    public function parseValue($value, $element_info, $options=null)
+    {
         $settings = $this->getSettingValuesFromElementArray($element_info, ['requireValue']);
         if (!$settings['requireValue'] && !strlen(trim($value))) {
             return [
@@ -175,23 +179,23 @@ class ExternalMediaAttributeValue extends AttributeValue implements IAttributeVa
                 'value_longtext2' => ''					// media source
             ];
         }
-        
-		$regex = "(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&;:/~\+#]*[\w\-\@?^=%&/~\+#])?";
-		if ($regex && !preg_match("!{$regex}!", $value)) {
-			// default to https if it's just a hostname + path
-			if (!preg_match("!^[A-Za-z]+:\/\/!", $value)) {
-				$value = "https://{$value}";
-			} else {
-				// regex failed
-				$this->postError(1970, _t('%1 is not a valid url', $element_info['displayLabel']), 'ExternalMediaAttributeValue->parseValue()');
-				return false;
-			}
-		}
 
-		if(!($info = caGetExternalMediaUrlInfo($value))) {
-			$this->postError(1970, _t('%1 is not a valid external media url. Only %2 are supported.', $element_info['displayLabel'], caMakeCommaListWithConjunction(caGetExternalMediaUrlSupportedFormats(['names' => true]))), 'ExternalMediaAttributeValue->parseValue()');
-			return false;
-		}
+        $regex = "(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&;:/~\+#]*[\w\-\@?^=%&/~\+#])?";
+        if ($regex && !preg_match("!{$regex}!", $value)) {
+            // default to https if it's just a hostname + path
+            if (!preg_match("!^[A-Za-z]+:\/\/!", $value)) {
+                $value = "https://{$value}";
+            } else {
+                // regex failed
+                $this->postError(1970, _t('%1 is not a valid url', $element_info['displayLabel']), 'ExternalMediaAttributeValue->parseValue()');
+                return false;
+            }
+        }
+
+        if (!($info = caGetExternalMediaUrlInfo($value))) {
+            $this->postError(1970, _t('%1 is not a valid external media url. Only %2 are supported.', $element_info['displayLabel'], caMakeCommaListWithConjunction(caGetExternalMediaUrlSupportedFormats(['names' => true]))), 'ExternalMediaAttributeValue->parseValue()');
+            return false;
+        }
 
         return [
             'value_longtext1' => $value,									// media url
@@ -202,28 +206,29 @@ class ExternalMediaAttributeValue extends AttributeValue implements IAttributeVa
     /**
      *
      */
-    public function htmlFormElement($element_info, $options=null) {
+    public function htmlFormElement($element_info, $options=null)
+    {
         $settings = $this->getSettingValuesFromElementArray($element_info, ['fieldWidth', 'fieldHeight']);
         $class = trim((isset($options['class']) && $options['class']) ? $options['class'] : 'externalMediaBg');
-        
+
         $element = caHTMLTextInput(
-            '{fieldNamePrefix}'.$element_info['element_id'].'_{n}', 
+            '{fieldNamePrefix}'.$element_info['element_id'].'_{n}',
             [
                 'size' => (isset($options['width']) && $options['width'] > 0) ? $options['width'] : $settings['fieldWidth'],
-                'height' => (isset($options['height']) && $options['height'] > 0) ? $options['height'] : $settings['fieldHeight'], 
+                'height' => (isset($options['height']) && $options['height'] > 0) ? $options['height'] : $settings['fieldHeight'],
                 'value' => '{{'.$element_info['element_id'].'}}',
                 'id' => '{fieldNamePrefix}'.$element_info['element_id'].'_{n}',
                 'class' => $class,
                 'placeholder' => _t('%1 media url', caMakeCommaListWithConjunction(caGetExternalMediaUrlSupportedFormats(['names' => true]), ['conjunction' => _t('or')]))
             ]
         );
-        
+
         $element .= " <a href='#' class='caExternalMediaMoreLink' id='{fieldNamePrefix}".$element_info['element_id']."_link{n}'>"._t("View &rsaquo;")."</a>";
         $element .= "<div id='{fieldNamePrefix}".$element_info['element_id']."_detail{n}' class='caExternalMediaDetail'></div></div>";
-    
-		$detail_url =  $options['request'] ? caNavUrl($options['request'], 'lookup', 'ExternalMedia', 'GetDetail', ['element_id' => $element_info['element_id']]) : null;
-            
-    	$element .= "<script type='text/javascript'>
+
+        $detail_url =  $options['request'] ? caNavUrl($options['request'], 'lookup', 'ExternalMedia', 'GetDetail', ['element_id' => $element_info['element_id']]) : null;
+
+        $element .= "<script type='text/javascript'>
 	jQuery(document).ready(function() {
 		if ('{{".$element_info['element_id']."}}') {
 			jQuery('#{fieldNamePrefix}".$element_info['element_id']."_link{n}').css('display', 'inline').on('click', function(e) {
@@ -241,30 +246,33 @@ class ExternalMediaAttributeValue extends AttributeValue implements IAttributeVa
 		}
 	});
 </script>
-";        
-    	return $element;
+";
+        return $element;
     }
     # ------------------------------------------------------------------
-    public function getAvailableSettings($element_info=null) {
+    public function getAvailableSettings($element_info=null)
+    {
         global $_ca_attribute_settings;
         return $_ca_attribute_settings['ExternalMediaAttributeValue'];
     }
     # ------------------------------------------------------------------
     /**
      * Returns name of field in ca_attribute_values to use for sort operations
-     * 
+     *
      * @return string Name of sort field
      */
-    public function sortField() {
+    public function sortField()
+    {
         return 'value_longtext1';
     }
     # ------------------------------------------------------------------
     /**
      * Returns constant for length attribute value
-     * 
+     *
      * @return int Attribute value type code
      */
-    public function getType() {
+    public function getType()
+    {
         return __CA_ATTRIBUTE_VALUE_EXTERNAL_MEDIA__;
     }
     # ------------------------------------------------------------------

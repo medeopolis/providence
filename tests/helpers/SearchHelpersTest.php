@@ -15,18 +15,18 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
- * 
+ *
  * @package CollectiveAccess
  * @subpackage tests
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License version 3
- * 
+ *
  * ----------------------------------------------------------------------
  */
 use PHPUnit\Framework\TestCase;
@@ -34,23 +34,25 @@ use PHPUnit\Framework\TestCase;
 require_once(__CA_APP_DIR__."/helpers/searchHelpers.php");
 require_once(__CA_BASE_DIR__.'/tests/testsWithData/BaseTestWithData.php');
 
-class SearchHelpersTest extends TestCase {
-	# -------------------------------------------------------
-	public function testESDateRewrite() {
-		// day-less
-		$this->assertEquals('2014-04-01T00:00:00Z', caRewriteDateForElasticSearch('2014-04-00T00:00:00Z', true));
-		$this->assertEquals('2014-04-30T00:00:00Z', caRewriteDateForElasticSearch('2014-04-00T00:00:00Z', false));
+class SearchHelpersTest extends TestCase
+{
+    # -------------------------------------------------------
+    public function testESDateRewrite()
+    {
+        // day-less
+        $this->assertEquals('2014-04-01T00:00:00Z', caRewriteDateForElasticSearch('2014-04-00T00:00:00Z', true));
+        $this->assertEquals('2014-04-30T00:00:00Z', caRewriteDateForElasticSearch('2014-04-00T00:00:00Z', false));
 
-		// month- and day-less
-		$this->assertEquals('2014-01-01T00:00:00Z', caRewriteDateForElasticSearch('2014-00-00T00:00:00Z', true));
-		$this->assertEquals('2014-12-31T00:00:00Z', caRewriteDateForElasticSearch('2014-00-00T00:00:00Z', false));
+        // month- and day-less
+        $this->assertEquals('2014-01-01T00:00:00Z', caRewriteDateForElasticSearch('2014-00-00T00:00:00Z', true));
+        $this->assertEquals('2014-12-31T00:00:00Z', caRewriteDateForElasticSearch('2014-00-00T00:00:00Z', false));
+    }
+    # -------------------------------------------------------
 
-	}
-	# -------------------------------------------------------
-
-	public function testCaSearchIsForSetsFuzzySearchNoSet() {
+    public function testCaSearchIsForSetsFuzzySearchNoSet()
+    {
         $result = caSearchIsForSets('centro~');
         $this->assertEmpty($result);
-	}
-	# -------------------------------------------------------
+    }
+    # -------------------------------------------------------
 }

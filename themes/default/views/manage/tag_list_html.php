@@ -24,10 +24,10 @@
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
- */ 
- 	$va_tags_list = $this->getVar('tags_list');
-	if(sizeof($va_tags_list) > 0){
-?>
+ */
+$va_tags_list = $this->getVar('tags_list');
+if (sizeof($va_tags_list) > 0) {
+    ?>
 		<script language="JavaScript" type="text/javascript">
 		/* <![CDATA[ */
 			jQuery(document).ready(function(){
@@ -36,13 +36,13 @@
 		/* ]]> */
 		</script>
 		<div class="sectionBox">
-<?php 
-				print caFormControlBox(
-					'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caTagsList\').caFilterTable(this.value); return false;" size="20"/></div>', 
-					'', 
-					''
-				); 
-?>
+<?php
+                    print caFormControlBox(
+                        '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caTagsList\').caFilterTable(this.value); return false;" size="20"/></div>',
+                        '',
+                        ''
+                    );
+    ?>
 			<form id="tagListForm" method="post">
 			
 			<table id="caTagsList" class="listtable">
@@ -69,8 +69,8 @@
 				</thead>
 				<tbody>
 <?php
-			foreach($va_tags_list as $va_tag) {
-?>
+                foreach ($va_tags_list as $va_tag) {
+                    ?>
 					<tr>
 						<td>
 							<?php print caEditorLink($this->request, $va_tag['item_tagged'], '', $va_tag['table_num'], $va_tag['row_id']); ?>
@@ -79,13 +79,13 @@
 							<?php print caNavLink($this->request, $tag = $va_tag['tag'], '', 'find', 'QuickSearch', 'Index', ['search' => "ca_item_tags.tag:\"{$tag}\""]); ?>
 						</td>
 						<td>
-<?php 
-							if($va_tag['user_id']){
-								print $va_tag['fname']." ".$va_tag['lname']." (".$va_tag['user_email'].")";
-							}else{
-								print $va_tag['name']." (".$va_tag['user_email'].")";
-							}
-?>
+<?php
+                                                if ($va_tag['user_id']) {
+                                                    print $va_tag['fname']." ".$va_tag['lname']." (".$va_tag['user_email'].")";
+                                                } else {
+                                                    print $va_tag['name']." (".$va_tag['user_email'].")";
+                                                }
+                    ?>
 						</td>
 						<td>
 							<?php print $va_tag['created_on']; ?>
@@ -95,11 +95,11 @@
 						</td>
 					</tr>
 <?php
-			}
-?>
+                }
+    ?>
 				</tbody>
 			</table></form>
 		</div><!-- end sectionBox -->
 <?php
-	}
+}
 ?>

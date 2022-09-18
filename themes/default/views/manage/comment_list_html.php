@@ -24,11 +24,11 @@
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
- */ 
- 	$t_comments = $this->getVar('t_comments');
-	$result = $this->getVar('comments_list');
-	if($result->numHits() > 0){
-?>
+ */
+$t_comments = $this->getVar('t_comments');
+$result = $this->getVar('comments_list');
+if ($result->numHits() > 0) {
+    ?>
 		<script language="JavaScript" type="text/javascript">
 		/* <![CDATA[ */
 			jQuery(document).ready(function(){
@@ -37,13 +37,13 @@
 		/* ]]> */
 		</script>
 		<div class="sectionBox">
-<?php 
-				print caFormControlBox(
-					'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>', 
-					'', 
-					''
-				); 
-?>
+<?php
+                    print caFormControlBox(
+                        '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>',
+                        '',
+                        ''
+                    );
+    ?>
 			<form id="commentListForm"><input type="hidden" name="mode" value="list">
 			
 			<div style="text-align:right;">
@@ -73,18 +73,18 @@
 				</thead>
 				<tbody>
 <?php
-			//foreach($va_comments_list as $va_comment) {
-			
-			$comment_data = ca_item_comments::getItemCommentDataForResult($result, ['itemsPerPage' => 100, 'request' => $this->request]);
-        
-			while($result->nextHit()) {
-			    $d = ca_item_comments::getItemCommentDataForDisplay($result, $comment_data);
-?>
+                //foreach($va_comments_list as $va_comment) {
+
+                $comment_data = ca_item_comments::getItemCommentDataForResult($result, ['itemsPerPage' => 100, 'request' => $this->request]);
+
+    while ($result->nextHit()) {
+        $d = ca_item_comments::getItemCommentDataForDisplay($result, $comment_data);
+        ?>
 					<tr>
 						<td>
 <?php
-						print !$d['id'] ? $d['label'] : caEditorLink($this->request, $d['label'], '', $d['table_num'], $d['id'])." ({$d['idno']})<br/>Source: {$d['source']}";
-?>
+                                print !$d['id'] ? $d['label'] : caEditorLink($this->request, $d['label'], '', $d['table_num'], $d['id'])." ({$d['idno']})<br/>Source: {$d['source']}";
+        ?>
 						</td>
 						<td>
 							<div class="caUserCommentsListComment">
@@ -93,9 +93,9 @@
 						</td>	
 						<td>
 							<div class="caUserCommentsListName">
-<?php 
-							print $d['name']." (".$d['email'].")";
-?>
+<?php
+                                    print $d['name']." (".$d['email'].")";
+        ?>
 							</div>
 						</td>
 						<td>
@@ -103,24 +103,26 @@
 						</td>
 						<td>							
 <?php
-                            if ($d['notes']) { print "{$d['notes']}<br/>\n"; }
-							if(is_array($va_comment['media1']) && (sizeof($va_comment['media1']) > 0)){
-								print "<span style='white-space: nowrap;'>".$va_comment['media1']['thumbnail']['TAG'];
-								print caNavButton($this->request, __CA_NAV_ICON_DOWNLOAD__, _t('Download'), '', 'manage', 'Comments', 'DownloadMedia', array('version' => 'original', 'comment_id' => $va_comment['comment_id'], 'mode' => 'list', 'download' => 1), array(), array('no_background' => true, 'dont_show_content' => true));
-								print "</span>";
-							}
-?>
+                                    if ($d['notes']) {
+                                        print "{$d['notes']}<br/>\n";
+                                    }
+                                    if (is_array($va_comment['media1']) && (sizeof($va_comment['media1']) > 0)) {
+                                        print "<span style='white-space: nowrap;'>".$va_comment['media1']['thumbnail']['TAG'];
+                                        print caNavButton($this->request, __CA_NAV_ICON_DOWNLOAD__, _t('Download'), '', 'manage', 'Comments', 'DownloadMedia', array('version' => 'original', 'comment_id' => $va_comment['comment_id'], 'mode' => 'list', 'download' => 1), array(), array('no_background' => true, 'dont_show_content' => true));
+                                        print "</span>";
+                                    }
+        ?>
 						</td>
 						<td>
 							<input type="checkbox" name="comment_id[]" value="<?php print $d['comment_id']; ?>">
 						</td>
 					</tr>
 <?php
-			}
-?>
+    }
+    ?>
 				</tbody>
 			</table></form>
 		</div><!-- end sectionBox -->
 <?php
-	}
+}
 ?>

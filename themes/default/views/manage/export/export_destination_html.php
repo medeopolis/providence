@@ -42,14 +42,18 @@ print $vs_tmp_file;
 		<td>
 			<div><?php print caJSButton($this->request, __CA_NAV_ICON_DOWNLOAD__, _t('Download'), 'file_download', array('id' => 'file_download', 'onclick' => 'caProcessDestination("file_download");')); ?></div>
 <?php
-			if(is_array($va_destinations)) {
-				foreach($va_destinations as $vs_code => $va_dest) {
-					if(!isset($va_dest['type']) || !in_array($va_dest['type'], ['github', 'ResourceSpace'])) { continue; } // we only support github and ResourceSpace atm
-					if(!isset($va_dest['display']) || !$va_dest['display']) { $va_dest['display'] = "???"; }
+            if (is_array($va_destinations)) {
+                foreach ($va_destinations as $vs_code => $va_dest) {
+                    if (!isset($va_dest['type']) || !in_array($va_dest['type'], ['github', 'ResourceSpace'])) {
+                        continue;
+                    } // we only support github and ResourceSpace atm
+                    if (!isset($va_dest['display']) || !$va_dest['display']) {
+                        $va_dest['display'] = "???";
+                    }
 
-						print "<div>".caJSButton($this->request, __CA_NAV_ICON_UPDATE__, $va_dest['display'], $vs_code, array('onclick' => 'caProcessDestination("'.$vs_code.'"); return false;'))."<div/>\n";
-				}
-			}
+                    print "<div>".caJSButton($this->request, __CA_NAV_ICON_UPDATE__, $va_dest['display'], $vs_code, array('onclick' => 'caProcessDestination("'.$vs_code.'"); return false;'))."<div/>\n";
+                }
+            }
 ?>
 		</td>
 	</tr>

@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * bundles/ca_entity_labels_nonpreferred.php : 
+ * bundles/ca_entity_labels_nonpreferred.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,53 +15,55 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	$id_prefix 				= $this->getVar('placement_code').$this->getVar('id_prefix');
-	$labels 				= $this->getVar('labels');
-	$t_label 				= $this->getVar('t_label');
-	/** @var BundlableLabelableBaseModelWithAttributes $t_subject */
-	$t_subject				= $this->getVar('t_subject');
-	$initial_values 		= $this->getVar('label_initial_values');
-	if (!$force_new_labels 	= $this->getVar('new_labels')) { $force_new_labels = array(); }	// list of new labels not saved due to error which we need to for onto the label list as new
 
-	$settings 				= $this->getVar('settings');
-	$add_label 				= $this->getVar('add_label');
-	
-	$read_only				= ((isset($settings['readonly']) && $settings['readonly'])  || ($this->request->user->getBundleAccessLevel('ca_entities', 'nonpreferred_labels') == __CA_BUNDLE_ACCESS_READONLY__));
-	$batch					= $this->getVar('batch');
-	
-	$show_effective_date 	= $this->getVar('show_effective_date');
-	$show_access 			= $this->getVar('show_access');
-	$label_list 			= $this->getVar('label_type_list');
-		
-	if ($batch) {
-		print caBatchEditorNonPreferredLabelsModeControl($t_label, $id_prefix);
-	} else {
-		print caEditorBundleShowHideControl($this->request, $id_prefix.'NPLabels', $settings, caInitialValuesArrayHasValue($id_prefix.'NPLabels', $initial_values));
-	}
-	print caEditorBundleMetadataDictionary($this->request, $id_prefix.'NPLabels', $settings);
-	
-	$t_subject 				= $this->getVar('t_subject'); 
-	$vs_entity_class 		= $t_subject->getTypeSetting('entity_class');
-	$use_suffix_for_orgs 	= $t_subject->getTypeSetting('use_suffix_for_orgs');
-	$org_label 				= $t_subject->getTypeSetting('org_label');
-	$show_source 			= $t_subject->getTypeSetting('show_source_for_nonpreferred_labels');
+$id_prefix 				= $this->getVar('placement_code').$this->getVar('id_prefix');
+$labels 				= $this->getVar('labels');
+$t_label 				= $this->getVar('t_label');
+/** @var BundlableLabelableBaseModelWithAttributes $t_subject */
+$t_subject				= $this->getVar('t_subject');
+$initial_values 		= $this->getVar('label_initial_values');
+if (!$force_new_labels 	= $this->getVar('new_labels')) {
+    $force_new_labels = array();
+}	// list of new labels not saved due to error which we need to for onto the label list as new
+
+$settings 				= $this->getVar('settings');
+$add_label 				= $this->getVar('add_label');
+
+$read_only				= ((isset($settings['readonly']) && $settings['readonly'])  || ($this->request->user->getBundleAccessLevel('ca_entities', 'nonpreferred_labels') == __CA_BUNDLE_ACCESS_READONLY__));
+$batch					= $this->getVar('batch');
+
+$show_effective_date 	= $this->getVar('show_effective_date');
+$show_access 			= $this->getVar('show_access');
+$label_list 			= $this->getVar('label_type_list');
+
+if ($batch) {
+    print caBatchEditorNonPreferredLabelsModeControl($t_label, $id_prefix);
+} else {
+    print caEditorBundleShowHideControl($this->request, $id_prefix.'NPLabels', $settings, caInitialValuesArrayHasValue($id_prefix.'NPLabels', $initial_values));
+}
+print caEditorBundleMetadataDictionary($this->request, $id_prefix.'NPLabels', $settings);
+
+$t_subject 				= $this->getVar('t_subject');
+$vs_entity_class 		= $t_subject->getTypeSetting('entity_class');
+$use_suffix_for_orgs 	= $t_subject->getTypeSetting('use_suffix_for_orgs');
+$org_label 				= $t_subject->getTypeSetting('org_label');
+$show_source 			= $t_subject->getTypeSetting('show_source_for_nonpreferred_labels');
 ?>
 <div id="<?= $id_prefix; ?>NPLabels" <?= $batch ? "class='editorBatchBundleContent'" : ''; ?>>
 <?php
-	//
-	// The bundle template - used to generate each bundle in the form
-	//
+    //
+    // The bundle template - used to generate each bundle in the form
+    //
 ?>
 	<textarea class='caLabelTemplate' style='display: none;'>
 		<div id="{fieldNamePrefix}Label_{n}" class="labelInfo">
@@ -72,24 +74,24 @@
 				<tr valign="middle">
 					<td>
 <?php
-	$vs_label_list = $this->request->config->get('ca_entities_nonpreferred_label_type_list');
-	switch($vs_entity_class) {
-		case 'ORG':
-?>
+    $vs_label_list = $this->request->config->get('ca_entities_nonpreferred_label_type_list');
+switch($vs_entity_class) {
+    case 'ORG':
+        ?>
 						<table>
 							<tr>
 								<td <?= (!$use_suffix_for_orgs) ? 'colspan="2"' : '' ?>>
 									<?= $t_label->htmlFormElement('surname', null, array_merge($settings, array('label' => $org_label ? $org_label : _t('Organization'), 'description' => _t('The full name of the organization.'), 'width' => $use_suffix_for_orgs ? '500px' : '670px', 'height' => caGetOption('usewysiwygeditor', $settings, false) ? 4 : 1, 'name' => "{fieldNamePrefix}surname_{n}", 'id' => "{fieldNamePrefix}surname_{n}", "value" => "{{surname}}", 'no_tooltips' => false, 'textAreaTagName' => 'textentry', 'tooltip_namespace' => 'bundle_ca_entity_labels_preferred'))); ?>
 								</td>
 <?php
-	if($use_suffix_for_orgs) {
-?>
+            if ($use_suffix_for_orgs) {
+                ?>
 								<td>
 									<?= $t_label->htmlFormElement('suffix', null, array('name' => "{fieldNamePrefix}suffix_{n}", 'id' => "{fieldNamePrefix}suffix_{n}", "value" => "{{suffix}}", 'no_tooltips' => false, 'tooltip_namespace' => 'bundle_ca_entity_labels_nonpreferred')); ?>
 								</td>
 <?php
-	}
-?>
+            }
+        ?>
 							</tr>
 							<tr>
 								<td colspan="2">
@@ -102,8 +104,8 @@
 								</td>
 							</tr>
 <?php
-	if($show_source) {
-?>
+            if ($show_source) {
+                ?>
 							<tr>
 								<td colspan="2">
 									<div class="formLabel">
@@ -112,13 +114,13 @@
 								</td>
 							</tr>
 <?php
-	}	
-?>
+            }
+        ?>
 						</table>
 <?php
-			break;
-		case 'IND_SM':
-?>
+                    break;
+    case 'IND_SM':
+        ?>
 						<table>
 							<tr>
 								<td>
@@ -151,8 +153,8 @@
 								</td>
 							</tr>
 <?php
-	if($show_source) {
-?>
+            if ($show_source) {
+                ?>
 							<tr>
 								<td colspan="5">
 									<div class="formLabel">
@@ -161,15 +163,15 @@
 								</td>
 							</tr>
 <?php
-	}	
-?>
+            }
+        ?>
 						</table>
 						<?= $t_label->htmlFormElement('other_forenames', null, array('name' => "{fieldNamePrefix}other_forenames-{n}", 'id' => "{fieldNamePrefix}other_forenames_{n}", "value" => "{{other_forenames}}", 'hidden' => true)); ?>
 <?php
-			break;
-		case 'IND':
-		default:
-?>
+        break;
+    case 'IND':
+    default:
+        ?>
 						<table>
 							<tr>
 								<td>
@@ -205,8 +207,8 @@
 								</td>
 							</tr>
 <?php
-	if($show_source) {
-?>
+            if ($show_source) {
+                ?>
 							<tr>
 								<td colspan="5">
 									<div class="formLabel">
@@ -215,20 +217,20 @@
 								</td>
 							</tr>
 <?php
-	}	
-?>
+            }
+        ?>
 						</table>
 
 <?php
-			break;
-		}
+                    break;
+}
 ?>
 					</td>
 				</tr>
 			</table>
 		</div>
 <?php
-	print TooltipManager::getLoadHTML('bundle_ca_entity_labels_nonpreferred');
+    print TooltipManager::getLoadHTML('bundle_ca_entity_labels_nonpreferred');
 ?>
 	</textarea>
 	

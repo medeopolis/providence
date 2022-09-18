@@ -15,25 +15,25 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	$vn_rule_count 	= $this->getVar('rule_count');
+
+$vn_rule_count 	= $this->getVar('rule_count');
 ?>
 <h3 class='searchForms'><?php print _t('Your metadata alert rules'); ?>:
 <div><?php
-	if ($vn_rule_count == 1) {
-		print _t("1 rule is available for editing");
-	} else {
-		print _t("%1 rules are available for editing", $vn_rule_count);
-	}
+    if ($vn_rule_count == 1) {
+        print _t("1 rule is available for editing");
+    } else {
+        print _t("%1 rules are available for editing", $vn_rule_count);
+    }
 ?></div>
 </h3>

@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * bundles/change_type_html.php : 
+ * bundles/change_type_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,20 +15,20 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	AssetLoadManager::register("panel");
-	$t_item = $this->getVar('t_item');
-	//if (sizeof($t_item->getTypeList()) <= 1) { return ''; }
+
+AssetLoadManager::register("panel");
+$t_item = $this->getVar('t_item');
+//if (sizeof($t_item->getTypeList()) <= 1) { return ''; }
 ?>
 <script type="text/javascript">
 	var caTypeChangePanel;
@@ -57,11 +57,11 @@
 	<div id="caTypeChangePanelContentArea">
 		<?php print caFormTag($this->request, 'ChangeType', 'caChangeTypeForm', null, 'post', 'multipart/form-data', '_top', ['noCSRFToken' => false, 'disableUnsavedChangesWarning' => true]); ?>
 			<p><?php print _t('<strong>Warning:</strong> changing the %1 type will cause information in all fields not applicable to the new type to be discarded. This action cannot be undone.', $t_item->getProperty('NAME_SINGULAR')); ?></p>
-			<p><?php print ($vs_typename = $t_item->getTypeName()) ? 
-				_t('Change type from <em>%1</em> to %2', $vs_typename, $t_item->getTypeListAsHTMLFormElement('type_id', array('id' => 'caChangeTypeFormTypeID'), array('disableItemsWithID' => array($t_item->getTypeID()), 'childrenOfCurrentTypeOnly' => false, 'directChildrenOnly' => false, 'returnHierarchyLevels' => true, 'access' => __CA_BUNDLE_ACCESS_EDIT__)))
-				:
-				_t('Set type to %1', $t_item->getTypeListAsHTMLFormElement('type_id', array('id' => 'caChangeTypeFormTypeID'), array('disableItemsWithID' => array($t_item->getTypeID()), 'childrenOfCurrentTypeOnly' => false, 'directChildrenOnly' => false, 'returnHierarchyLevels' => true, 'access' => __CA_BUNDLE_ACCESS_EDIT__)))
-				; ?></p>
+			<p><?php print ($vs_typename = $t_item->getTypeName()) ?
+                _t('Change type from <em>%1</em> to %2', $vs_typename, $t_item->getTypeListAsHTMLFormElement('type_id', array('id' => 'caChangeTypeFormTypeID'), array('disableItemsWithID' => array($t_item->getTypeID()), 'childrenOfCurrentTypeOnly' => false, 'directChildrenOnly' => false, 'returnHierarchyLevels' => true, 'access' => __CA_BUNDLE_ACCESS_EDIT__)))
+                :
+                _t('Set type to %1', $t_item->getTypeListAsHTMLFormElement('type_id', array('id' => 'caChangeTypeFormTypeID'), array('disableItemsWithID' => array($t_item->getTypeID()), 'childrenOfCurrentTypeOnly' => false, 'directChildrenOnly' => false, 'returnHierarchyLevels' => true, 'access' => __CA_BUNDLE_ACCESS_EDIT__)))
+; ?></p>
 	
 			<div id="caTypeChangePanelControlButtons">
 				<table>

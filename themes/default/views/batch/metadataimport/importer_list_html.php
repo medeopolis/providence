@@ -29,7 +29,7 @@
 $va_importer_list = $this->getVar('importer_list');
 
 if (!$this->request->isAjax()) {
-?>
+    ?>
 <script language="JavaScript" type="text/javascript">
 	jQuery(document).ready(function(){
 		jQuery('#caItemList').caFormatListTable();
@@ -37,13 +37,13 @@ if (!$this->request->isAjax()) {
 </script>
 <div class="sectionBox">
 	<?php
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="jQuery(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>',
-			'',
-			caFormJSButton($this->request, __CA_NAV_ICON_ADD__, _t("Add importers"), 'caAddImportersButton', array('onclick' => 'caOpenImporterUploadArea(true, true); return false;', 'id' => 'caAddImportersButton')).
-			caFormJSButton($this->request, __CA_NAV_ICON_ADD__, _t("Close"), 'caCloseImportersButton', array('onclick' => 'caOpenImporterUploadArea(false, true); return false;', 'id' => 'caCloseImportersButton'))
-		);
-	?>
+            print caFormControlBox(
+        '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="jQuery(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>',
+        '',
+        caFormJSButton($this->request, __CA_NAV_ICON_ADD__, _t("Add importers"), 'caAddImportersButton', array('onclick' => 'caOpenImporterUploadArea(true, true); return false;', 'id' => 'caAddImportersButton')).
+                caFormJSButton($this->request, __CA_NAV_ICON_ADD__, _t("Close"), 'caCloseImportersButton', array('onclick' => 'caOpenImporterUploadArea(false, true); return false;', 'id' => 'caCloseImportersButton'))
+    );
+    ?>
 	
 	
 	<div id="batchProcessingTableProgressGroup" style="display: none;">
@@ -55,11 +55,11 @@ if (!$this->request->isAjax()) {
 		<span style="font-size: 16px; color: #333; "><?php print _t("Drag importer worksheets here to add or update"); ?></span>
 	</div>
 	<div style="margin: 10px 0 0 0;">
-<?php 
-			print caFormTag($this->request, 'Load', 'caLoadFromGoogleDrive', null, 'post', 'multipart/form-data', '_top', ['disableUnsavedChangesWarning' => true, 'submitOnReturn' => true, 'noCSRFToken' => true]);
-			print _t('Load importer worksheet from GoogleDrive: %1', caHTMLTextInput('google_drive_url', ['class' => 'urlBg'], ['width' => '300px'])); 
-			print caFormSubmitButton($this->request, __CA_NAV_ICON_GO__, "", 'caLoadFromGoogleDrive', ['size' => '24px']);
-?>
+<?php
+            print caFormTag($this->request, 'Load', 'caLoadFromGoogleDrive', null, 'post', 'multipart/form-data', '_top', ['disableUnsavedChangesWarning' => true, 'submitOnReturn' => true, 'noCSRFToken' => true]);
+    print _t('Load importer worksheet from GoogleDrive: %1', caHTMLTextInput('google_drive_url', ['class' => 'urlBg'], ['width' => '300px']));
+    print caFormSubmitButton($this->request, __CA_NAV_ICON_GO__, "", 'caLoadFromGoogleDrive', ['size' => '24px']);
+    ?>
 			</form>
 	</div>
 <?php
@@ -92,17 +92,17 @@ if (!$this->request->isAjax()) {
 			</thead>
 			<tbody>
 <?php
-	if(sizeof($va_importer_list) == 0) {
-?>
+    if (sizeof($va_importer_list) == 0) {
+        ?>
 			<tr>
 				<td colspan='7'>
 					<div align="center"><?php print _t('No importers defined'); ?></div>
 				</td>
 			</tr>
 <?php
-	} else {
-		foreach($va_importer_list as $va_importer) {
-?>
+    } else {
+        foreach ($va_importer_list as $va_importer) {
+            ?>
 			<tr>
 				<td>
 					<?php print $va_importer['label']; ?>
@@ -117,13 +117,13 @@ if (!$this->request->isAjax()) {
 					<?php print (isset($va_importer['settings']['sourceUrl'])) ? _t('Google Drive') : _t('File upload'); ?>
 				</td>
 				<td>
-<?php  
-					print $va_importer['worksheet'] ? caNavButton($this->request, __CA_NAV_ICON_DOWNLOAD__, _t("Download"), '', 'batch', 'MetadataImport', 'Download', array('importer_id' => $va_importer['importer_id']), array(), array('icon_position' => __CA_NAV_ICON_ICON_POS_LEFT__, 'use_class' => 'list-button', 'no_background' => true, 'dont_show_content' => true)) : '' ; 
+<?php
+                                print $va_importer['worksheet'] ? caNavButton($this->request, __CA_NAV_ICON_DOWNLOAD__, _t("Download"), '', 'batch', 'MetadataImport', 'Download', array('importer_id' => $va_importer['importer_id']), array(), array('icon_position' => __CA_NAV_ICON_ICON_POS_LEFT__, 'use_class' => 'list-button', 'no_background' => true, 'dont_show_content' => true)) : '' ;
 
-					if(isset($va_importer['settings']['sourceUrl'])) {
-						print caNavButton($this->request, __CA_NAV_ICON_ROTATE__, _t("Reload"), '', 'batch', 'MetadataImport', 'Load', array('google_drive_url' => urlencode($va_importer['settings']['sourceUrl'])), array(), array('icon_position' => __CA_NAV_ICON_ICON_POS_LEFT__, 'use_class' => 'list-button', 'no_background' => true, 'dont_show_content' => true));
-					}
-?>				</td>
+            if (isset($va_importer['settings']['sourceUrl'])) {
+                print caNavButton($this->request, __CA_NAV_ICON_ROTATE__, _t("Reload"), '', 'batch', 'MetadataImport', 'Load', array('google_drive_url' => urlencode($va_importer['settings']['sourceUrl'])), array(), array('icon_position' => __CA_NAV_ICON_ICON_POS_LEFT__, 'use_class' => 'list-button', 'no_background' => true, 'dont_show_content' => true));
+            }
+            ?>				</td>
 				<td>
 					<?php print caGetLocalizedDate($va_importer['last_modified_on'], array('timeOmit' => false, 'dateFormat' => 'delimited')); ?>
 				</td>
@@ -133,15 +133,15 @@ if (!$this->request->isAjax()) {
 				</td>
 			</tr>
 <?php
-		}
-	}
+        }
+    }
 ?>
 			</tbody>
 		</table>
 	</div>
 <?php
 if (!$this->request->isAjax()) {
-?>
+    ?>
 </div>
 <div class="editorBottomPadding"><!-- empty --></div>
 

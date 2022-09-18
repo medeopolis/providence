@@ -1,6 +1,6 @@
-<?php 
+<?php
 /* ----------------------------------------------------------------------
- * views/pageFormat/pageFooter.php : 
+ * views/pageFormat/pageFooter.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,25 +15,25 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	//
-	// Output HTML for debug bar
-	//
-	if(Debug::isEnabled()) {
-		print Debug::$bar->getJavascriptRenderer()->render();
-	}
 
-	$vs_footer_color = $this->request->config->get('footer_color');
+    //
+// Output HTML for debug bar
+    //
+if (Debug::isEnabled()) {
+    print Debug::$bar->getJavascriptRenderer()->render();
+}
+
+$vs_footer_color = $this->request->config->get('footer_color');
 ?>
 					<div style="clear:both;"><!-- EMPTY --></div>
 				</div><!-- end mainContent -->
@@ -42,11 +42,11 @@
 		<div id="footerContainer" style="background-color:#<?php print $vs_footer_color; ?>;">
 			<div id="footer" ><div style="position: relative;">
 <?php
-				if ($this->request->isLoggedIn()) {
-					print _p("User").': '.$this->request->user->getName().' &gt; '.caNavLink($this->request, _t('Preferences'), '', 'system', 'Preferences', 'EditUIPrefs').' &gt; '.caNavLink($this->request, _t('Logout'), '', 'system', 'auth', 'logout');
-				} else {
-					print caNavLink($this->request, _t('Login'), '', 'system', 'auth', 'login');
-				}
+                if ($this->request->isLoggedIn()) {
+                    print _p("User").': '.$this->request->user->getName().' &gt; '.caNavLink($this->request, _t('Preferences'), '', 'system', 'Preferences', 'EditUIPrefs').' &gt; '.caNavLink($this->request, _t('Logout'), '', 'system', 'auth', 'logout');
+                } else {
+                    print caNavLink($this->request, _t('Login'), '', 'system', 'auth', 'login');
+                }
 ?>
 				&nbsp;&nbsp;|&nbsp;&nbsp; &copy; 2022 Whirl-i-Gig, <a href="http://www.collectiveaccess.org" target="_blank">CollectiveAccess</a> <?php _p("is a trademark of"); ?> <a href="http://www.whirl-i-gig.com" target="_blank">Whirl-i-Gig</a>
 				[<?php print Session::elapsedTime(4).'s'; ?>/<?php print caGetMemoryUsage(); ?>]
@@ -61,8 +61,8 @@
 			});
 		</script>
 <?php
-	print TooltipManager::getLoadHTML();
-	print FooterManager::getLoadHTML();
+    print TooltipManager::getLoadHTML();
+print FooterManager::getLoadHTML();
 ?>
 
 	<!-- Overlay for media display triggered from left sidenav widget or quicklook -->

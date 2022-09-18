@@ -30,7 +30,6 @@
  */
 abstract class Zend_Search_Lucene_Storage_Directory
 {
-
     /**
      * Closes the store.
      *
@@ -131,6 +130,4 @@ abstract class Zend_Search_Lucene_Storage_Directory
      * @return Zend_Search_Lucene_Storage_File
      */
     abstract public function getFileObject($filename, $shareHandler = true);
-
 }
-

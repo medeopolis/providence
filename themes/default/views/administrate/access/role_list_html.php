@@ -25,7 +25,7 @@
  *
  * ----------------------------------------------------------------------
  */
-	$va_role_list = $this->getVar('role_list');
+$va_role_list = $this->getVar('role_list');
 
 ?>
 <script language="JavaScript" type="text/javascript">
@@ -36,13 +36,13 @@
 /* ]]> */
 </script>
 <div class="sectionBox">
-	<?php 
-		print caFormTag($this->request, 'ListRoles', 'caRoleListForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true));
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>', 
-			'', 
-			caNavHeaderButton($this->request, __CA_NAV_ICON_ADD__, _t("New role"), 'administrate/access', 'Roles', 'Edit', array('role_id' => 0))
-		); 
+	<?php
+        print caFormTag($this->request, 'ListRoles', 'caRoleListForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true));
+print caFormControlBox(
+    '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>',
+    '',
+    caNavHeaderButton($this->request, __CA_NAV_ICON_ADD__, _t("New role"), 'administrate/access', 'Roles', 'Edit', array('role_id' => 0))
+);
 ?>	
 		<table id="caItemList" class="listtable" width="100%" border="0" cellpadding="0" cellspacing="1">
 			<thead>
@@ -61,9 +61,9 @@
 			</thead>
 			<tbody>
 <?php
-	if (sizeof($va_role_list)) {
-		foreach($va_role_list as $va_role) {
-?>
+    if (sizeof($va_role_list)) {
+        foreach ($va_role_list as $va_role) {
+            ?>
 				<tr>
 					<td>
 						<?php print $va_role['name']; ?>
@@ -80,12 +80,12 @@
 					</td>
 				</tr>
 <?php
-		}
-		
-		TooltipManager::add('.deleteIcon', _t("Delete"));
-		TooltipManager::add('.editIcon', _t("Edit"));	
-	} else {
-?>
+        }
+
+        TooltipManager::add('.deleteIcon', _t("Delete"));
+        TooltipManager::add('.editIcon', _t("Edit"));
+    } else {
+        ?>
 				<tr>
 					<td colspan='4'>
 						<div align="center">
@@ -93,8 +93,8 @@
 						</div>
 					</td>
 				</tr>
-<?php			
-	}
+<?php
+    }
 ?>
 			</tbody>
 		</table>

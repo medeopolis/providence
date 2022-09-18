@@ -32,10 +32,10 @@ $vn_table_num = $this->getVar('table_num');
 $t_trigger = $this->getVar('t_trigger');
 
 $va_errors = array();
-if(is_array($va_action_errors = $this->getVar('errors'))) {
-	foreach($va_action_errors as $o_error) {
-		$va_errors[] = $o_error->getErrorDescription();
-	}
+if (is_array($va_action_errors = $this->getVar('errors'))) {
+    foreach ($va_action_errors as $o_error) {
+        $va_errors[] = $o_error->getErrorDescription();
+    }
 }
 
 print caEditorBundleShowHideControl($this->request, $vs_id_prefix);
@@ -45,12 +45,12 @@ print caEditorBundleShowHideControl($this->request, $vs_id_prefix);
 		<div class="caItemList">
 			<div class="labelInfo">
 				<?php
-				if (is_array($va_errors) && sizeof($va_errors)) {
-					?>
+                if (is_array($va_errors) && sizeof($va_errors)) {
+                    ?>
 					<span class="formLabelError"><?php print join('; ', $va_errors); ?></span>
 					<?php
-				}
-				?>
+                }
+?>
 				<?php print $t_trigger->htmlFormElement('trigger_type', null, ['name' => $vs_id_prefix . '_trigger_type', 'id' => $vs_id_prefix.'triggerTypeSelect']); ?>
 				<div id="<?php print $vs_id_prefix; ?>triggerTypeSettingsForm"></div>
 			</div>

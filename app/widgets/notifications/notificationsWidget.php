@@ -15,99 +15,105 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 	require_once(__CA_LIB_DIR__.'/BaseWidget.php');
- 	require_once(__CA_LIB_DIR__.'/IWidget.php');
- 	require_once(__CA_LIB_DIR__.'/Db.php');
- 	require_once(__CA_MODELS_DIR__.'/ca_users.php');
- 
-	class notificationsWidget extends BaseWidget implements IWidget {
-		# -------------------------------------------------------
-		private $opo_config;
-		
-		static $s_widget_settings = [];
-		# -------------------------------------------------------
-		public function __construct($ps_widget_path, $pa_settings) {
-			$this->title = _t('Notification inbox');
-			$this->description = _t('Displays current notifications');
-			parent::__construct($ps_widget_path, $pa_settings);
-			
-			$this->opo_config = Configuration::load($ps_widget_path.'/conf/notifications.conf');
-		}
-		# -------------------------------------------------------
-		/**
-		 * Override checkStatus() to return true
-		 */
-		public function checkStatus() {
-			$vb_available = ((bool)$this->opo_config->get('enabled'));
+require_once(__CA_LIB_DIR__.'/BaseWidget.php');
+require_once(__CA_LIB_DIR__.'/IWidget.php');
+require_once(__CA_LIB_DIR__.'/Db.php');
+require_once(__CA_MODELS_DIR__.'/ca_users.php');
 
-			if(!$this->getRequest() || !$this->getRequest()->user->canDoAction("can_use_notifications_widget")){
-				$vb_available = false;
-			}
+class notificationsWidget extends BaseWidget implements IWidget
+{
+    # -------------------------------------------------------
+    private $opo_config;
 
-			return array(
-				'description' => $this->getDescription(),
-				'errors' => array(),
-				'warnings' => array(),
-				'available' => $vb_available,
-			);
-		}
-		# -------------------------------------------------------
-		public function renderWidget($ps_widget_id, &$pa_settings) {
-			parent::renderWidget($ps_widget_id, $pa_settings);
+    public static $s_widget_settings = [];
+    # -------------------------------------------------------
+    public function __construct($ps_widget_path, $pa_settings)
+    {
+        $this->title = _t('Notification inbox');
+        $this->description = _t('Displays current notifications');
+        parent::__construct($ps_widget_path, $pa_settings);
 
-			$va_notification_list = $this->getRequest()->getUser()->getNotifications(['deliverToInbox' => true]);
-			
-			$this->opo_view->setVar('request', $this->getRequest());
-			$this->opo_view->setVar('notification_list', $va_notification_list);
-		
-			return $this->opo_view->render('main_html.php');
-		}
-		# -------------------------------------------------------
-		/**
-		 * Add widget user actions
-		 */
-		public function hookGetRoleActionList($pa_role_list) {
-			$pa_role_list['widget_notifications'] = array(
-				'label' => _t('Notifications widget'),
-				'description' => _t('Actions for notifications widget'),
-				'actions' => notificationsWidget::getRoleActionList()
-			);
+        $this->opo_config = Configuration::load($ps_widget_path.'/conf/notifications.conf');
+    }
+    # -------------------------------------------------------
+    /**
+     * Override checkStatus() to return true
+     */
+    public function checkStatus()
+    {
+        $vb_available = ((bool)$this->opo_config->get('enabled'));
 
-			return $pa_role_list;
-		}
-		# -------------------------------------------------------
-		/**
-		 * Get widget user actions
-		 */
-		static public function getRoleActionList() {
-			return array(
-				'can_use_notifications_widget' => array(
-					'label' => _t('Can use notifications widget'),
-					'description' => _t('User can use dashboard widget that lists notifications.')
-				)
-			);
-		}
-		# -------------------------------------------------------
-	}
-	
-	 BaseWidget::$s_widget_settings['notificationsWidget'] = array(
-		/*'logins_since' => array(
-			'formatType' => FT_NUMBER,
-			'displayType' => DT_FIELD,
-			'width' => 6, 'height' => 1,
-			'takesLocale' => false,
-			'default' => '24',
-			'label' => _t('Show logins occurring less than ^ELEMENT hours ago'),
-			'description' => _t('Threshold (in hours) to display logins')
-		)*/
-	);
+        if (!$this->getRequest() || !$this->getRequest()->user->canDoAction("can_use_notifications_widget")) {
+            $vb_available = false;
+        }
+
+        return array(
+            'description' => $this->getDescription(),
+            'errors' => array(),
+            'warnings' => array(),
+            'available' => $vb_available,
+        );
+    }
+    # -------------------------------------------------------
+    public function renderWidget($ps_widget_id, &$pa_settings)
+    {
+        parent::renderWidget($ps_widget_id, $pa_settings);
+
+        $va_notification_list = $this->getRequest()->getUser()->getNotifications(['deliverToInbox' => true]);
+
+        $this->opo_view->setVar('request', $this->getRequest());
+        $this->opo_view->setVar('notification_list', $va_notification_list);
+
+        return $this->opo_view->render('main_html.php');
+    }
+    # -------------------------------------------------------
+    /**
+     * Add widget user actions
+     */
+    public function hookGetRoleActionList($pa_role_list)
+    {
+        $pa_role_list['widget_notifications'] = array(
+            'label' => _t('Notifications widget'),
+            'description' => _t('Actions for notifications widget'),
+            'actions' => notificationsWidget::getRoleActionList()
+        );
+
+        return $pa_role_list;
+    }
+    # -------------------------------------------------------
+    /**
+     * Get widget user actions
+     */
+    public static function getRoleActionList()
+    {
+        return array(
+            'can_use_notifications_widget' => array(
+                'label' => _t('Can use notifications widget'),
+                'description' => _t('User can use dashboard widget that lists notifications.')
+            )
+        );
+    }
+    # -------------------------------------------------------
+}
+
+BaseWidget::$s_widget_settings['notificationsWidget'] = array(
+   /*'logins_since' => array(
+       'formatType' => FT_NUMBER,
+       'displayType' => DT_FIELD,
+       'width' => 6, 'height' => 1,
+       'takesLocale' => false,
+       'default' => '24',
+       'label' => _t('Show logins occurring less than ^ELEMENT hours ago'),
+       'description' => _t('Threshold (in hours) to display logins')
+   )*/
+    );

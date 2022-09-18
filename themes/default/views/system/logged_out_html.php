@@ -25,7 +25,7 @@
  *
  * ----------------------------------------------------------------------
  */
-  AppController::getInstance()->removeAllPlugins();
+AppController::getInstance()->removeAllPlugins();
 ?>
 <html>
 	<head>
@@ -47,12 +47,14 @@
 					<?= caGetDefaultLogo(); ?>
 				</div>
 				<div id="systemTitle">
-<?php 
-					if ($va_notifications = $this->getVar('notifications')) {  
-?>
-						<p class="content"><?php foreach($va_notifications as $va_notification) { print $va_notification['message']."<br/>\n"; }; ?></p>
 <?php
-					}
+                    if ($va_notifications = $this->getVar('notifications')) {
+                        ?>
+						<p class="content"><?php foreach ($va_notifications as $va_notification) {
+						    print $va_notification['message']."<br/>\n";
+						}; ?></p>
+<?php
+                    }
 ?>
 				</div><!-- end  systemTitle -->
 				<div id="loginForm">

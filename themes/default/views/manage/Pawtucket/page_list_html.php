@@ -25,18 +25,18 @@
  *
  * ----------------------------------------------------------------------
  */
- 
- 	$t_page				= $this->getVar('t_page');
-	$va_page_list 		= $this->getVar('page_list');
-	
-	$vs_page_select     = ca_site_templates::getTemplateListAsHTMLSelect(['id' => 'templateList']);
 
-	$vs_site_page_template_menu = $vs_page_select ? '<div class="sf-small-menu form-header-button rounded" style="padding: 6px;">'.
-						'<div class="caNavHeaderIcon">'.
-							'<a href="#" onclick="_navigateToNewForm(jQuery(\'#templateList\').val(), jQuery(\'#tableList\').val());">'.caNavIcon(__CA_NAV_ICON_ADD__, 2).'</a>'.
-						'</div>'.
-					'<form action="#">'._t('New %1 page', $vs_page_select).'</form>'.
-					'</div>' : '';
+$t_page				= $this->getVar('t_page');
+$va_page_list 		= $this->getVar('page_list');
+
+$vs_page_select     = ca_site_templates::getTemplateListAsHTMLSelect(['id' => 'templateList']);
+
+$vs_site_page_template_menu = $vs_page_select ? '<div class="sf-small-menu form-header-button rounded" style="padding: 6px;">'.
+                    '<div class="caNavHeaderIcon">'.
+                        '<a href="#" onclick="_navigateToNewForm(jQuery(\'#templateList\').val(), jQuery(\'#tableList\').val());">'.caNavIcon(__CA_NAV_ICON_ADD__, 2).'</a>'.
+                    '</div>'.
+                '<form action="#">'._t('New %1 page', $vs_page_select).'</form>'.
+                '</div>' : '';
 ?>
 <script type="text/javascript">
 	jQuery(document).ready(function(){
@@ -48,13 +48,13 @@
 	}
 </script>
 <div class="sectionBox">
-	<?php 
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>', 
-			'', 
-			$vs_site_page_template_menu
-		); 
-	?>
+	<?php
+        print caFormControlBox(
+            '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>',
+            '',
+            $vs_site_page_template_menu
+        );
+?>
 	
 	<table id="caItemList" class="listtable">
 		<thead>
@@ -82,9 +82,9 @@
 		</thead>
 		<tbody>
 <?php
-	if (sizeof($va_page_list)) {
-		foreach($va_page_list as $va_page) {
-?>
+if (sizeof($va_page_list)) {
+    foreach ($va_page_list as $va_page) {
+        ?>
 			<tr>
 				<td>
 					<div class="caPageListName"><?php print $va_page['title']; ?></div>
@@ -110,9 +110,9 @@
 				</td>
 			</tr>
 <?php
-		}
-	} else {
-?>
+    }
+} else {
+    ?>
 		<tr>
 			<td colspan='8'>
 				<div align="center">
@@ -121,9 +121,9 @@
 			</td>
 		</tr>
 <?php
-	}
-	TooltipManager::add('.deleteIcon', _t("Delete"));
-	TooltipManager::add('.editIcon', _t("Edit"));
+}
+TooltipManager::add('.deleteIcon', _t("Delete"));
+TooltipManager::add('.editIcon', _t("Edit"));
 ?>
 		</tbody>
 	</table>

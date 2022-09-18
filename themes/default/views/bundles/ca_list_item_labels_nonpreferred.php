@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * bundles/ca_list_item_labels_nonpreferred.php : 
+ * bundles/ca_list_item_labels_nonpreferred.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,42 +15,44 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	$id_prefix 				= $this->getVar('placement_code').$this->getVar('id_prefix');
-	$labels 				= $this->getVar('labels');
-	$t_subject 				= $this->getVar('t_subject');
-	$t_label 				= $this->getVar('t_label');
-	$initial_values 		= $this->getVar('label_initial_values');
-	if (!$force_new_labels 	= $this->getVar('new_labels')) { $force_new_labels = array(); }	// list of new labels not saved due to error which we need to for onto the label list as new
 
-	$settings 				= $this->getVar('settings');
-	$add_label 				= $this->getVar('add_label');
-	
-	$read_only				= ((isset($settings['readonly']) && $settings['readonly'])  || ($this->request->user->getBundleAccessLevel('ca_list_items', 'nonpreferred_labels') == __CA_BUNDLE_ACCESS_READONLY__));
-	
-	$show_effective_date 	= $this->getVar('show_effective_date');
-	$show_access 			= $this->getVar('show_access');
-	$label_list 			= $this->getVar('label_type_list');
-	$show_source 			= $t_subject->getTypeSetting('show_source_for_nonpreferred_labels');
-	
-	print caEditorBundleShowHideControl($this->request, $id_prefix.'NPLabels', $settings, caInitialValuesArrayHasValue($id_prefix.'NPLabels', $initial_values));	
-	print caEditorBundleMetadataDictionary($this->request, $id_prefix.'NPLabels', $settings);
+$id_prefix 				= $this->getVar('placement_code').$this->getVar('id_prefix');
+$labels 				= $this->getVar('labels');
+$t_subject 				= $this->getVar('t_subject');
+$t_label 				= $this->getVar('t_label');
+$initial_values 		= $this->getVar('label_initial_values');
+if (!$force_new_labels 	= $this->getVar('new_labels')) {
+    $force_new_labels = array();
+}	// list of new labels not saved due to error which we need to for onto the label list as new
+
+$settings 				= $this->getVar('settings');
+$add_label 				= $this->getVar('add_label');
+
+$read_only				= ((isset($settings['readonly']) && $settings['readonly'])  || ($this->request->user->getBundleAccessLevel('ca_list_items', 'nonpreferred_labels') == __CA_BUNDLE_ACCESS_READONLY__));
+
+$show_effective_date 	= $this->getVar('show_effective_date');
+$show_access 			= $this->getVar('show_access');
+$label_list 			= $this->getVar('label_type_list');
+$show_source 			= $t_subject->getTypeSetting('show_source_for_nonpreferred_labels');
+
+print caEditorBundleShowHideControl($this->request, $id_prefix.'NPLabels', $settings, caInitialValuesArrayHasValue($id_prefix.'NPLabels', $initial_values));
+print caEditorBundleMetadataDictionary($this->request, $id_prefix.'NPLabels', $settings);
 ?>
 <div id="<?= $id_prefix; ?>NPLabels">
 <?php
-	//
-	// The bundle template - used to generate each bundle in the form
-	//
+    //
+    // The bundle template - used to generate each bundle in the form
+    //
 ?>
 	<textarea class='caLabelTemplate' style='display: none;'>
 		<div id="{fieldNamePrefix}Label_{n}" class="labelInfo">
@@ -87,8 +89,8 @@
 								</td>
 							</tr>
 <?php
-	if($show_source) {
-?>					
+    if ($show_source) {
+        ?>					
 							<tr>
 								<td>
 									<div class="formLabel">
@@ -97,7 +99,7 @@
 								</td>
 							</tr>
 <?php
-	}	
+    }
 ?>
 						</table>
 					</td>
@@ -105,7 +107,7 @@
 			</table>
 		</div>
 <?php
-	print TooltipManager::getLoadHTML('bundle_ca_list_item_labels_preferred');
+    print TooltipManager::getLoadHTML('bundle_ca_list_item_labels_preferred');
 ?>
 	</textarea>
 	

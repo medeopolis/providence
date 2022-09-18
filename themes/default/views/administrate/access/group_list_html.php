@@ -25,7 +25,7 @@
  *
  * ----------------------------------------------------------------------
  */
-	$va_group_list = $this->getVar('group_list');
+$va_group_list = $this->getVar('group_list');
 
 ?>
 <script language="JavaScript" type="text/javascript">
@@ -34,14 +34,14 @@
 	});
 </script>
 <div class="sectionBox">
-	<?php 
-		print caFormTag($this->request, 'ListGroups', 'caGroupListForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true));
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>', 
-			'', 
-			caNavHeaderButton($this->request, __CA_NAV_ICON_ADD__, _t("New group"), 'administrate/access', 'groups', 'Edit', array('group_id' => 0))
-		); 
-	?>
+	<?php
+        print caFormTag($this->request, 'ListGroups', 'caGroupListForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true));
+print caFormControlBox(
+    '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>',
+    '',
+    caNavHeaderButton($this->request, __CA_NAV_ICON_ADD__, _t("New group"), 'administrate/access', 'groups', 'Edit', array('group_id' => 0))
+);
+?>
 	
 		<table id="caItemList" class="listtable" width="100%" border="0" cellpadding="0" cellspacing="1">
 			<thead>
@@ -60,9 +60,9 @@
 			</thead>
 			<tbody>
 <?php
-	if (sizeof($va_group_list)) {
-		foreach($va_group_list as $va_group) {
-?>
+if (sizeof($va_group_list)) {
+    foreach ($va_group_list as $va_group) {
+        ?>
 				<tr>
 					<td>
 						<?php print $va_group['name']; ?>
@@ -79,11 +79,11 @@
 					</td>
 				</tr>
 <?php
-	TooltipManager::add('.deleteIcon', _t("Delete"));
-	TooltipManager::add('.editIcon', _t("Edit"));
-		}
-	} else {
-?>
+            TooltipManager::add('.deleteIcon', _t("Delete"));
+        TooltipManager::add('.editIcon', _t("Edit"));
+    }
+} else {
+    ?>
 				<tr>
 					<td colspan='4'>
 						<div align="center">
@@ -92,7 +92,7 @@
 					</td>
 				</tr>
 <?php
-	}
+}
 ?>
 			</tbody>
 		</table>

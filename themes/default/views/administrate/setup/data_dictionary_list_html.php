@@ -25,14 +25,14 @@
  *
  * ----------------------------------------------------------------------
  */
-	$entries 		= $this->getVar('entries');
+$entries 		= $this->getVar('entries');
 
-	$new_menu = '<div class="sf-small-menu form-header-button rounded">'.
-		'<div class="caNavHeaderIcon">'.
-		'<a href="#" onclick="_navigateToNewForm(jQuery(\'#tableList\').val());">'.caNavIcon(__CA_NAV_ICON_ADD__, 2).'</a>'.
-		'</div>'.
-		'<form action="#">'._t('New data dictionary entry for ').' '.caHTMLSelect('table_num', caGetPrimaryTablesForHTMLSelect(true), array('id' => 'tableList')).'</form>'.
-		'</div>';
+$new_menu = '<div class="sf-small-menu form-header-button rounded">'.
+    '<div class="caNavHeaderIcon">'.
+    '<a href="#" onclick="_navigateToNewForm(jQuery(\'#tableList\').val());">'.caNavIcon(__CA_NAV_ICON_ADD__, 2).'</a>'.
+    '</div>'.
+    '<form action="#">'._t('New data dictionary entry for ').' '.caHTMLSelect('table_num', caGetPrimaryTablesForHTMLSelect(true), array('id' => 'tableList')).'</form>'.
+    '</div>';
 ?>
 <script language="JavaScript" type="text/javascript">
 /* <![CDATA[ */
@@ -46,13 +46,13 @@
 /* ]]> */
 </script>
 <div class="sectionBox">
-	<?php 
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caDataDictionaryList\').caFilterTable(this.value); return false;" size="20"/></div>',
-			'', 
-			$new_menu
-		);
-	?>
+	<?php
+        print caFormControlBox(
+            '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caDataDictionaryList\').caFilterTable(this.value); return false;" size="20"/></div>',
+            '',
+            $new_menu
+        );
+?>
 	
 	<table id="caDataDictionaryList" class="listtable">
 		<thead>
@@ -74,9 +74,9 @@
 		</thead>
 		<tbody>
 <?php
-	if (sizeof($entries)) {
-		foreach($entries as $entry) {
-?>
+if (sizeof($entries)) {
+    foreach ($entries as $entry) {
+        ?>
 			<tr>
 				<td>
 					<div class="caDataDictionaryListName"><?php print $entry['label']; ?></div>
@@ -95,9 +95,9 @@
 				</td>
 			</tr>
 <?php
-		}
-	} else {
-?>
+    }
+} else {
+    ?>
 		<tr>
 			<td colspan='8'>
 				<div align="center">
@@ -106,9 +106,9 @@
 			</td>
 		</tr>
 <?php
-	}
-	TooltipManager::add('.deleteIcon', _t("Delete"));
-	TooltipManager::add('.editIcon', _t("Edit"));
+}
+TooltipManager::add('.deleteIcon', _t("Delete"));
+TooltipManager::add('.editIcon', _t("Edit"));
 ?>
 		</tbody>
 	</table>

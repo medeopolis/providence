@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * bundles/ca_item_comments.php : 
+ * bundles/ca_item_comments.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,64 +15,64 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	$vs_id_prefix 		= $this->getVar('placement_code').$this->getVar('id_prefix');
-	$t_subject 			= $this->getVar('t_subject');
-	$va_settings 		= $this->getVar('settings');
-	$vs_add_label 		= $this->getVar('add_label');
-	$vs_placement_code 	= $this->getVar('placement_code');
-	$vn_placement_id	= (int)$va_settings['placement_id'];
-	$vb_batch			= $this->getVar('batch');
-	
-	$t_item = new ca_item_comments();
 
-	$vs_sort			=	((isset($va_settings['sort']) && $va_settings['sort'])) ? $va_settings['sort'] : '';
-	$vb_read_only		=	((isset($va_settings['readonly']) && $va_settings['readonly']));
-	$vb_dont_show_del	=	((isset($va_settings['dontShowDeleteButton']) && $va_settings['dontShowDeleteButton'])) ? true : false;
-	
-	$vs_color 			= 	((isset($va_settings['colorItem']) && $va_settings['colorItem'])) ? $va_settings['colorItem'] : '';
-	$vs_first_color 	= 	((isset($va_settings['colorFirstItem']) && $va_settings['colorFirstItem'])) ? $va_settings['colorFirstItem'] : '';
-	$vs_last_color 		= 	((isset($va_settings['colorLastItem']) && $va_settings['colorLastItem'])) ? $va_settings['colorLastItem'] : '';
+$vs_id_prefix 		= $this->getVar('placement_code').$this->getVar('id_prefix');
+$t_subject 			= $this->getVar('t_subject');
+$va_settings 		= $this->getVar('settings');
+$vs_add_label 		= $this->getVar('add_label');
+$vs_placement_code 	= $this->getVar('placement_code');
+$vn_placement_id	= (int)$va_settings['placement_id'];
+$vb_batch			= $this->getVar('batch');
 
-	if ($vb_batch) {
-		print caBatchEditorRelationshipModeControl($t_item, $vs_id_prefix);
-	} else {
-		print caEditorBundleShowHideControl($this->request, $vs_id_prefix.$t_item->tableNum().'_rel', $va_settings, caInitialValuesArrayHasValue($vs_id_prefix.$t_item->tableNum().'_rel', $this->getVar('initialValues')));
-	}
-	print caEditorBundleMetadataDictionary($this->request, $vs_id_prefix.$t_item->tableNum().'_rel', $va_settings);
-	
-	
-	$va_errors = array();
-	foreach($va_action_errors = $this->request->getActionErrors($vs_placement_code) as $o_error) {
-		$va_errors[] = $o_error->getErrorDescription();
-	}
+$t_item = new ca_item_comments();
+
+$vs_sort			=	((isset($va_settings['sort']) && $va_settings['sort'])) ? $va_settings['sort'] : '';
+$vb_read_only		=	((isset($va_settings['readonly']) && $va_settings['readonly']));
+$vb_dont_show_del	=	((isset($va_settings['dontShowDeleteButton']) && $va_settings['dontShowDeleteButton'])) ? true : false;
+
+$vs_color 			= 	((isset($va_settings['colorItem']) && $va_settings['colorItem'])) ? $va_settings['colorItem'] : '';
+$vs_first_color 	= 	((isset($va_settings['colorFirstItem']) && $va_settings['colorFirstItem'])) ? $va_settings['colorFirstItem'] : '';
+$vs_last_color 		= 	((isset($va_settings['colorLastItem']) && $va_settings['colorLastItem'])) ? $va_settings['colorLastItem'] : '';
+
+if ($vb_batch) {
+    print caBatchEditorRelationshipModeControl($t_item, $vs_id_prefix);
+} else {
+    print caEditorBundleShowHideControl($this->request, $vs_id_prefix.$t_item->tableNum().'_rel', $va_settings, caInitialValuesArrayHasValue($vs_id_prefix.$t_item->tableNum().'_rel', $this->getVar('initialValues')));
+}
+print caEditorBundleMetadataDictionary($this->request, $vs_id_prefix.$t_item->tableNum().'_rel', $va_settings);
+
+
+$va_errors = array();
+foreach ($va_action_errors = $this->request->getActionErrors($vs_placement_code) as $o_error) {
+    $va_errors[] = $o_error->getErrorDescription();
+}
 ?>
 <div id="<?php print $vs_id_prefix.$t_item->tableNum().'_rel'; ?>" <?php print $vb_batch ? "class='editorBatchBundleContent'" : ''; ?>>
     <div class='bundleSubLabel'>
         <div style='clear:both;'></div></div><!-- end bundleSubLabel -->
 <?php
-	//
-	// Template to generate display for existing items
-	//
+    //
+    // Template to generate display for existing items
+    //
 ?>
 	<textarea class='caItemTemplate' style='display: none;'>
 		<div id="<?php print $vs_id_prefix; ?>Item_{n}" class="labelInfo listRel caRelatedItem">
 <?php
-	if (!$vb_read_only && !$vb_dont_show_del) {
-?>				
+    if (!$vb_read_only && !$vb_dont_show_del) {
+        ?>				
 			<a href="#" class="caDeleteItemButton listRelDeleteButton"><?php print caNavIcon(__CA_NAV_ICON_DEL_BUNDLE__, 1); ?></a>
 <?php
-	}
+    }
 ?>
 			<span id='<?php print $vs_id_prefix; ?>_BundleTemplateDisplay{n}'>
 			    {{created_on_display}} by {{name}} ({{email}})
@@ -90,11 +90,11 @@
 	<div class="bundleContainer">
 		<div class="caItemList">
 <?php
-	if (sizeof($va_errors)) {
-?>
+    if (sizeof($va_errors)) {
+        ?>
 		    <span class="formLabelError"><?php print join("; ", $va_errors); ?><br class="clear"/></span>
 <?php
-	}
+    }
 ?>
 		</div>
 		<div style="clear: both; width: 1px; height: 1px;"><!-- empty --></div>

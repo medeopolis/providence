@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * themes/default/statistics/panels/total_counts_html.php : 
+ * themes/default/statistics/panels/total_counts_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,26 +15,26 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
-	$data = $this->getVar('data');
-	$totals = is_array($data['records']['counts']['totals']) ? $data['records']['counts']['totals'] : [];
+$data = $this->getVar('data');
+$totals = is_array($data['records']['counts']['totals']) ? $data['records']['counts']['totals'] : [];
 
 ?>
 	<h3><?php print _t('Total records'); ?></h3>
 	<ul>
 <?php
-	foreach($totals as $table => $total) {
-		print "<li>".caUcFirstUTF8Safe(Datamodel::getTableProperty($table, 'NAME_PLURAL')).": {$total}</li>\n";
-	}
+    foreach ($totals as $table => $total) {
+        print "<li>".caUcFirstUTF8Safe(Datamodel::getTableProperty($table, 'NAME_PLURAL')).": {$total}</li>\n";
+    }
 ?>
 	</ul>
 <?php

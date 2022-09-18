@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * bundles/ca_bundle_display_elements.php : 
+ * bundles/ca_bundle_display_elements.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,30 +15,30 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	$t_display 							= $this->getVar('t_display');
-	$vs_id_prefix 						= $this->getVar('placement_code').$this->getVar('id_prefix');
-	
-	$va_available_display_items 		= $t_display->getAvailableBundles();
-	
-	foreach($va_available_display_items as $vs_bundle => $va_item) {
-		unset($va_available_display_items[$vs_bundle]['settings']);	// strip lists of valid settings - we don't need to send them to the client and they can be fairly large
-	}
-	
-	$va_to_display_items  				= $t_display->getPlacementsInDisplay(array('noCache' => true));
-	
-	print caEditorBundleShowHideControl($this->request, $vs_id_prefix);
-	print caEditorBundleMetadataDictionary($this->request, $vs_id_prefix, $va_settings);
+
+$t_display 							= $this->getVar('t_display');
+$vs_id_prefix 						= $this->getVar('placement_code').$this->getVar('id_prefix');
+
+$va_available_display_items 		= $t_display->getAvailableBundles();
+
+foreach ($va_available_display_items as $vs_bundle => $va_item) {
+    unset($va_available_display_items[$vs_bundle]['settings']);	// strip lists of valid settings - we don't need to send them to the client and they can be fairly large
+}
+
+$va_to_display_items  				= $t_display->getPlacementsInDisplay(array('noCache' => true));
+
+print caEditorBundleShowHideControl($this->request, $vs_id_prefix);
+print caEditorBundleMetadataDictionary($this->request, $vs_id_prefix, $va_settings);
 ?>
 <div class="bundleDisplayPlacementEditorContainer" id="<?php print $vs_id_prefix; ?>">
 	<div id="bundleDisplayPlacementEditor" class="bundleDisplayPlacementEditor">

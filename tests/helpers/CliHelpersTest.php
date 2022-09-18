@@ -34,11 +34,12 @@ use PHPUnit\Framework\TestCase;
 
 require_once(__CA_APP_DIR__ . "/helpers/CLIHelpers.php");
 
-class CliHelpersTest extends TestCase {
-
+class CliHelpersTest extends TestCase
+{
     private $opa_options;
 
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
         $this->opa_options = array(
                 "hostname-s" => 'Hostname of installation. If omitted default installation is used.',
                 "hostname=s" => 'Hostname of installation. If omitted default installation is used.',
@@ -51,11 +52,13 @@ class CliHelpersTest extends TestCase {
     /**
      * Delete all records we created for this test to avoid side effects with other tests
      */
-    protected function tearDown() : void {
+    protected function tearDown(): void
+    {
     }
 
     # -------------------------------------------------------
-    public function testDisplayFormatWithNoAliasOptional() {
+    public function testDisplayFormatWithNoAliasOptional()
+    {
         // some real-world examples
         $vs_key = "hostname-s";
 
@@ -63,7 +66,8 @@ class CliHelpersTest extends TestCase {
         $this->assertStringContainsString("--hostname     ", $result);
     }
 
-    public function testDisplayFormatWithNoAliasMandatory() {
+    public function testDisplayFormatWithNoAliasMandatory()
+    {
         // some real-world examples
         $vs_key = "hostname=s";
 
@@ -71,7 +75,8 @@ class CliHelpersTest extends TestCase {
         $this->assertStringContainsString("--hostname     ", $result);
     }
 
-    public function testDisplayFormatWithAliasOptional() {
+    public function testDisplayFormatWithAliasOptional()
+    {
         // some real-world examples
         $vs_key = "hostname|h-s";
 
@@ -79,7 +84,8 @@ class CliHelpersTest extends TestCase {
         $this->assertStringContainsString("--hostname (-h)     ", $result);
     }
 
-    public function testDisplayFormatWithAliasMandatory() {
+    public function testDisplayFormatWithAliasMandatory()
+    {
         // some real-world examples
         $vs_key = "hostname|h=s";
 
@@ -87,12 +93,12 @@ class CliHelpersTest extends TestCase {
         $this->assertStringContainsString("--hostname (-h)     ", $result);
     }
 
-    public function testDisplayFormatNoArgs() {
+    public function testDisplayFormatNoArgs()
+    {
         // some real-world examples
         $vs_key = "hostname";
 
         $result = caFormatCmdOptionsForDisplay($vs_key, $this->opa_options[$vs_key]);
         $this->assertStringContainsString("--hostname     ", $result);
     }
-
 }

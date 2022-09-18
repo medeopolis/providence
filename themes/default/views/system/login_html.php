@@ -25,7 +25,7 @@
  *
  * ----------------------------------------------------------------------
  */
-  AppController::getInstance()->removeAllPlugins();
+AppController::getInstance()->removeAllPlugins();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -51,12 +51,14 @@
 				<div id="systemTitle">
 					<?php print $this->request->config->get("app_display_name"); ?>
 							
-<?php 
-			if ($va_notifications = $this->getVar('notifications')) {  
-?>
-				<p class="notificationContent"><?php foreach($va_notifications as $va_notification) { print $va_notification['message']."<br/>\n"; }; ?></p>
 <?php
-			}
+            if ($va_notifications = $this->getVar('notifications')) {
+                ?>
+				<p class="notificationContent"><?php foreach ($va_notifications as $va_notification) {
+				    print $va_notification['message']."<br/>\n";
+				}; ?></p>
+<?php
+            }
 ?>
 				</div><!-- end  systemTitle -->
 				<div id="loginForm">
@@ -69,11 +71,11 @@
 						</div>
 						<input name="redirect" type="hidden" value="<?php echo htmlspecialchars($this->getVar('redirect'), ENT_QUOTES); ?>" />
 						<input name="local" type="hidden" value="<?php echo (bool)$_REQUEST['local'] ? 1 : 0; ?>" />
-						<div class="loginSubmitButton"><?php print caFormSubmitButton($this->request, __CA_NAV_ICON_LOGIN__, _t("Login"),"login", array('icon_position' => __CA_NAV_ICON_ICON_POS_RIGHT__)); ?></div>
+						<div class="loginSubmitButton"><?php print caFormSubmitButton($this->request, __CA_NAV_ICON_LOGIN__, _t("Login"), "login", array('icon_position' => __CA_NAV_ICON_ICON_POS_RIGHT__)); ?></div>
 					</form>
-<?php if(AuthenticationManager::supports(__CA_AUTH_ADAPTER_FEATURE_RESET_PASSWORDS__)) { ?>
+<?php if (AuthenticationManager::supports(__CA_AUTH_ADAPTER_FEATURE_RESET_PASSWORDS__)) { ?>
 					<div id="forgotLink"><?php print caNavLink($this->request, _t("Forgot your password?"), 'forgotLink', 'system/auth', 'forgot', ''); ?></div>
-<?php } else if($vs_adapter_account_link = AuthenticationManager::getAccountManagementLink()) { ?>
+<?php } elseif ($vs_adapter_account_link = AuthenticationManager::getAccountManagementLink()) { ?>
 	<div id="forgotLink"><a href="<?php print $vs_adapter_account_link; ?>" target="_blank"><?php print _t("Manage your account"); ?></a></div>
 <?php } ?>
 				</div><!-- end loginForm -->

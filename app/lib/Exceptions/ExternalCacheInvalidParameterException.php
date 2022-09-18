@@ -33,4 +33,6 @@
 /**
  *
  */
-	class ExternalCacheInvalidParameterException extends Exception {} 
+class ExternalCacheInvalidParameterException extends Exception
+{
+}

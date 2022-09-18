@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * app/views/object_representations/sidecar_download_binary.php : 
+ * app/views/object_representations/sidecar_download_binary.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,17 +15,17 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
-	
+
 $file_path = $this->getVar('file_path');
 
 header("Content-type: application/octet-stream");
@@ -38,9 +38,9 @@ header('Content-Length: ' . filesize($file_path));
 
 header("Content-Disposition: attachment; filename=".$this->getVar('download_name'));
 set_time_limit(0);
-$o_fp = @fopen($file_path,"rb");
-while(is_resource($o_fp) && !feof($o_fp)) {
-	print(@fread($o_fp, 1024*8));
-	ob_flush();
-	flush();
+$o_fp = @fopen($file_path, "rb");
+while (is_resource($o_fp) && !feof($o_fp)) {
+    print(@fread($o_fp, 1024*8));
+    ob_flush();
+    flush();
 }

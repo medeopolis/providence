@@ -15,10 +15,10 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
@@ -26,16 +26,16 @@
  * ----------------------------------------------------------------------
  */
 
-	/** @var RequestHTTP $request */
- 	$request				= $this->getVar('request');
-	$settings 			= $this->getVar('settings');
-	$widget_id 			= $this->getVar('widget_id');
-	$notification_list	= $this->getVar('notification_list');
+/** @var RequestHTTP $request */
+$request				= $this->getVar('request');
+$settings 			= $this->getVar('settings');
+$widget_id 			= $this->getVar('widget_id');
+$notification_list	= $this->getVar('notification_list');
 
-	if(!is_array($notification_list) || !sizeof($notification_list)) {
-		print "<div class=\"dashboardWidgetContentContainer dashboardWidgetScrollMedium\">"._t("You have no new notifications")."</div>";
-	} else {
-?>
+if (!is_array($notification_list) || !sizeof($notification_list)) {
+    print "<div class=\"dashboardWidgetContentContainer dashboardWidgetScrollMedium\">"._t("You have no new notifications")."</div>";
+} else {
+    ?>
 		<a href='#' onclick='caMarkAllNotificationsAsRead(); return false;'><?= caNavIcon(__CA_NAV_ICON_CLOSE__, '14px').' '._t('Mark all as read'); ?></a>
 		<div class="dashboardWidgetContentContainer dashboardWidgetScrollLarge" style="width:430px">
 			<table class='dashboardWidgetTable'>
@@ -46,24 +46,24 @@
 				</tr>
 
 <?php
-				foreach ($notification_list as $vn_notification_id => $notification) {
-					print "<tr class='notificationWidgetMessages'>";
-					print "<td><a href='#' onclick='caMarkNotificationAsRead(" . $notification['subject_id'] . ", " . $vn_notification_id . "); return false;'>" . caNavIcon(__CA_NAV_ICON_CLOSE__, '14px') . "</a></td>";
-					print "<td>" .$notification['datetime_display'] . "</td>";
-					print "<td id='notificationWidgetMessage{$vn_notification_id}'>";
-					print "<div>" . $notification['message'] . "</div>";
-					if ($notification['delivery_email_sent_on'] > 0) {
-						print "<div class='dashboardWidgetContentSmallNote'>("._t("Email sent on %1", $notification['delivery_email_sent_on_display']).")</div>";
-					}
-					print "</td>";
-					print "</tr>\n";
-				}
-?>
+                    foreach ($notification_list as $vn_notification_id => $notification) {
+                        print "<tr class='notificationWidgetMessages'>";
+                        print "<td><a href='#' onclick='caMarkNotificationAsRead(" . $notification['subject_id'] . ", " . $vn_notification_id . "); return false;'>" . caNavIcon(__CA_NAV_ICON_CLOSE__, '14px') . "</a></td>";
+                        print "<td>" .$notification['datetime_display'] . "</td>";
+                        print "<td id='notificationWidgetMessage{$vn_notification_id}'>";
+                        print "<div>" . $notification['message'] . "</div>";
+                        if ($notification['delivery_email_sent_on'] > 0) {
+                            print "<div class='dashboardWidgetContentSmallNote'>("._t("Email sent on %1", $notification['delivery_email_sent_on_display']).")</div>";
+                        }
+                        print "</td>";
+                        print "</tr>\n";
+                    }
+    ?>
 			</table>
 		</div>
 
 <?php
-	}
+}
 ?>
 
 <script type="text/javascript">

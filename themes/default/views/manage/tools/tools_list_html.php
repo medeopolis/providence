@@ -29,8 +29,8 @@
 $va_tool_list = $this->getVar('tool_list');
 
 if (!$this->request->isAjax()) {
-    if(sizeof($va_tool_list)>0){
-?>
+    if (sizeof($va_tool_list)>0) {
+        ?>
 <script language="JavaScript" type="text/javascript">
 	jQuery(document).ready(function(){
 		jQuery('#caToolList').caFormatListTable();
@@ -38,15 +38,15 @@ if (!$this->request->isAjax()) {
 </script>
 <?php
     }
-?>
+    ?>
 <div class="sectionBox">
 	<?php
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="jQuery(\'#caToolList\').caFilterTable(this.value); return false;" size="20"/></div>',
-			'',
-			''
-		);
-	?>
+            print caFormControlBox(
+        '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="jQuery(\'#caToolList\').caFilterTable(this.value); return false;" size="20"/></div>',
+        '',
+        ''
+    );
+    ?>
 <?php
 }
 ?>
@@ -68,9 +68,9 @@ if (!$this->request->isAjax()) {
 			</thead>
 			<tbody>
 <?php
-	if (sizeof($va_tool_list) > 0) {
-		foreach($va_tool_list as $vs_name => $o_tool) {
-?>
+    if (sizeof($va_tool_list) > 0) {
+        foreach ($va_tool_list as $vs_name => $o_tool) {
+            ?>
 			<tr>
 				<td>
 					<?php print $o_tool->getToolName(); ?>
@@ -80,30 +80,30 @@ if (!$this->request->isAjax()) {
 				</td>
 				<td>
 <?php
-				$va_commands = $o_tool->getCommands();
-				foreach($va_commands as $vs_command) {
-					print "<u>{$vs_command}</u> – <em>".$o_tool->getShortHelpText($vs_command)."</em>";
-				}
-?>
+                            $va_commands = $o_tool->getCommands();
+            foreach ($va_commands as $vs_command) {
+                print "<u>{$vs_command}</u> – <em>".$o_tool->getShortHelpText($vs_command)."</em>";
+            }
+            ?>
 				</td>
 				<td>
 					<?php print caNavButton($this->request, __CA_NAV_ICON_GO__, _t("Run"), '', 'manage', 'Tools', 'Settings', array('tool' => $o_tool->getToolIdentifier()), array(), array('icon_position' => __CA_NAV_ICON_ICON_POS_LEFT__, 'use_class' => 'list-button', 'no_background' => true, 'dont_show_content' => true)); ?>
 				</td>
 			</tr>
 <?php
-		}
-	} else {
-?>
+        }
+    } else {
+        ?>
 	<tr><td colspan="4" align="center"><?php print _t('No tools are available'); ?></td></tr>
 <?php
-	}
+    }
 ?>
 			</tbody>
 		</table>
 	</div>
 <?php
 if (!$this->request->isAjax()) {
-?>
+    ?>
 </div>
 <div class="editorBottomPadding"><!-- empty --></div>
 

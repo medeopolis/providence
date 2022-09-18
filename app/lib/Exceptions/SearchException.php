@@ -35,4 +35,6 @@
  */
 
 
-class SearchException extends ApplicationException {}
+class SearchException extends ApplicationException
+{
+}

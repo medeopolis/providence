@@ -25,7 +25,7 @@
  *
  * ----------------------------------------------------------------------
  */
-	$va_locale_list = $this->getVar('locale_list');
+$va_locale_list = $this->getVar('locale_list');
 
 ?>
 <script language="JavaScript" type="text/javascript">
@@ -36,13 +36,13 @@
 /* ]]> */
 </script>
 <div class="sectionBox">
-	<?php 
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>', 
-			'', 
-			caNavHeaderButton($this->request, __CA_NAV_ICON_ADD__, _t("New"), 'administrate/setup', 'Locales', 'Edit', array('locale_id' => 0))
-		); 
-	?>
+	<?php
+        print caFormControlBox(
+            '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>',
+            '',
+            caNavHeaderButton($this->request, __CA_NAV_ICON_ADD__, _t("New"), 'administrate/setup', 'Locales', 'Edit', array('locale_id' => 0))
+        );
+?>
 	
 	<table id="caItemList" class="listtable">
 		<thead>
@@ -61,8 +61,8 @@
 		</thead>
 		<tbody>
 <?php
-	foreach($va_locale_list as $va_locale) {
-?>
+foreach ($va_locale_list as $va_locale) {
+    ?>
 			<tr>
 				<td>
 					<?php print $va_locale['name']; ?>
@@ -80,9 +80,9 @@
 				</td>
 			</tr>
 <?php
-		TooltipManager::add('.deleteIcon', _t("Delete"));
-		TooltipManager::add('.editIcon', _t("Edit"));
-	}
+            TooltipManager::add('.deleteIcon', _t("Delete"));
+    TooltipManager::add('.editIcon', _t("Edit"));
+}
 ?>
 		</tbody>
 	</table>

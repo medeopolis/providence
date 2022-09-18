@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * themes/default/views/find/Results/results_editable_html.php 
+ * themes/default/views/find/Results/results_editable_html.php
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,22 +15,22 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
-	$t_display				= $this->getVar('t_display');
-	$vn_display_id	 		= $this->getVar('display_id');
-	$va_display_list 		= $this->getVar('display_list');
-	
-	$va_columns		 		= $this->getVar('columns');
-	$va_column_headers 		= $this->getVar('column_headers');
+$t_display				= $this->getVar('t_display');
+$vn_display_id	 		= $this->getVar('display_id');
+$va_display_list 		= $this->getVar('display_list');
+
+$va_columns		 		= $this->getVar('columns');
+$va_column_headers 		= $this->getVar('column_headers');
 
 ?>
 <div id="caResultsEditorWrapper">

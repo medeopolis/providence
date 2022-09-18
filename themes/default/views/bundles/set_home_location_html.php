@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * bundles/set_home_location_html.php : 
+ * bundles/set_home_location_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,27 +15,27 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	AssetLoadManager::register("panel");
-	$t_item = $this->getVar('t_item');
-	
-	$t_location = ca_storage_locations::find($t_item->get('home_location_id'), ['returnAs' => 'firstModelInstance']);
-	$home_location_idno = $t_location ? $t_location->getWithTemplate($this->request->config->get(['inspector_home_location_display_template', 'ca_storage_locations_hierarchy_browser_display_settings'])) : null;
-	$home_location_message = _t('Home location is <em>%</em>');
-	
-	
-	$va_lookup_urls 			= caJSONLookupServiceUrl($this->request, 'ca_storage_locations', []);
-	$vs_edit_url = caEditorUrl($this->request, $t_item->tableName());
+
+AssetLoadManager::register("panel");
+$t_item = $this->getVar('t_item');
+
+$t_location = ca_storage_locations::find($t_item->get('home_location_id'), ['returnAs' => 'firstModelInstance']);
+$home_location_idno = $t_location ? $t_location->getWithTemplate($this->request->config->get(['inspector_home_location_display_template', 'ca_storage_locations_hierarchy_browser_display_settings'])) : null;
+$home_location_message = _t('Home location is <em>%</em>');
+
+
+$va_lookup_urls 			= caJSONLookupServiceUrl($this->request, 'ca_storage_locations', []);
+$vs_edit_url = caEditorUrl($this->request, $t_item->tableName());
 ?>
 <script type="text/javascript">
 	var caSetHomeLocationPanel;

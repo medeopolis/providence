@@ -35,15 +35,15 @@ use PHPUnit\Framework\TestCase;
 require_once(__CA_APP_DIR__ . "/helpers/importHelpers.php");
 
 
-class ImportHelpersTest extends TestCase {
-
+class ImportHelpersTest extends TestCase
+{
     protected $data;
     protected $item;
     protected $attributes;
     protected $parents;
     protected $groups;
 
-    static $opa_valid_tables = array('ca_objects', 'ca_entities', 'ca_occurrences', 'ca_movements', 'ca_loans', 'ca_object_lots', 'ca_storage_locations', 'ca_places', 'ca_item_comments');
+    public static $opa_valid_tables = array('ca_objects', 'ca_entities', 'ca_occurrences', 'ca_movements', 'ca_loans', 'ca_object_lots', 'ca_storage_locations', 'ca_places', 'ca_item_comments');
 
     private $va_mock_response_AAT = array(
             'People and Culture:Associated Concepts:concepts in the arts:artistic concepts:forms of expression:forms of expression:visual arts:abstraction' => array(
@@ -161,7 +161,8 @@ class ImportHelpersTest extends TestCase {
             ),
     );
 
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
         $this->data = [
                 1 => "Verdun",
                 2 => ['Cambrai', 'Arras'],
@@ -204,7 +205,8 @@ class ImportHelpersTest extends TestCase {
     /**
      * Delete all records we created for this test to avoid side effects with other tests
      */
-    protected function tearDown(): void {
+    protected function tearDown(): void
+    {
         if ($this->opb_care_about_side_effects) {
             foreach ($this->opa_record_map as $vs_table => &$va_records) {
                 $t_instance = Datamodel::getInstance($vs_table);
@@ -225,7 +227,8 @@ class ImportHelpersTest extends TestCase {
     }
 
     # -------------------------------------------------------
-    private function checkRecordCounts() {
+    private function checkRecordCounts()
+    {
         // ensure there are no lingering records
         $o_db = new Db();
         foreach (self::$opa_valid_tables as $vs_table) {
@@ -235,17 +238,20 @@ class ImportHelpersTest extends TestCase {
             // these two are allowed to have hierarchy roots
             if (in_array($vs_table, array('ca_storage_locations', 'ca_places'))) {
                 $vn_allowed_records = 1;
-            }
-            else {
+            } else {
                 $vn_allowed_records = 0;
             }
 
-            $this->assertEquals($vn_allowed_records, $qr_rows->get('c'),
-                    "Table {$vs_table} should be empty to avoid side effects between tests");
+            $this->assertEquals(
+                $vn_allowed_records,
+                $qr_rows->get('c'),
+                "Table {$vs_table} should be empty to avoid side effects between tests"
+            );
         }
     }
 
-    protected function _runGenericImportSplitter($ps_refinery_name, $ps_table, $ps_type) {
+    protected function _runGenericImportSplitter($ps_refinery_name, $ps_table, $ps_type)
+    {
         global $g_ui_locale_id;
         $g_ui_locale_id = 1;
         $ps_item_prefix = "";
@@ -256,8 +262,17 @@ class ImportHelpersTest extends TestCase {
         $pa_item = $this->item;
         $pa_source_data = $this->data;
         $pa_options = array();
-        $result = caGenericImportSplitter($ps_refinery_name, $ps_item_prefix, $ps_table,
-                $po_refinery_instance, $pa_destination_data, $pa_group, $pa_item, $pa_source_data, $pa_options);
+        $result = caGenericImportSplitter(
+            $ps_refinery_name,
+            $ps_item_prefix,
+            $ps_table,
+            $po_refinery_instance,
+            $pa_destination_data,
+            $pa_group,
+            $pa_item,
+            $pa_source_data,
+            $pa_options
+        );
 
         return $result;
     }
@@ -267,21 +282,26 @@ class ImportHelpersTest extends TestCase {
      *
      * @return string
      */
-    protected function _loadRefinery($refinery_name): string {
+    protected function _loadRefinery($refinery_name): string
+    {
         $refinery_class = $refinery_name . 'Refinery';
-        require_once(join(DIRECTORY_SEPARATOR,
-                [__CA_APP_DIR__, 'refineries', $refinery_name, $refinery_class . '.php']));
+        require_once(join(
+            DIRECTORY_SEPARATOR,
+            [__CA_APP_DIR__, 'refineries', $refinery_name, $refinery_class . '.php']
+        ));
         return $refinery_class;
     }
 
-    protected function _createRefineryMock($ps_name) {
+    protected function _createRefineryMock($ps_name)
+    {
         $stubRefinery = $this->createMock($ps_name);
         $stubRefinery->method('getName')->willReturn($ps_name);
         $stubRefinery->method('setReturnsMultipleValues');
         return $stubRefinery;
     }
 
-    protected function _runProcessRefineryParents($refinery_name, $ps_table_name, $ps_type) {
+    protected function _runProcessRefineryParents($refinery_name, $ps_table_name, $ps_type)
+    {
         global $g_ui_locale_id;
         $g_ui_locale_id = 1;
         $refinery_class = $this->_loadRefinery($refinery_name);
@@ -297,12 +317,20 @@ class ImportHelpersTest extends TestCase {
         $pa_options = array(
                 'refinery' => $stubRefinery,
         );
-        $result = caProcessRefineryParents($ps_refinery_name, $ps_table, $pa_parents, $pa_source_data, $pa_item, $pn_c,
-                $pa_options);
+        $result = caProcessRefineryParents(
+            $ps_refinery_name,
+            $ps_table,
+            $pa_parents,
+            $pa_source_data,
+            $pa_item,
+            $pn_c,
+            $pa_options
+        );
         return $result;
     }
 
-    protected function _createAATServiceStub($ps_query) {
+    protected function _createAATServiceStub($ps_query)
+    {
         $o_service = $this->createStub(WLPlugInformationServiceAAT::class);
         $o_service->method('lookup')
                 ->willReturn($this->va_mock_response_AAT[$ps_query]);
@@ -310,7 +338,8 @@ class ImportHelpersTest extends TestCase {
     }
 
     # -------------------------------------------------------
-    public function testAATExternal() {
+    public function testAATExternal()
+    {
         // some real-world examples
         $o_service = new WLPlugInformationServiceAAT();
         $result = $o_service->lookup([], 'test');
@@ -318,7 +347,8 @@ class ImportHelpersTest extends TestCase {
     }
 
     # -------------------------------------------------------
-    public function testAATMatchPeople() {
+    public function testAATMatchPeople()
+    {
         // some real-world examples
         $vs_query = 'People and Culture:Associated Concepts:concepts in the arts:artistic concepts:forms of expression:forms of expression:visual arts:abstraction';
         $o_service = $this->_createAATServiceStub($vs_query);
@@ -326,7 +356,8 @@ class ImportHelpersTest extends TestCase {
         $this->assertEquals('http://vocab.getty.edu/aat/300056508', $vm_ret);
     }
 
-    public function testAATMatchPrints() {
+    public function testAATMatchPrints()
+    {
         // some real-world examples
         $vs_query = 'Objects We Use:Visual Works:visual works:visual works by medium or technique:prints:prints by process or technique:prints by process:transfer method:intaglio prints:etchings';
         $o_service = $this->_createAATServiceStub($vs_query);
@@ -335,7 +366,8 @@ class ImportHelpersTest extends TestCase {
         $this->assertEquals('http://vocab.getty.edu/aat/300041365', $vm_ret);
     }
 
-    public function testAATMatchPaper() {
+    public function testAATMatchPaper()
+    {
         $vs_query = 'Objects We Use:Visual Works:visual works:visual works by medium or technique:works on paper';
         $o_service = $this->_createAATServiceStub($vs_query);
         // some real-world examples
@@ -344,7 +376,8 @@ class ImportHelpersTest extends TestCase {
         $this->assertEquals('http://vocab.getty.edu/aat/300189621', $vm_ret);
     }
 
-    public function testAATMatchAbstractArtRemoveParens() {
+    public function testAATMatchAbstractArtRemoveParens()
+    {
         // some real-world examples
 
         $vs_query = 'People and Culture:Styles and Periods:styles and periods by region:European:European styles and periods:modern European styles and movements:modern European fine arts styles and movements:Abstract';
@@ -356,39 +389,48 @@ class ImportHelpersTest extends TestCase {
         $this->assertEquals('http://vocab.getty.edu/aat/300108127', $vm_ret);
     }
 
-    public function testAATMatchComputerArtRemoveParens() {
+    public function testAATMatchComputerArtRemoveParens()
+    {
         // some real-world examples
 
         $vs_query = 'People and Culture:Associated Concepts:concepts in the arts:artistic concepts:art genres:computer art';
         $o_service = $this->_createAATServiceStub($vs_query);
-        $vm_ret = caMatchAAT(explode(':', $vs_query),
-                180, array('removeParensFromLabels' => true),
-                $o_service
+        $vm_ret = caMatchAAT(
+            explode(':', $vs_query),
+            180,
+            array('removeParensFromLabels' => true),
+            $o_service
         );
 
         $this->assertEquals('http://vocab.getty.edu/aat/300069478', $vm_ret);
     }
 
-    public function testAATMatchAcrylicPaintingRemoveParens() {
+    public function testAATMatchAcrylicPaintingRemoveParens()
+    {
         // some real-world examples
 
         $vs_query = 'Descriptors:Processes and Techniques:processes and techniques:processes and techniques by specific type:image-making processes and techniques:painting and painting techniques:painting techniques:painting techniques by medium:acrylic painting (technique)';
         $o_service = $this->_createAATServiceStub($vs_query);
-        $vm_ret = caMatchAAT(explode(':', $vs_query),
-                180, array('removeParensFromLabels' => true),
-                $o_service
+        $vm_ret = caMatchAAT(
+            explode(':', $vs_query),
+            180,
+            array('removeParensFromLabels' => true),
+            $o_service
         );
         $this->assertEquals('http://vocab.getty.edu/aat/300182574', $vm_ret);
     }
 
-    public function testAATMatchPaintingRemoveParens() {
+    public function testAATMatchPaintingRemoveParens()
+    {
         // some real-world examples
 
         $vs_query = 'Descriptors:Processes and Techniques:processes and techniques:processes and techniques by specific type:image-making processes and techniques:painting and painting techniques:painting (image-making)';
         $o_service = $this->_createAATServiceStub($vs_query);
-        $vm_ret = caMatchAAT(explode(':', $vs_query),
-                180, array('removeParensFromLabels' => true),
-                $o_service
+        $vm_ret = caMatchAAT(
+            explode(':', $vs_query),
+            180,
+            array('removeParensFromLabels' => true),
+            $o_service
         );
 
         $this->assertEquals('http://vocab.getty.edu/aat/300054216', $vm_ret);
@@ -399,7 +441,8 @@ class ImportHelpersTest extends TestCase {
      *
      *
      */
-    public function testCaProcessImportItemSettingsForValue() {
+    public function testCaProcessImportItemSettingsForValue()
+    {
         $ps_value = '7.30.pepe';
         $pa_item_settings = array(
                 'applyRegularExpressions' => array(
@@ -416,7 +459,8 @@ class ImportHelpersTest extends TestCase {
         $this->assertSame('7:30', $result);
     }
 
-    public function testCaProcessImportItemSettingsForArrayValue() {
+    public function testCaProcessImportItemSettingsForArrayValue()
+    {
         $va_value = ['7.30.pepe', '8.30.smith'];
         $va_item_settings = array(
                 'applyRegularExpressions' => array(
@@ -435,7 +479,8 @@ class ImportHelpersTest extends TestCase {
         $this->assertSame(['7:30', '8:30'], $result);
     }
 
-    public function testCaProcessImportItemSettingsForArrayValueWithEmptyMatch() {
+    public function testCaProcessImportItemSettingsForArrayValueWithEmptyMatch()
+    {
         $va_value = ['7.30.pepe', '8.30.smith'];
         $va_item_settings = array(
                 'applyRegularExpressions' => array(
@@ -454,7 +499,8 @@ class ImportHelpersTest extends TestCase {
         $this->assertSame($va_value, $result);
     }
 
-    public function testCaProcessImportItemSettingsForValueWithExclamation() {
+    public function testCaProcessImportItemSettingsForValueWithExclamation()
+    {
         $ps_value = '7!30!pepe';
         $pa_item_settings = array(
                 'applyRegularExpressions' => array(
@@ -471,7 +517,8 @@ class ImportHelpersTest extends TestCase {
         $this->assertSame('7:30', $result);
     }
 
-    public function testCaProcessRefineryAttributesEmptyIsNotNull() {
+    public function testCaProcessRefineryAttributesEmptyIsNotNull()
+    {
         $pa_attributes = $this->attributes;
         $pa_source_data = $this->data;
         $pa_item = $this->item;
@@ -481,7 +528,8 @@ class ImportHelpersTest extends TestCase {
         $this->assertNotNull($result);
     }
 
-    public function testCaProcessRefineryAttributesEmptyProducesEmptyResults() {
+    public function testCaProcessRefineryAttributesEmptyProducesEmptyResults()
+    {
         $pa_attributes = array();
         $pa_source_data = array();
         $pa_item = array();
@@ -492,11 +540,13 @@ class ImportHelpersTest extends TestCase {
         $this->assertEquals(0, sizeof($result));
     }
 
-    public function testCaProcessRefineryAttributesWithFileType() {
+    public function testCaProcessRefineryAttributesWithFileType()
+    {
         $this->markTestIncomplete('testCaProcessRefineryAttributesWithFileType pending test');
     }
 
-    public function testCaProcessRefineryAttributesWithIndexedArray() {
+    public function testCaProcessRefineryAttributesWithIndexedArray()
+    {
         $pa_attributes = $this->attributes;
         $pa_source_data = $this->data;
         $pa_item = $this->item;
@@ -507,7 +557,8 @@ class ImportHelpersTest extends TestCase {
         $this->assertEquals($this->data[3], $result["preferred_label"][0]);
     }
 
-    public function testCaProcessRefineryAttributesWithAssociativeArray() {
+    public function testCaProcessRefineryAttributesWithAssociativeArray()
+    {
         $pa_attributes = $this->attributes;
         $pa_source_data = $this->data;
         $pa_item = $this->item;
@@ -525,42 +576,48 @@ class ImportHelpersTest extends TestCase {
      ****************************
      */
 
-    public function testCaProcessRefineryParentsPlacesHierarchy() {
+    public function testCaProcessRefineryParentsPlacesHierarchy()
+    {
         $vs_table = 'ca_places';
         $result = $this->_runProcessRefineryParents('placeHierarchyBuilder', $vs_table, 'country');
         $this->_deleteInstance($vs_table, $result);
         $this->assertNotNull($result);
     }
 
-    public function testCaProcessRefineryParentsCollectionHierarchy() {
+    public function testCaProcessRefineryParentsCollectionHierarchy()
+    {
         $vs_table = 'ca_collections';
         $result = $this->_runProcessRefineryParents('collectionHierarchyBuilder', $vs_table, 'internal');
         $this->_deleteInstance($vs_table, $result);
         $this->assertNotNull($result);
     }
 
-    public function testCaProcessRefineryParentsEntityHierarchy() {
+    public function testCaProcessRefineryParentsEntityHierarchy()
+    {
         $vs_table = 'ca_entities';
         $result = $this->_runProcessRefineryParents('entityHierarchyBuilder', $vs_table, 'org');
         $this->_deleteInstance($vs_table, $result);
         $this->assertNotNull($result);
     }
 
-    public function testCaProcessRefineryParentsOccurrenceHierarchy() {
+    public function testCaProcessRefineryParentsOccurrenceHierarchy()
+    {
         $vs_table = 'ca_occurrences';
         $result = $this->_runProcessRefineryParents('occurrenceHierarchyBuilder', $vs_table, 'event');
         $this->_deleteInstance($vs_table, $result);
         $this->assertNotNull($result);
     }
 
-    public function testCaProcessRefineryParentsObjectHierarchy() {
+    public function testCaProcessRefineryParentsObjectHierarchy()
+    {
         $vs_table = 'ca_objects';
         $result = $this->_runProcessRefineryParents('objectHierarchyBuilder', $vs_table, 'software');
         $this->_deleteInstance($vs_table, $result);
         $this->assertNotNull($result);
     }
 
-    public function testCaProcessRefineryParentsStorageLocationHierarchy() {
+    public function testCaProcessRefineryParentsStorageLocationHierarchy()
+    {
         $vs_table = 'ca_storage_locations';
         $result = $this->_runProcessRefineryParents('storageLocationHierarchyBuilder', $vs_table, 'drawer');
         $this->_deleteInstance($vs_table, $result);
@@ -577,7 +634,8 @@ class ImportHelpersTest extends TestCase {
     /**
      *
      */
-    public function testCaGenericImportSplitterEntity() {
+    public function testCaGenericImportSplitterEntity()
+    {
         $vs_refinery_name = 'entitySplitter';
         $vs_type = 'org';
         $this->groups['destination'] = 'ca_objects.unitdate.date_value';
@@ -596,7 +654,8 @@ class ImportHelpersTest extends TestCase {
         $this->assertNotNull($result);
     }
 
-    public function testCaGenericImportSplitterEntitySkifIfValueMatches() {
+    public function testCaGenericImportSplitterEntitySkifIfValueMatches()
+    {
         $vs_refinery_name = 'entitySplitter';
         $vs_type = 'org';
         $this->groups['destination'] = 'ca_objects.unitdate.date_value';
@@ -613,7 +672,8 @@ class ImportHelpersTest extends TestCase {
         $this->assertSame(0, sizeof($result));
     }
 
-    public function testCaGenericImportSplitterEntityUseHierarchy() {
+    public function testCaGenericImportSplitterEntityUseHierarchy()
+    {
         $vs_refinery_name = 'entitySplitter';
         $vs_type = 'org';
         $this->groups['destination'] = 'ca_objects.unitdate.date_value';
@@ -637,12 +697,12 @@ class ImportHelpersTest extends TestCase {
      * @param string $ps_table
      * @param        $pn_id
      */
-    protected function _deleteInstance(string $ps_table, $pn_id): void {
+    protected function _deleteInstance(string $ps_table, $pn_id): void
+    {
         $t_instance = Datamodel::getInstance($ps_table);
         if ($t_instance->load($pn_id)) {
             $t_instance->setMode(ACCESS_WRITE);
             $t_instance->delete(true, array('hard' => true));
         }
     }
-
 }

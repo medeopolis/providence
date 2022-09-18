@@ -35,20 +35,23 @@
  */
 
 
-class MediaExistsException extends ApplicationException {
-	/**
-	 * Instance of representation with existing media
-	 */
-	private $representation;
-	
-	public function __construct(string $message, ca_object_representations $representation) {
-		parent::__construct($message);
-		$this->representation = $representation;
-	}
-	/**
-	 *
-	 */
-	public function getRepresentation() {
-		return $this->representation;
-	}
+class MediaExistsException extends ApplicationException
+{
+    /**
+     * Instance of representation with existing media
+     */
+    private $representation;
+
+    public function __construct(string $message, ca_object_representations $representation)
+    {
+        parent::__construct($message);
+        $this->representation = $representation;
+    }
+    /**
+     *
+     */
+    public function getRepresentation()
+    {
+        return $this->representation;
+    }
 }

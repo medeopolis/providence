@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * app/lib/Plugins/IWLPlugExternalExportTransport.php : 
+ * app/lib/Plugins/IWLPlugExternalExportTransport.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -25,27 +25,28 @@
  *
  * ----------------------------------------------------------------------
  */
-	
-interface IWLPlugExternalExportTransport {
-	# -------------------------------------------------------
-	# Initialization and state
-	# -------------------------------------------------------
-	public function __construct();
-	public function register();
-	public function init();
-	public function cleanup();
-	
-	public function getDescription();
-	public function checkStatus();
-	
-	# -------------------------------------------------------
-	# Settings
-	# -------------------------------------------------------
-	public function getAvailableSettings();
-	
-	# -------------------------------------------------------
-	# Processing
-	# -------------------------------------------------------
-	public function process($t_instance, $target_info, $options=null);
-	# -------------------------------------------------------
+
+interface IWLPlugExternalExportTransport
+{
+    # -------------------------------------------------------
+    # Initialization and state
+    # -------------------------------------------------------
+    public function __construct();
+    public function register();
+    public function init();
+    public function cleanup();
+
+    public function getDescription();
+    public function checkStatus();
+
+    # -------------------------------------------------------
+    # Settings
+    # -------------------------------------------------------
+    public function getAvailableSettings();
+
+    # -------------------------------------------------------
+    # Processing
+    # -------------------------------------------------------
+    public function process($t_instance, $target_info, $options=null);
+    # -------------------------------------------------------
 }

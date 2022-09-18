@@ -30,22 +30,22 @@
  * ----------------------------------------------------------------------
  */
 
-require_once( __CA_LIB_DIR__ . '/Parsers/DelimitedDataParser.php' );
-require_once( 'BaseDelimitedDataParser.php' );
+require_once(__CA_LIB_DIR__ . '/Parsers/DelimitedDataParser.php');
+require_once('BaseDelimitedDataParser.php');
 
 
-class DelimitedDataParserXlsxTest extends BaseDelimitedDataParser {
+class DelimitedDataParserXlsxTest extends BaseDelimitedDataParser
+{
+    protected function setUp(): void
+    {
+        // Read XLSX File
+        $this->file = __DIR__ . '/data/test.xlsx';
+        $this->data = DelimitedDataParser::load($this->file);
+    }
 
-	protected function setUp(): void {
-		// Read XLSX File
-		$this->file = __DIR__ . '/data/test.xlsx';
-		$this->data = DelimitedDataParser::load( $this->file );
-	}
-
-	public function testFileType() {
-
-		$this->assertNotNull( $this->data );
-		$this->assertEquals( 'xlsx', $this->data->getType() );
-	}
-
+    public function testFileType()
+    {
+        $this->assertNotNull($this->data);
+        $this->assertEquals('xlsx', $this->data->getType());
+    }
 }

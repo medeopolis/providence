@@ -24,20 +24,22 @@
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
- */ 
- 	$va_user_sorts = $this->getVar('user_sorts');
+ */
+$va_user_sorts = $this->getVar('user_sorts');
 ?>
 <div class="control-box rounded">
 	<div style='float:left;margin-top:2px;'>
-		<a href='#' onclick="caTypeChangePanel.showPanel('<?php print caNavUrl($this->request, 'manage', 'UserSort', 'Edit'); ?>'); return false;" class='form-button'><span class='form-button'><?php print caNavIcon(__CA_NAV_ICON_ADD__, 2, array('style' => 'padding-right:5px;')); print _t("Create New Sort"); ?></span></a>
+		<a href='#' onclick="caTypeChangePanel.showPanel('<?php print caNavUrl($this->request, 'manage', 'UserSort', 'Edit'); ?>'); return false;" class='form-button'><span class='form-button'><?php print caNavIcon(__CA_NAV_ICON_ADD__, 2, array('style' => 'padding-right:5px;'));
+		print _t("Create New Sort"); ?></span></a>
 	</div>
 	<div style='float:right;'>
-		<a href='#' onclick='jQuery("#UserSortsListForm").attr("action", "<?php print caNavUrl($this->request, 'manage', 'UserSort', 'Delete'); ?>").submit();' class='form-button'><span class='form-button delete' style='padding-top:5px;'><?php print caNavIcon(__CA_NAV_ICON_DELETE__, 2, array('style' => 'padding-right:5px;')); print _t("Delete Selected"); ?></span></a>
+		<a href='#' onclick='jQuery("#UserSortsListForm").attr("action", "<?php print caNavUrl($this->request, 'manage', 'UserSort', 'Delete'); ?>").submit();' class='form-button'><span class='form-button delete' style='padding-top:5px;'><?php print caNavIcon(__CA_NAV_ICON_DELETE__, 2, array('style' => 'padding-right:5px;'));
+		print _t("Delete Selected"); ?></span></a>
 	</div>
 </div>
 <?php
-	if(sizeof($va_user_sorts) > 0) {
-?>
+    if (sizeof($va_user_sorts) > 0) {
+        ?>
 		<script language="JavaScript" type="text/javascript">
 			jQuery(document).ready(function(){
 				jQuery('#caItemList').caFormatListTable();
@@ -61,18 +63,18 @@
 				</thead>
 				<tbody>
 <?php
-			foreach($va_user_sorts as $va_sort) {
-?>
+                    foreach ($va_user_sorts as $va_sort) {
+                        ?>
 				<tr>
 					<td>
 <?php
-						print $va_sort['name']
-?>
+                                                print $va_sort['name']
+                        ?>
 					</td>
 					<td>
 <?php
-						print Datamodel::getInstance($va_sort['table_num'])->getProperty('NAME_PLURAL');
-?>
+                                                print Datamodel::getInstance($va_sort['table_num'])->getProperty('NAME_PLURAL');
+                        ?>
 					</td>
 					<td class="listtableEdit">
 						<a href="#" onclick="caTypeChangePanel.showPanel('<?php print caNavUrl($this->request, 'manage', 'UserSort', 'Edit', array('sort_id' => $va_sort['sort_id'])); ?>'); return false;"><?php print caNavIcon(__CA_NAV_ICON_EDIT__, 2, array('style' => 'padding-right:5px;')); ?></a>
@@ -82,13 +84,13 @@
 					</td>
 				</tr>
 <?php
-			}
-?>
+                    }
+        ?>
 				</tbody>
 			</table></form>
 		</div><!-- end sectionBox -->
 <?php
-	}
+    }
 ?>
 
 <script type="text/javascript">

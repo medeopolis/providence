@@ -35,4 +35,6 @@
  */
 
 
-class MediaUploadSessionDoesNotExistException extends Exception {}
+class MediaUploadSessionDoesNotExistException extends Exception
+{
+}

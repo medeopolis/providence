@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * views/editor/object_representations/ajax_representation_annotation_editor_html.php : 
+ * views/editor/object_representations/ajax_representation_annotation_editor_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,32 +15,32 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 	AssetLoadManager::register("jcarousel");
- 
- 	$t_rep 						= $this->getVar('t_subject');
-	$vn_representation_id 		= $this->getVar('subject_id');
-	$va_annotation_map 			= $this->getVar('annotation_map');
-	
-	$vn_annotation_count		= $this->getVar('annotation_count');
-	$vn_timecode_offset 		= $this->getVar('timecode_offset');
+AssetLoadManager::register("jcarousel");
 
-	$vb_can_edit	 			= $t_rep->isSaveable($this->request);
-	$vb_can_delete				= $t_rep->isDeletable($this->request);
-	
-	$vn_player_height			= (int)$this->getVar('player_height');
-	
-	$t_media = new Media();
-	$vs_media_type = $t_media->getMimetypeTypename($vs_mime_type = $t_rep->getMediaInfo('media', 'original', 'MIMETYPE'));
+$t_rep 						= $this->getVar('t_subject');
+$vn_representation_id 		= $this->getVar('subject_id');
+$va_annotation_map 			= $this->getVar('annotation_map');
+
+$vn_annotation_count		= $this->getVar('annotation_count');
+$vn_timecode_offset 		= $this->getVar('timecode_offset');
+
+$vb_can_edit	 			= $t_rep->isSaveable($this->request);
+$vb_can_delete				= $t_rep->isDeletable($this->request);
+
+$vn_player_height			= (int)$this->getVar('player_height');
+
+$t_media = new Media();
+$vs_media_type = $t_media->getMimetypeTypename($vs_mime_type = $t_rep->getMediaInfo('media', 'original', 'MIMETYPE'));
 ?>
 
 <div class="caMediaOverlayControls">

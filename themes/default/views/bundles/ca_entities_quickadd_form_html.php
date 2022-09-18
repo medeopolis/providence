@@ -1,6 +1,6 @@
 <?php
-	$t_label = new ca_entity_labels();
-?>
+    $t_label = new ca_entity_labels();
+    ?>
 			<table class="objectRepresentationListItem">
 				<tr valign="middle">
 					<td>
@@ -40,5 +40,5 @@
 				</tr>
 			</table>
 <?php
-	print TooltipManager::getLoadHTML('bundle_ca_entity_labels_preferred');
-?>
+        print TooltipManager::getLoadHTML('bundle_ca_entity_labels_preferred');
+    ?>

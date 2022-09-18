@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * app/views/editor/collections/log_html.php : 
+ * app/views/editor/collections/log_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,27 +15,27 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 	$t_entity = $this->getVar('t_subject');
-	$vn_entity_id = $this->getVar('subject_id');
+$t_entity = $this->getVar('t_subject');
+$vn_entity_id = $this->getVar('subject_id');
 ?>
 <div class="sectionBox">
 <?php
-	print caFormControlBox(
-		'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="jQuery(\'#caLog\').caFilterTable(this.value); return false;" size="20"/></div>', 
-		'', 
-		''
-	);
-	print $this->getVar('log');
+    print caFormControlBox(
+    '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="jQuery(\'#caLog\').caFilterTable(this.value); return false;" size="20"/></div>',
+    '',
+    ''
+);
+print $this->getVar('log');
 ?>
 	<div class="editorBottomPadding"><!-- empty --></div>
 </div>

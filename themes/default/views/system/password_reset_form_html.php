@@ -53,25 +53,27 @@ $vs_username = $this->getVar('username');
 
 			<p class="content">
 <?php
-				if($vb_render) {
-					print _t("Please enter a new password");
-				} else {
-					print _t("Invalid user or token");
-				}
+                if ($vb_render) {
+                    print _t("Please enter a new password");
+                } else {
+                    print _t("Invalid user or token");
+                }
 ?>
 			</p>
 
 			<?php
-			if ($va_notifications = $this->getVar('notifications')) {
-				?>
-				<p class="notificationContent"><?php foreach($va_notifications as $va_notification) { print $va_notification['message']."<br/>\n"; }; ?></p>
+            if ($va_notifications = $this->getVar('notifications')) {
+                ?>
+				<p class="notificationContent"><?php foreach ($va_notifications as $va_notification) {
+				    print $va_notification['message']."<br/>\n";
+				}; ?></p>
 			<?php
-			}
-			?>
+            }
+?>
 
 		</div><!-- end  systemTitle -->
 		<div id="loginForm">
-<?php if($vb_render) { ?>
+<?php if ($vb_render) { ?>
 			<?php print caFormTag($this->request, 'DoReset', 'reset'); ?>
 			<div class="loginFormElement"><?php print _t("Password"); ?>:<br/>
 				<input type="password" name="password" size="25"/>
@@ -79,12 +81,12 @@ $vs_username = $this->getVar('username');
 			<div class="loginFormElement"><?php print _t("Re-type password"); ?>:<br/>
 				<input type="password" name="password2" size="25"/>
 			</div>
-<?php 	if(strlen($vs_token)>0){ ?>
+<?php 	if (strlen($vs_token)>0) { ?>
 			<input type="hidden" name="token" value="<?php print $vs_token; ?>"/>
 			<input type="hidden" name="username" value="<?php print $vs_username; ?>"/>
 <?php 	} ?>
 
-			<div class="loginSubmitButton"><?php print caFormSubmitButton($this->request, __CA_NAV_ICON_LOGIN__, _t("Submit"),"reset", array('icon_position' => __CA_NAV_ICON_ICON_POS_RIGHT__)); ?></div>
+			<div class="loginSubmitButton"><?php print caFormSubmitButton($this->request, __CA_NAV_ICON_LOGIN__, _t("Submit"), "reset", array('icon_position' => __CA_NAV_ICON_ICON_POS_RIGHT__)); ?></div>
 			</form>
 <?php } ?>
 			<?php print caNavLink($this->request, _t("Back to login"), 'loginLink', 'system/auth', 'login', ''); ?>

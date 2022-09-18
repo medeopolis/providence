@@ -36,7 +36,6 @@
  */
 class Zend_Search_Lucene_Document
 {
-
     /**
      * Associative array Zend_Search_Lucene_Field objects where the keys to the
      * array are the names of the fields.

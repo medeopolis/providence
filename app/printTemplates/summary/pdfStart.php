@@ -15,10 +15,10 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
@@ -31,8 +31,8 @@
  *
  * ----------------------------------------------------------------------
  */
- 
- $t_item = $this->getVar('t_subject');
+
+$t_item = $this->getVar('t_subject');
 
 ?><!DOCTYPE html>
 <html>
@@ -41,15 +41,15 @@
 		<title><?php print _t('Summary for %1 (%2)', $t_item->getLabelForDisplay(), $t_item->get($t_item->getProperty('ID_NUMBERING_ID_FIELD'))); ?></title>
 				
 <?php
-	if(file_exists($this->getVar('base_path')."/local/pdf.css")){
-?>
+    if (file_exists($this->getVar('base_path')."/local/pdf.css")) {
+        ?>
 		<link type="text/css" href="<?php print $this->getVar('base_path'); ?>/local/pdf.css" rel="stylesheet" />
-<?php	
-	} else {
-?>
+<?php
+    } else {
+        ?>
 		<link type="text/css" href="<?php print $this->getVar('base_path'); ?>/pdf.css" rel="stylesheet" />
 <?php
-	}
+    }
 ?>	
 		<style type="text/css">
 			@page { margin: {{{marginTop}}} {{{marginRight}}} {{{marginBottom}}} {{{marginLeft}}}; }

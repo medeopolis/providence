@@ -16,21 +16,23 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
-	if (!constant('__CollectiveAccess_Installer__')) { die("Cannot run"); }
-	
-	require_once(__CA_APP_DIR__.'/lib/ConfigurationCheck.php');
-	
-	$o_config = Configuration::load();
+if (!constant('__CollectiveAccess_Installer__')) {
+    die("Cannot run");
+}
+
+require_once(__CA_APP_DIR__.'/lib/ConfigurationCheck.php');
+
+$o_config = Configuration::load();
 ?>
 
 <div id='box'>
@@ -40,13 +42,13 @@
 		<?php _p('Version %1 installer (XML)', constant('__CollectiveAccess__')); ?>
 	</H1>
 <?php
-	// Check for configuration issues
-	ConfigurationCheck::performInstall();
-	
-	if (ConfigurationCheck::foundErrors()) {
-		ConfigurationCheck::renderInstallErrorsAsHTMLOutput();
-	} else {
-?>
+    // Check for configuration issues
+    ConfigurationCheck::performInstall();
+
+if (ConfigurationCheck::foundErrors()) {
+    ConfigurationCheck::renderInstallErrorsAsHTMLOutput();
+} else {
+    ?>
 	
 	<p>
 		<?php _p("This installer will have your installation of CollectiveAccess ready to use in just a few minutes. 
@@ -57,21 +59,21 @@
 	<div id="installForm">
 		<form action='index.php' name='page1form' id='page1form'>
 			<div class='formItem'>
-<?php	
-						if(sizeof($va_errors)) { 
-							print "<div class='contentError'> ".caNavIcon(__CA_NAV_ICON_ALERT__ , 1, ['class' => 'permissionErrorIcon'])._t('Please enter a valid email address')."</div>\n"; 
-						}
-?>
+<?php
+                            if (sizeof($va_errors)) {
+                                print "<div class='contentError'> ".caNavIcon(__CA_NAV_ICON_ALERT__, 1, ['class' => 'permissionErrorIcon'])._t('Please enter a valid email address')."</div>\n";
+                            }
+    ?>
 				<?php _p("Administrator's e-mail address"); ?>:<br/>
 				<input type='text' name='email' value='<?= htmlspecialchars($ps_email, ENT_QUOTES, 'UTF-8'); ?>' size='40' maxlength='100'/>
 			</div><!-- end formItem -->
 			<div class='formItem'><?php _p("Installation profile"); ?>:<br/>
 				<div id="profileChooser">
 <?php
-					print caHTMLSelect('profile', caGetAvailableProfiles(), array('id' => 'profileSelect'), array('value' => $ps_profile));
+                        print caHTMLSelect('profile', caGetAvailableProfiles(), array('id' => 'profileSelect'), array('value' => $ps_profile));
 
-			if (defined('__CA_ALLOW_DRAG_AND_DROP_PROFILE_UPLOAD_IN_INSTALLER__') && __CA_ALLOW_DRAG_AND_DROP_PROFILE_UPLOAD_IN_INSTALLER__) {
-?>
+    if (defined('__CA_ALLOW_DRAG_AND_DROP_PROFILE_UPLOAD_IN_INSTALLER__') && __CA_ALLOW_DRAG_AND_DROP_PROFILE_UPLOAD_IN_INSTALLER__) {
+        ?>
 				<div id="batchProcessingTableProgressGroup" style="display: none;">
 					<div class="batchProcessingStatus"><span id="batchProcessingTableStatus" > </span></div>
 					<div id="progressbar"></div>
@@ -80,43 +82,43 @@
 					<span style="font-size: 20px; color: #aaaaaa; font-weight: bold;"><?= _t("Drag profiles here to add or update"); ?></span>
 				</div>
 <?php
-			}
-?>
+    }
+    ?>
 					<div class='profileNotes'>
 <?php
-						_p('More information about standard installation profiles is available in the CollectiveAccess <a href="https://manual.collectiveaccess.org/dataModelling/Profiles.html" target="_blank">manual</a>.');
-?>
+                            _p('More information about standard installation profiles is available in the CollectiveAccess <a href="https://manual.collectiveaccess.org/dataModelling/Profiles.html" target="_blank">manual</a>.');
+    ?>
 						<br/><br/>
 <?php
-						_p('Don\'t see a suitable profile? Browse our <a href="https://manual.collectiveaccess.org/dataModelling/profiles/ConfigurationLibrary.html" target="_blank">installation profile library</a> for additional configurations developed by the CollectiveAccess user community. To install a new profile simply copy the file into the <i>install/profiles/xml</i> directory on your server and reload the installer in your web browser.');
-?>
+                            _p('Don\'t see a suitable profile? Browse our <a href="https://manual.collectiveaccess.org/dataModelling/profiles/ConfigurationLibrary.html" target="_blank">installation profile library</a> for additional configurations developed by the CollectiveAccess user community. To install a new profile simply copy the file into the <i>install/profiles/xml</i> directory on your server and reload the installer in your web browser.');
+    ?>
 					</div>
 				</div>
 			</div><!-- end formItem -->
 <?php
-			if (defined('__CA_ALLOW_INSTALLER_TO_OVERWRITE_EXISTING_INSTALLS__') && __CA_ALLOW_INSTALLER_TO_OVERWRITE_EXISTING_INSTALLS__) {
-?>
+                if (defined('__CA_ALLOW_INSTALLER_TO_OVERWRITE_EXISTING_INSTALLS__') && __CA_ALLOW_INSTALLER_TO_OVERWRITE_EXISTING_INSTALLS__) {
+                    ?>
 				<div class='formItem'>
 <?php
-							print caHTMLCheckboxInput('overwrite', array('value' => 1))." "._p("Overwrite existing installation?");
-?>
+                                                print caHTMLCheckboxInput('overwrite', array('value' => 1))." "._p("Overwrite existing installation?");
+                    ?>
 				</div><!-- end formItem -->
 <?php
-			}
-?>
+                }
+    ?>
 				
 				<div class="loginSubmitButton"><a href='#' onclick='jQuery("#page1form").submit();' class='form-button'><span class='form-button'><i class="form-button-left fa fa-check-circle-o fa-2x" style='padding-right: 10px;'></i> <?php _p('Begin installation'); ?></span></a></div>
 				<input type='hidden' name='page' value='2'/>
 			</form>
 		</div><!-- end installForm -->
 <?php
-	}
+}
 ?>
 </div><!-- end content --></div><!-- end box -->
 
 <?php
 if (defined('__CA_ALLOW_DRAG_AND_DROP_PROFILE_UPLOAD_IN_INSTALLER__') && __CA_ALLOW_DRAG_AND_DROP_PROFILE_UPLOAD_IN_INSTALLER__) {
-?>
+    ?>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		jQuery('#progressbar').progressbar({ value: 0 });

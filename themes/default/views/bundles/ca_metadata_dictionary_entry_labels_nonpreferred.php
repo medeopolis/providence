@@ -15,36 +15,38 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	$vs_id_prefix 		= $this->getVar('placement_code').$this->getVar('id_prefix');
-	$va_labels 			= $this->getVar('labels');
-	$t_label 			= $this->getVar('t_label');
-	$va_initial_values 	= $this->getVar('label_initial_values');
-	if (!$va_force_new_labels = $this->getVar('new_labels')) { $va_force_new_labels = array(); }	// list of new labels not saved due to error which we need to for onto the label list as new
 
-	$va_settings = 		$this->getVar('settings');
-	$vs_add_label =		$this->getVar('add_label');
-	
-	$vb_read_only		=	((isset($va_settings['readonly']) && $va_settings['readonly'])  || ($this->request->user->getBundleAccessLevel('ca_metadata_dictionary_entries', 'nonpreferred_labels') == __CA_BUNDLE_ACCESS_READONLY__));
-	
-	print caEditorBundleShowHideControl($this->request, $vs_id_prefix.'NPLabels', $va_settings, caInitialValuesArrayHasValue($vs_id_prefix.'NPLabels', $va_initial_values));	
-	print caEditorBundleMetadataDictionary($this->request, $vs_id_prefix.'NPLabels', $va_settings);
+$vs_id_prefix 		= $this->getVar('placement_code').$this->getVar('id_prefix');
+$va_labels 			= $this->getVar('labels');
+$t_label 			= $this->getVar('t_label');
+$va_initial_values 	= $this->getVar('label_initial_values');
+if (!$va_force_new_labels = $this->getVar('new_labels')) {
+    $va_force_new_labels = array();
+}	// list of new labels not saved due to error which we need to for onto the label list as new
+
+$va_settings = 		$this->getVar('settings');
+$vs_add_label =		$this->getVar('add_label');
+
+$vb_read_only		=	((isset($va_settings['readonly']) && $va_settings['readonly'])  || ($this->request->user->getBundleAccessLevel('ca_metadata_dictionary_entries', 'nonpreferred_labels') == __CA_BUNDLE_ACCESS_READONLY__));
+
+print caEditorBundleShowHideControl($this->request, $vs_id_prefix.'NPLabels', $va_settings, caInitialValuesArrayHasValue($vs_id_prefix.'NPLabels', $va_initial_values));
+print caEditorBundleMetadataDictionary($this->request, $vs_id_prefix.'NPLabels', $va_settings);
 ?>
 <div id="<?php print $vs_id_prefix; ?>NPLabels">
 <?php
-	//
-	// The bundle template - used to generate each bundle in the form
-	//
+    //
+    // The bundle template - used to generate each bundle in the form
+    //
 ?>
 	<textarea class='caLabelTemplate' style='display: none;'>
 		<div id="{fieldNamePrefix}Label_{n}" class="labelInfo">
@@ -78,7 +80,8 @@
 		labelListClassName: 'caLabelList',
 		addButtonClassName: 'caAddLabelButton',
 		deleteButtonClassName: 'caDeleteLabelButton',
-		bundlePreview: <?php $va_cur = current($va_initial_values); print caEscapeForBundlePreview($va_cur['name']); ?>,
+		bundlePreview: <?php $va_cur = current($va_initial_values);
+		print caEscapeForBundlePreview($va_cur['name']); ?>,
 		readonly: <?php print $vb_read_only ? "1" : "0"; ?>,
 		defaultLocaleID: <?php print ca_locales::getDefaultCataloguingLocaleID(); ?>
 	});

@@ -29,7 +29,7 @@
  *
  * ----------------------------------------------------------------------
  */
- use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
 require_once(__CA_BASE_DIR__.'/tests/testsWithData/BaseTestWithData.php');
 
@@ -38,52 +38,55 @@ require_once(__CA_BASE_DIR__.'/tests/testsWithData/BaseTestWithData.php');
  * Note: Requires testing profile!
  * @see http://www.collectiveaccess.org/support/forum/index.php?p=/discussion/294947/i-need-some-help-getting-data-in-a-report#latest
  */
-class ForumThread295155Test extends BaseTestWithData {
-	# -------------------------------------------------------
-	protected $opn_object_id = null;
-	# -------------------------------------------------------
-	protected function setUp() : void {
-		// don't forget to call parent so that the request is set up
-		parent::setUp();
+class ForumThread295155Test extends BaseTestWithData
+{
+    # -------------------------------------------------------
+    protected $opn_object_id = null;
+    # -------------------------------------------------------
+    protected function setUp(): void
+    {
+        // don't forget to call parent so that the request is set up
+        parent::setUp();
 
-		/**
-		 * @see http://docs.collectiveaccess.org/wiki/Web_Service_API#Creating_new_records
-		 * @see https://gist.githubusercontent.com/skeidel/3871797/raw/item_request.json
-		 */
-		$vn_test_object = $this->addTestRecord('ca_objects', array(
-			'intrinsic_fields' => array(
-				'type_id' => 'image',
-			),
-			'preferred_labels' => array(
-				array(
-					"locale" => "en_US",
-					"name" => "A test image",
-				),
-			),
-			'attributes' => array(
-				// Date
-				'date' => array(
-					array(
-						'dc_dates_types' => 'created',
-						'dates_value' => 'today'
-					)
-				),
-			)
-		));
-		$this->assertGreaterThan(0, $vn_test_object);
+        /**
+         * @see http://docs.collectiveaccess.org/wiki/Web_Service_API#Creating_new_records
+         * @see https://gist.githubusercontent.com/skeidel/3871797/raw/item_request.json
+         */
+        $vn_test_object = $this->addTestRecord('ca_objects', array(
+            'intrinsic_fields' => array(
+                'type_id' => 'image',
+            ),
+            'preferred_labels' => array(
+                array(
+                    "locale" => "en_US",
+                    "name" => "A test image",
+                ),
+            ),
+            'attributes' => array(
+                // Date
+                'date' => array(
+                    array(
+                        'dc_dates_types' => 'created',
+                        'dates_value' => 'today'
+                    )
+                ),
+            )
+        ));
+        $this->assertGreaterThan(0, $vn_test_object);
 
 
-		$this->opn_object_id = $vn_test_object;
-	}
-	# -------------------------------------------------------
-	public function testGets() {
-		// @see http://www.collectiveaccess.org/support/forum/index.php?p=/discussion/295155/if-rule-now-crashes-print-templates#latest
+        $this->opn_object_id = $vn_test_object;
+    }
+    # -------------------------------------------------------
+    public function testGets()
+    {
+        // @see http://www.collectiveaccess.org/support/forum/index.php?p=/discussion/295155/if-rule-now-crashes-print-templates#latest
 
-		$vo_result = caMakeSearchResult('ca_objects', array($this->opn_object_id));
-		while($vo_result->nextHit()) {
-			$this->assertEquals('Foo', $vo_result->getWithTemplate("<if rule='^ca_objects.date.dc_dates_types=~ /Date created/'>Foo</if>"));
-			$this->assertEquals('', $vo_result->getWithTemplate("<if rule='^ca_objects.date.dc_dates_types=~ /Date copyrighted/'>Foo</if>"));
-		}
-	}
-	# -------------------------------------------------------
+        $vo_result = caMakeSearchResult('ca_objects', array($this->opn_object_id));
+        while ($vo_result->nextHit()) {
+            $this->assertEquals('Foo', $vo_result->getWithTemplate("<if rule='^ca_objects.date.dc_dates_types=~ /Date created/'>Foo</if>"));
+            $this->assertEquals('', $vo_result->getWithTemplate("<if rule='^ca_objects.date.dc_dates_types=~ /Date copyrighted/'>Foo</if>"));
+        }
+    }
+    # -------------------------------------------------------
 }

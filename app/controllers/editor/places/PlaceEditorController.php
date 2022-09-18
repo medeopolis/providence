@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * app/controllers/editor/places/PlaceEditorController.php : 
+ * app/controllers/editor/places/PlaceEditorController.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,32 +15,35 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
+
 require_once(__CA_LIB_DIR__."/BaseEditorController.php");
 
-class PlaceEditorController extends BaseEditorController {
-	# -------------------------------------------------------
-	protected $ops_table_name = 'ca_places';		// name of "subject" table (what we're editing)
-	# -------------------------------------------------------
-	public function __construct(&$po_request, &$po_response, $pa_view_paths=null) {
-		parent::__construct($po_request, $po_response, $pa_view_paths);
-	}
-	# -------------------------------------------------------
-	# Sidebar info handler
-	# -------------------------------------------------------
-	public function info($pa_parameters) {
-		parent::info($pa_parameters);
-		return $this->render('widget_place_info_html.php', true);
-	}
-	# -------------------------------------------------------
+class PlaceEditorController extends BaseEditorController
+{
+    # -------------------------------------------------------
+    protected $ops_table_name = 'ca_places';		// name of "subject" table (what we're editing)
+    # -------------------------------------------------------
+    public function __construct(&$po_request, &$po_response, $pa_view_paths=null)
+    {
+        parent::__construct($po_request, $po_response, $pa_view_paths);
+    }
+    # -------------------------------------------------------
+    # Sidebar info handler
+    # -------------------------------------------------------
+    public function info($pa_parameters)
+    {
+        parent::info($pa_parameters);
+        return $this->render('widget_place_info_html.php', true);
+    }
+    # -------------------------------------------------------
 }

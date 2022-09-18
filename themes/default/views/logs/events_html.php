@@ -25,7 +25,7 @@
  *
  * ----------------------------------------------------------------------
  */
-	$va_events_list = $this->getVar('events_list');
+$va_events_list = $this->getVar('events_list');
 
 ?>
 <script language="JavaScript" type="text/javascript">
@@ -36,14 +36,14 @@
 /* ]]> */
 </script>
 <div class="sectionBox">
-<?php 
-		print caFormTag($this->request, 'Index', 'eventsLogSearch', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true));
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>', 
-			'', 
-			_t('From %1', caHTMLTextInput('search', array('size' => 12, 'value' => $this->getVar('events_list_search'), 'class' => 'dateBg'))).caFormSubmitButton($this->request, __CA_NAV_ICON_SEARCH__, "", 'eventsLogSearch')
-		); 
-		print "</form>";
+<?php
+        print caFormTag($this->request, 'Index', 'eventsLogSearch', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true));
+print caFormControlBox(
+    '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>',
+    '',
+    _t('From %1', caHTMLTextInput('search', array('size' => 12, 'value' => $this->getVar('events_list_search'), 'class' => 'dateBg'))).caFormSubmitButton($this->request, __CA_NAV_ICON_SEARCH__, "", 'eventsLogSearch')
+);
+print "</form>";
 ?>	
 	<table id="caItemList" class="listtable">
 		<thead>
@@ -64,9 +64,9 @@
 		</thead>
 		<tbody>
 <?php
-	if (sizeof($va_events_list)) {
-		foreach($va_events_list as $va_event) {
-?>
+    if (sizeof($va_events_list)) {
+        foreach ($va_events_list as $va_event) {
+            ?>
 			<tr>
 				<td>
 					<?php print caGetLocalizedDate($va_event['date_time']); ?>
@@ -82,9 +82,9 @@
 				</td>
 			</tr>
 <?php
-		}
-	} else {
-?>
+        }
+    } else {
+        ?>
 		<tr>
 			<td colspan='4'>
 				<div align="center">
@@ -93,7 +93,7 @@
 			</td>
 		</tr>
 <?php
-	}
+    }
 ?>
 		</tbody>
 	</table>

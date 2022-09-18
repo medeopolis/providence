@@ -26,46 +26,46 @@
  * ----------------------------------------------------------------------
  */
 
-	$t_group = $this->getVar('t_group');
-	$vn_group_id = $this->getVar('group_id');
+$t_group = $this->getVar('t_group');
+$vn_group_id = $this->getVar('group_id');
 ?>
 <div class="sectionBox">
 <?php
-	print $vs_control_box = caFormControlBox(
-		caFormSubmitButton($this->request, __CA_NAV_ICON_SAVE__, _t("Save"), 'GroupsForm').' '.
-		caFormNavButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), '', 'administrate/access', 'groups', 'ListGroups', array('group_id' => 0)), 
-		'', 
-		($vn_group_id > 0) ? caFormNavButton($this->request, __CA_NAV_ICON_DELETE__, _t("Delete"), '', 'administrate/access', 'groups', 'Delete', array('group_id' => $vn_group_id)) : ''
-	);
+    print $vs_control_box = caFormControlBox(
+    caFormSubmitButton($this->request, __CA_NAV_ICON_SAVE__, _t("Save"), 'GroupsForm').' '.
+        caFormNavButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), '', 'administrate/access', 'groups', 'ListGroups', array('group_id' => 0)),
+    '',
+    ($vn_group_id > 0) ? caFormNavButton($this->request, __CA_NAV_ICON_DELETE__, _t("Delete"), '', 'administrate/access', 'groups', 'Delete', array('group_id' => $vn_group_id)) : ''
+);
 ?>
 <?php
-	print caFormTag($this->request, 'Save', 'GroupsForm');
+print caFormTag($this->request, 'Save', 'GroupsForm');
 
-		foreach($t_group->getFormFields() as $vs_f => $va_group_info) {
-			print $t_group->htmlFormElement($vs_f, null, array('field_errors' => $this->request->getActionErrors('field_'.$vs_f)));
-		}
-		
+foreach ($t_group->getFormFields() as $vs_f => $va_group_info) {
+    print $t_group->htmlFormElement($vs_f, null, array('field_errors' => $this->request->getActionErrors('field_'.$vs_f)));
+}
+
 ?>
 		<table style="width: 700px;">
 			<tr valign="top">
 				<td>
 <?php
-		// roles
-		print $t_group->roleListAsHTMLFormElement(array('name' => 'roles', 'size' => 6));
+        // roles
+        print $t_group->roleListAsHTMLFormElement(array('name' => 'roles', 'size' => 6));
 ?>
 				</td>
 				<td>
 					<div class='formLabel'><?php print _t('Group members'); ?></div>
 					<div>
 <?php
-		// users
-		if (is_array($va_users = $t_group->getGroupUsers()) && (sizeof($va_users))) {
-			foreach($va_users as $vn_user_id => $va_user_info) {
-				print $va_user_info['fname'].' '.$va_user_info['lname']."<br/>\n";
-			}
-		} else {
-			print _t('No users are in this group');
-		}
+        // users
+        if (is_array($va_users = $t_group->getGroupUsers()) && (sizeof($va_users))) {
+            foreach ($va_users as $vn_user_id => $va_user_info) {
+                print $va_user_info['fname'].' '.$va_user_info['lname']."<br/>\n";
+            }
+        } else {
+            print _t('No users are in this group');
+        }
 ?>
 					</div>
 				</td>
@@ -73,6 +73,6 @@
 		</table>	
 	</form>
 <?php
-	print $vs_control_box;
+    print $vs_control_box;
 ?>
 </div>

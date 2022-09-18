@@ -30,123 +30,129 @@
  * ----------------------------------------------------------------------
  */
 
-require_once( __CA_LIB_DIR__ . "/Plugins/IWLPlugInformationService.php" );
-require_once( __CA_LIB_DIR__ . "/Plugins/InformationService/BaseGettyLODServicePlugin.php" );
+require_once(__CA_LIB_DIR__ . "/Plugins/IWLPlugInformationService.php");
+require_once(__CA_LIB_DIR__ . "/Plugins/InformationService/BaseGettyLODServicePlugin.php");
 
 global $g_information_service_settings_AAT;
 $g_information_service_settings_AAT = array();
 
-class WLPlugInformationServiceAAT extends BaseGettyLODServicePlugin implements IWLPlugInformationService {
-	# ------------------------------------------------
-	static $s_settings;
-	# ------------------------------------------------
+class WLPlugInformationServiceAAT extends BaseGettyLODServicePlugin implements IWLPlugInformationService
+{
+    # ------------------------------------------------
+    public static $s_settings;
+    # ------------------------------------------------
 
-	/**
-	 *
-	 */
-	public function __construct() {
-		global $g_information_service_settings_AAT;
-		$g_information_service_settings_AAT['additionalFilter'] = [
-			'formatType' => FT_TEXT,
-			'displayType' => DT_FIELD,
-			'default' => '',
-			'width' => 90, 'height' => 1,
-			'label' => _t('Additional search filter'),
-			'description' => _t('Additional search filter. For example to limit to children of a particular term enter "gvp:broaderExtended aat:300312238"')
-		];
-		$g_information_service_settings_AAT['sparqlSuffix'] = [
-			'formatType' => FT_TEXT,
-			'displayType' => DT_FIELD,
-			'default' => '',
-			'width' => 90, 'height' => 1,
-			'label' => _t('Additional sparql suffix'),
-			'description' => _t('Applied after the initial search. Useful to combine filters. For example to limit to children of particular terms enter "?ID gvp:broaderPreferredExtended ?Extended FILTER (?Extended IN (aat:300261086, aat:300264550))"')
-		];
-		$g_information_service_settings_AAT['orderBy'] = [
-			'formatType' => FT_TEXT,
-			'display_Type' => DT_SELECT,
-			'default' => '',
-			'width' => 90, 'height' => 1,
-			'label' => _t("Order by"),
-			'description' => _t("How the auto complete list will be ordered. Default is how AAT return the results. Label is by the visible label"),
-			'options' => array(
-				_t("Default") => "Order",
-				_t("Label") => "TermPrefLabel"
-			),
-		];		
-		WLPlugInformationServiceAAT::$s_settings = $g_information_service_settings_AAT;
-		parent::__construct();
-		$this->info['NAME'] = 'AAT';
+    /**
+     *
+     */
+    public function __construct()
+    {
+        global $g_information_service_settings_AAT;
+        $g_information_service_settings_AAT['additionalFilter'] = [
+            'formatType' => FT_TEXT,
+            'displayType' => DT_FIELD,
+            'default' => '',
+            'width' => 90, 'height' => 1,
+            'label' => _t('Additional search filter'),
+            'description' => _t('Additional search filter. For example to limit to children of a particular term enter "gvp:broaderExtended aat:300312238"')
+        ];
+        $g_information_service_settings_AAT['sparqlSuffix'] = [
+            'formatType' => FT_TEXT,
+            'displayType' => DT_FIELD,
+            'default' => '',
+            'width' => 90, 'height' => 1,
+            'label' => _t('Additional sparql suffix'),
+            'description' => _t('Applied after the initial search. Useful to combine filters. For example to limit to children of particular terms enter "?ID gvp:broaderPreferredExtended ?Extended FILTER (?Extended IN (aat:300261086, aat:300264550))"')
+        ];
+        $g_information_service_settings_AAT['orderBy'] = [
+            'formatType' => FT_TEXT,
+            'display_Type' => DT_SELECT,
+            'default' => '',
+            'width' => 90, 'height' => 1,
+            'label' => _t("Order by"),
+            'description' => _t("How the auto complete list will be ordered. Default is how AAT return the results. Label is by the visible label"),
+            'options' => array(
+                _t("Default") => "Order",
+                _t("Label") => "TermPrefLabel"
+            ),
+        ];
+        WLPlugInformationServiceAAT::$s_settings = $g_information_service_settings_AAT;
+        parent::__construct();
+        $this->info['NAME'] = 'AAT';
 
-		$this->description = _t( 'Provides access to Getty Linked Open Data AAT service' );
-	}
+        $this->description = _t('Provides access to Getty Linked Open Data AAT service');
+    }
 
-	# ------------------------------------------------
-	protected function getConfigName() {
-		return 'aat';
-	}
-	# ------------------------------------------------
+    # ------------------------------------------------
+    protected function getConfigName()
+    {
+        return 'aat';
+    }
+    # ------------------------------------------------
 
-	/**
-	 * Get all settings settings defined by this plugin as an array
-	 *
-	 * @return array
-	 */
-	public function getAvailableSettings() {
-		return WLPlugInformationServiceAAT::$s_settings;
-	}
+    /**
+     * Get all settings settings defined by this plugin as an array
+     *
+     * @return array
+     */
+    public function getAvailableSettings()
+    {
+        return WLPlugInformationServiceAAT::$s_settings;
+    }
 
-	/**
-	 * Clean results
-	 *
-	 * @param $pa_results
-	 * @param $pa_options
-	 * @param $pa_params
-	 *
-	 * @return array|bool
-	 */
-	public function _cleanResults( $pa_results, $pa_options, $pa_params ) {
-		if ( ! is_array( $pa_results ) ) {
-			return false;
-		}
+    /**
+     * Clean results
+     *
+     * @param $pa_results
+     * @param $pa_options
+     * @param $pa_params
+     *
+     * @return array|bool
+     */
+    public function _cleanResults($pa_results, $pa_options, $pa_params)
+    {
+        if (! is_array($pa_results)) {
+            return false;
+        }
 
-		if ( $pa_params['isRaw'] ) {
-			return $pa_results;
-		}
+        if ($pa_params['isRaw']) {
+            return $pa_results;
+        }
 
-		$va_return = array();
+        $va_return = array();
 
-		foreach ( $pa_results as $va_values ) {
-			$vs_id = '';
-			if ( preg_match( "/[a-z]{3,4}\/[0-9]+$/", $va_values['ID']['value'], $va_matches ) ) {
-				$vs_id = str_replace( '/', ':', $va_matches[0] );
-			}
+        foreach ($pa_results as $va_values) {
+            $vs_id = '';
+            if (preg_match("/[a-z]{3,4}\/[0-9]+$/", $va_values['ID']['value'], $va_matches)) {
+                $vs_id = str_replace('/', ':', $va_matches[0]);
+            }
 
-			$vs_label = ( caGetOption( 'format', $pa_options, null, [ 'forceToLowercase' => true ] ) !== 'short' )
-				? $va_values['TermPrefLabel']['value']
-				: '[' . str_replace( 'aat:', '', $vs_id ) . '] ' . $va_values['TermPrefLabel']['value'] . " ["
-				  . $va_values['Parents']['value'] . "]";
-			$vs_label = preg_replace( '/\,\s\.\.\.\s[A-Za-z\s]+Facet\s*/', '', $vs_label );
-			$vs_label = preg_replace( '/[\<\>]/', '', $vs_label );
+            $vs_label = (caGetOption('format', $pa_options, null, [ 'forceToLowercase' => true ]) !== 'short')
+                ? $va_values['TermPrefLabel']['value']
+                : '[' . str_replace('aat:', '', $vs_id) . '] ' . $va_values['TermPrefLabel']['value'] . " ["
+                  . $va_values['Parents']['value'] . "]";
+            $vs_label = preg_replace('/\,\s\.\.\.\s[A-Za-z\s]+Facet\s*/', '', $vs_label);
+            $vs_label = preg_replace('/[\<\>]/', '', $vs_label);
 
-			$va_return['results'][] = array(
-				'label' => htmlentities( $vs_label ),
-				'url'   => $va_values['ID']['value'],
-				'idno'  => $vs_id,
-			);
-		}
+            $va_return['results'][] = array(
+                'label' => htmlentities($vs_label),
+                'url'   => $va_values['ID']['value'],
+                'idno'  => $vs_id,
+            );
+        }
 
-		return $va_return;
-	}
+        return $va_return;
+    }
 
-	public function _buildQuery( $ps_search, $pa_options, $pa_params ) {
-		$vs_additional_filter = $pa_options['settings']['additionalFilter'] ?? null;
-		if ($vs_additional_filter){
-			$vs_additional_filter = "$vs_additional_filter ;";
-		}
-		$vs_sparql_suffix = $pa_options['settings']['sparqlSuffix'] ?? null;
-		$vs_order_by = caGetOption( 'orderBy', $pa_options['settings'], 'Order');
-		$vs_query = urlencode( 'SELECT ?ID ?TermPrefLabel ?Parents ?ParentsFull {
+    public function _buildQuery($ps_search, $pa_options, $pa_params)
+    {
+        $vs_additional_filter = $pa_options['settings']['additionalFilter'] ?? null;
+        if ($vs_additional_filter) {
+            $vs_additional_filter = "$vs_additional_filter ;";
+        }
+        $vs_sparql_suffix = $pa_options['settings']['sparqlSuffix'] ?? null;
+        $vs_order_by = caGetOption('orderBy', $pa_options['settings'], 'Order');
+        $vs_query = urlencode('SELECT ?ID ?TermPrefLabel ?Parents ?ParentsFull {
 	?ID a skos:Concept; ' . $pa_params['search_field'] . ' "' . $ps_search . '"; skos:inScheme aat: ; ' . $vs_additional_filter . '
 	gvp:prefLabelGVP [xl:literalForm ?TermPrefLabel].
 	{?ID gvp:parentStringAbbrev ?Parents}
@@ -154,28 +160,29 @@ class WLPlugInformationServiceAAT extends BaseGettyLODServicePlugin implements I
 	{?ID gvp:displayOrder ?Order}
 	 ' . $vs_sparql_suffix . '
 	} 	ORDER BY ?' . $vs_order_by . '
-		LIMIT ' . $pa_params['limit'] );
-		return $vs_query;
-	}
+		LIMIT ' . $pa_params['limit']);
+        return $vs_query;
+    }
 
-	/**
-	 * Get display value
-	 *
-	 * @param string $ps_text
-	 *
-	 * @return string
-	 */
-	public function getDisplayValueFromLookupText( $ps_text ) {
-		if ( ! $ps_text ) {
-			return '';
-		}
-		$va_matches = array();
+    /**
+     * Get display value
+     *
+     * @param string $ps_text
+     *
+     * @return string
+     */
+    public function getDisplayValueFromLookupText($ps_text)
+    {
+        if (! $ps_text) {
+            return '';
+        }
+        $va_matches = array();
 
-		if ( preg_match( "/^\[[0-9]+\]\s+([\p{L}\p{P}\p{Z}]+)\s+\[/", $ps_text, $va_matches ) ) {
-			return $va_matches[1];
-		}
+        if (preg_match("/^\[[0-9]+\]\s+([\p{L}\p{P}\p{Z}]+)\s+\[/", $ps_text, $va_matches)) {
+            return $va_matches[1];
+        }
 
-		return $ps_text;
-	}
-	# ------------------------------------------------
+        return $ps_text;
+    }
+    # ------------------------------------------------
 }

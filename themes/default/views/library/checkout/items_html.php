@@ -1,7 +1,9 @@
 <?php
-	$pn_user_id = $this->getVar('user_id');
-	if (!is_array($pa_types = $this->getVar('checkout_types'))) { $pa_types = array(); }
-?>
+    $pn_user_id = $this->getVar('user_id');
+    if (!is_array($pa_types = $this->getVar('checkout_types'))) {
+        $pa_types = array();
+    }
+    ?>
 <h1><?php print _t('Check out: add items'); ?></h1>
 
 <div class=""caLibraryUIContainer">

@@ -27,10 +27,10 @@
  */
 
 
- 	$va_importer_list = $this->getVar('importer_list');
- 	$vb_importers_available = (is_array($va_importer_list) && sizeof($va_importer_list));
+$va_importer_list = $this->getVar('importer_list');
+$vb_importers_available = (is_array($va_importer_list) && sizeof($va_importer_list));
 
- ?>
+?>
 <h1>Search ResourceSpace</h1>
 <form action="#" id="caResourceSpaceSearchForm">
     <div class="formLabel formLabelThird">
@@ -43,10 +43,10 @@
         <div>Search Systems</div>
         <div id="caResourceSpaceSearchSystems">
         <?php
-            foreach($this->getVar('rs_labels') as $vs_rs_code => $vs_rs_label){
-                print "<input type='checkbox' id='".$vs_rs_code."_system' name='caResourceSpaceSystems' value='".$vs_rs_code."' checked/>".$vs_rs_label."<br/>";
-            }
-        ?>
+           foreach ($this->getVar('rs_labels') as $vs_rs_code => $vs_rs_label) {
+               print "<input type='checkbox' id='".$vs_rs_code."_system' name='caResourceSpaceSystems' value='".$vs_rs_code."' checked/>".$vs_rs_label."<br/>";
+           }
+?>
         </div>
     </div>
     <div class="form-label">
@@ -54,7 +54,7 @@
     </div>
 </form>
 <?php
-	print caFormTag($this->request, 'Run', 'caResourceSpaceResultsForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true, 'noTimestamp' => true));
+    print caFormTag($this->request, 'Run', 'caResourceSpaceResultsForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true, 'noTimestamp' => true));
 ?>
 
  	<div class="caResourceSpaceResultsPagination">
@@ -73,19 +73,21 @@
     <div class="<?php print $vb_importers_available ? 'formLabel formLabelImport' : 'formLabelError'; ?>">
 <?php
 
-	if ($vb_importers_available) {
-		print _t('Import using').': '.$this->getVar('importer_list_select');
+    if ($vb_importers_available) {
+        print _t('Import using').': '.$this->getVar('importer_list_select');
 
         print '<span style="float:right">';
         print _t('Log level').': '.caHTMLSelect('log_level', caGetLogLevels(), array('id' => 'caLogLevel'), array('value' => $this->getVar('log_level')));
         print '</span>';
-	} else {
-		print _t('You must load at least one ResourceSpace mapping before you can import');
-	}
+    } else {
+        print _t('You must load at least one ResourceSpace mapping before you can import');
+    }
     print $vs_control_box = caFormControlBox(
         ($vb_importers_available ? (caFormSubmitButton($this->request, __CA_NAV_ICON_SAVE__, _t("Import"), 'caResourceSpaceResultsForm')) : '').' '.
         (caFormNavButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), '', '*', '*', 'Index')),
-        '', '' );
+        '',
+        ''
+    );
 ?>
  	</div>
 

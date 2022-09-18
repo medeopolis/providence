@@ -15,19 +15,19 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
- 	$t_subject 			= $this->getVar('t_subject');
- 	$o_result_context 	= $this->getVar('result_context');
+
+$t_subject 			= $this->getVar('t_subject');
+$o_result_context 	= $this->getVar('result_context');
 ?>
 <div class='setTools'>
 	<a href="#" id='searchSetToolsShow' onclick="$('.setTools').hide(); return caShowSearchSetTools();"><?php print caNavIcon(__CA_NAV_ICON_SETS__, 1)." "._t("Set Tools"); ?></a>
@@ -35,53 +35,54 @@
 
 <div id="searchSetTools">
 <?php
-	if (is_array($va_sets = $this->getVar('available_sets')) && sizeof($va_sets)) {
-?>	
+    if (is_array($va_sets = $this->getVar('available_sets')) && sizeof($va_sets)) {
+        ?>	
 	<div class="col">
 <?php
-		print "<span class='header'>"._t("Add checked to set").":</span><br/>";
-?>
+                print "<span class='header'>"._t("Add checked to set").":</span><br/>";
+        ?>
 		<form id="caAddToSet">
 <?php
-		$va_options = array();
-		foreach($va_sets as $vn_set_id => $va_set_info) {
-			$va_options[$va_set_info['name']] = $vn_set_id;
-		}
-		
-		print caHTMLSelect('set_id', $va_options, array('id' => 'caAddToSetID', 'class' => 'searchSetsSelect'), array('value' => null, 'width' => '140px'));
-		print caBusyIndicatorIcon($this->request, array('id' => 'caAddToSetIDIndicator'))."\n";
-?>
+                $va_options = array();
+        foreach ($va_sets as $vn_set_id => $va_set_info) {
+            $va_options[$va_set_info['name']] = $vn_set_id;
+        }
+
+        print caHTMLSelect('set_id', $va_options, array('id' => 'caAddToSetID', 'class' => 'searchSetsSelect'), array('value' => null, 'width' => '140px'));
+        print caBusyIndicatorIcon($this->request, array('id' => 'caAddToSetIDIndicator'))."\n";
+        ?>
 			<a href='#' onclick="return caAddItemsToSet();" class="button"><?php print _t('Add'); ?> &rsaquo;</a>
 			<div class="searchSetsToggle"><a href="#" onclick="return caToggleAddToSet();" class="searchSetsToggle"><?php print _t("Toggle checked"); ?></a></div>
 		</form>
 	</div>
 	<br class="clear"/>
 <?php
-	}
+    }
 ?>
 	<div class="col">
 <?php
-		print "<span class='header'>"._t("Create set").":</span><br/>";
+        print "<span class='header'>"._t("Create set").":</span><br/>";
 ?>
 		<form id="caCreateSetFromResults">
 <?php
-			print caHTMLTextInput('set_name', array('id' => 'caCreateSetFromResultsInput', 'class' => 'searchSetsTextInput', 'value' => $o_result_context->getSearchExpression()), array('width' => '150px'));
-			print " ";
-			print caHTMLSelect('set_create_mode', 
-				array(
-					_t('from results') => 'from_results',
-					_t('from checked') => 'from_checked'
-				),
-				array('id' => 'caCreateSetFromResultsMode', 'class' => 'searchSetsSelect'),
-				array('value' => null, 'width' => '140px')
-			);
-			print caBusyIndicatorIcon($this->request, array('id' => 'caCreateSetFromResultsIndicator'))."\n";
+            print caHTMLTextInput('set_name', array('id' => 'caCreateSetFromResultsInput', 'class' => 'searchSetsTextInput', 'value' => $o_result_context->getSearchExpression()), array('width' => '150px'));
+print " ";
+print caHTMLSelect(
+    'set_create_mode',
+    array(
+        _t('from results') => 'from_results',
+        _t('from checked') => 'from_checked'
+    ),
+    array('id' => 'caCreateSetFromResultsMode', 'class' => 'searchSetsSelect'),
+    array('value' => null, 'width' => '140px')
+);
+print caBusyIndicatorIcon($this->request, array('id' => 'caCreateSetFromResultsIndicator'))."\n";
 ?>
 			<a href='#' onclick="caCreateSetFromResults(); return false;" class="button"><?php print _t('Create'); ?> &rsaquo;</a>
-<?php		
-		if ($this->request->user->canDoAction('can_batch_edit_'.$t_subject->tableName())) {
-			print '<div class="searchSetsBatchEdit">'.caHTMLCheckboxInput('batch_edit', array('id' => 'caCreateSetBatchEdit', 'value' => 1))." "._t('Open set for batch editing')."</div>\n";
-		}
+<?php
+        if ($this->request->user->canDoAction('can_batch_edit_'.$t_subject->tableName())) {
+            print '<div class="searchSetsBatchEdit">'.caHTMLCheckboxInput('batch_edit', array('id' => 'caCreateSetBatchEdit', 'value' => 1))." "._t('Open set for batch editing')."</div>\n";
+        }
 ?>
 		</form>
 	</div>

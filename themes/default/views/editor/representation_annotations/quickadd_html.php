@@ -1,6 +1,6 @@
  <?php
 /* ----------------------------------------------------------------------
- * app/views/editor/representation_annotations/quickadd_html.php : 
+ * app/views/editor/representation_annotations/quickadd_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,17 +15,17 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
+
 global $g_ui_locale_id;
 
 $t_subject 			= $this->getVar('t_subject');
@@ -42,14 +42,14 @@ $vs_form_name 		= "RepresentationAnnotationQuickAddForm";
 $va_notifications 	= $this->getVar('notifications');
 ?>		
 <form action="#" class="quickAddSectionForm" name="<?= $vs_form_name; ?>" method="POST" enctype="multipart/form-data" id="<?= $vs_form_name.$vs_field_name_prefix.$vs_n; ?>">
-	<div class='quickAddDialogHeader'><?php 	
-		if ($vb_can_edit) {
-			if (($vn_subject_id > 0) && (preg_match("!timebased!i", $t_subject->getAnnotationType()))) {
-				print "<div style='float: right;'>".caJSButton($this->request, __CA_NAV_ICON_DELETE__, _t("Delete annotation"), "{$vs_form_name}{$vs_field_name_prefix}{$vs_n}", array("onclick" => "caConfirmDeleteAnnotation(true);"))."</div>\n";
-			}
-			print "<div style='float: left;'>".caJSButton($this->request, __CA_NAV_ICON_SAVE__, _t("Save annotation"), "caAnnoEditorScreenSaveButton", array( "onclick" => "caSaveAnnotation{$vs_form_name}{$vs_field_name_prefix}{$vs_n}(event);"))
-				.' '.caJSButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), "{$vs_form_name}{$vs_field_name_prefix}{$vs_n}", array("onclick" => "return caAnnoEditorDisableAnnotationForm();"))."</div><br style='clear: both;'/>\n";
-		}
+	<div class='quickAddDialogHeader'><?php
+        if ($vb_can_edit) {
+            if (($vn_subject_id > 0) && (preg_match("!timebased!i", $t_subject->getAnnotationType()))) {
+                print "<div style='float: right;'>".caJSButton($this->request, __CA_NAV_ICON_DELETE__, _t("Delete annotation"), "{$vs_form_name}{$vs_field_name_prefix}{$vs_n}", array("onclick" => "caConfirmDeleteAnnotation(true);"))."</div>\n";
+            }
+            print "<div style='float: left;'>".caJSButton($this->request, __CA_NAV_ICON_SAVE__, _t("Save annotation"), "caAnnoEditorScreenSaveButton", array( "onclick" => "caSaveAnnotation{$vs_form_name}{$vs_field_name_prefix}{$vs_n}(event);"))
+                .' '.caJSButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), "{$vs_form_name}{$vs_field_name_prefix}{$vs_n}", array("onclick" => "return caAnnoEditorDisableAnnotationForm();"))."</div><br style='clear: both;'/>\n";
+        }
 ?>
 	</div>
 	
@@ -57,15 +57,15 @@ $va_notifications 	= $this->getVar('notifications');
 	<div class="caAnnoEditorEditorErrorContainer" id="<?= $vs_form_name; ?>Errors<?= $vs_field_name_prefix.$vs_n; ?>"></div>
 	<div class="quickAddSectionBox" id="<?= $vs_form_name.'Container'.$vs_field_name_prefix.$vs_n; ?>">
 <?php
-		$va_form_elements = $t_subject->getBundleFormHTMLForScreen($this->getVar('screen'), array(
-				'width' => '625px',
-				'request' => $this->request, 
-				'formName' => $vs_form_name.$vs_field_name_prefix.$vs_n,
-				'forceLabelForNew' => $this->getVar('forceLabel'),							// force query text to be default in label fields
-				'quickadd' => true
-			));
-			
-			print join("\n", $va_form_elements);
+        $va_form_elements = $t_subject->getBundleFormHTMLForScreen($this->getVar('screen'), array(
+                'width' => '625px',
+                'request' => $this->request,
+                'formName' => $vs_form_name.$vs_field_name_prefix.$vs_n,
+                'forceLabelForNew' => $this->getVar('forceLabel'),							// force query text to be default in label fields
+                'quickadd' => true
+            ));
+
+print join("\n", $va_form_elements);
 ?>
 		<input type='hidden' name='_formName' value='<?= $vs_form_name.$vs_field_name_prefix.$vs_n; ?>'/>
 		<input type='hidden' name='q' value='<?= htmlspecialchars($vs_q, ENT_QUOTES, 'UTF-8'); ?>'/>
@@ -97,17 +97,17 @@ $va_notifications 	= $this->getVar('notifications');
 						jQuery('#' + itemIDID).val(resp.id);
 						
 <?php
-	if ($vn_subject_id) {
-?>
+    if ($vn_subject_id) {
+        ?>
 						// Reload the item that has changed
 						caAnnoEditorTlReload(jQuery("#caAnnoEditorTlCarousel"), resp.id);
 <?php
-	} else {	
-?>	
+    } else {
+        ?>	
 						// Add the newly created item
 						caAnnoEditorTlLoad(jQuery("#caAnnoEditorTlCarousel"), 0);
 <?php
-	}
+    }
 ?>
 						// Get new form with current in-point
 						caAnnoEditorEdit(0, caAnnoEditorGetPlayerTime(true), caAnnoEditorGetPlayerTime(true) + 10);
@@ -132,10 +132,11 @@ $va_notifications 	= $this->getVar('notifications');
 			function caConfirmDeleteAnnotation(show) {
 				if (show) {
 					var content = 	'<div class="notification-info-box rounded"><ul class="notification-info-box">' + 
-										'<li class="notification-info-box"><?= addslashes(_t("Really delete annotation? %1 %2", 
-												caJSButton($this->request, __CA_NAV_ICON_DELETE__, _t("Yes"), "{$vs_form_name}{$vs_field_name_prefix}{$vs_n}", array("onclick" => "caDeleteAnnotation(true);")),
-												caJSButton($this->request, __CA_NAV_ICON_CANCEL__, _t("No"), "{$vs_form_name}{$vs_field_name_prefix}{$vs_n}", array("onclick" => "caConfirmDeleteAnnotation(false); return false;"))
-											)); ?></li>' +
+										'<li class="notification-info-box"><?= addslashes(_t(
+    "Really delete annotation? %1 %2",
+    caJSButton($this->request, __CA_NAV_ICON_DELETE__, _t("Yes"), "{$vs_form_name}{$vs_field_name_prefix}{$vs_n}", array("onclick" => "caDeleteAnnotation(true);")),
+    caJSButton($this->request, __CA_NAV_ICON_CANCEL__, _t("No"), "{$vs_form_name}{$vs_field_name_prefix}{$vs_n}", array("onclick" => "caConfirmDeleteAnnotation(false); return false;"))
+)); ?></li>' +
 										'</ul></div>';
 					jQuery('#<?= $vs_form_name; ?>Errors<?= $vs_field_name_prefix.$vs_n; ?>').html(content).slideDown(200);
 				} else {
@@ -163,30 +164,30 @@ $va_notifications 	= $this->getVar('notifications');
 			}
 			
 <?php
-			//
-			// If any notifications are set by the controller loading this form we want to display them
-			//
-			if(is_array($va_notifications) && sizeof($va_notifications)) {
-?>
+            //
+            // If any notifications are set by the controller loading this form we want to display them
+            //
+            if (is_array($va_notifications) && sizeof($va_notifications)) {
+                ?>
 				jQuery(document).ready(function() {
 					var content = '<div class="notification-info-box rounded"><ul class="notification-info-box">';
 <?php
-					$vs_content = '';
-					foreach($va_notifications as $va_notification) {
-						switch($va_notification['type']) {
-							case __NOTIFICATION_TYPE_ERROR__:
-								$vs_content .= "<li class='notification-error-box'>".$va_notification['message']."</li>";
-								break;
-							case __NOTIFICATION_TYPE_WARNING__:
-								$vs_content .= "<li class='notification-warning-box'>".$va_notification['message']."</li>";
-								break;
-							case __NOTIFICATION_TYPE_INFO__:
-							default:
-								$vs_content .= "<li class='notification-info-box'>".$va_notification['message']."</li>";
-								break;
-						}
-					}
-?>	
+                                    $vs_content = '';
+                foreach ($va_notifications as $va_notification) {
+                    switch($va_notification['type']) {
+                        case __NOTIFICATION_TYPE_ERROR__:
+                            $vs_content .= "<li class='notification-error-box'>".$va_notification['message']."</li>";
+                            break;
+                        case __NOTIFICATION_TYPE_WARNING__:
+                            $vs_content .= "<li class='notification-warning-box'>".$va_notification['message']."</li>";
+                            break;
+                        case __NOTIFICATION_TYPE_INFO__:
+                        default:
+                            $vs_content .= "<li class='notification-info-box'>".$va_notification['message']."</li>";
+                            break;
+                    }
+                }
+                ?>	
 					content += '<?= addslashes($vs_content); ?>';
 					content += '</ul></div>';
 					jQuery("#<?= $vs_form_name; ?>Errors<?= $vs_field_name_prefix.$vs_n; ?>").hide().html(content).slideDown(200);
@@ -197,7 +198,7 @@ $va_notifications 	= $this->getVar('notifications');
 					}, 3000);
 				});
 <?php
-			}
+            }
 ?>
 		</script>
 	</div>

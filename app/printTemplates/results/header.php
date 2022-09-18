@@ -1,4 +1,4 @@
-<?php	
+<?php
 /* ----------------------------------------------------------------------
  * app/templates/header.php : standard PDF report header
  * ----------------------------------------------------------------------
@@ -15,10 +15,10 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
@@ -31,46 +31,46 @@
  *
  * ----------------------------------------------------------------------
  */
- 
-	if($this->request->config->get('report_header_enabled')) {
-		switch($this->getVar('PDFRenderer')) {
-			case 'domPDF':
-?>
+
+if ($this->request->config->get('report_header_enabled')) {
+    switch($this->getVar('PDFRenderer')) {
+        case 'domPDF':
+            ?>
 <div id='header'>
 
 <?php
-	if(file_exists($this->getVar('base_path')."/local/pdf.css")){
-?>
+                if (file_exists($this->getVar('base_path')."/local/pdf.css")) {
+                    ?>
 		<link type="text/css" href="<?php print $this->getVar('base_path'); ?>/local/pdf.css" rel="stylesheet" />
-<?php	
-	} else {
-?>
+<?php
+                } else {
+                    ?>
 		<link type="text/css" href="<?php print $this->getVar('base_path'); ?>/pdf.css" rel="stylesheet" />
 <?php
-	}	
+                }
 
-	print caGetReportLogo()."<div class='pagingText'>"._t('Page')." </div>";
-?>
+                print caGetReportLogo()."<div class='pagingText'>"._t('Page')." </div>";
+            ?>
 </div>
 <?php
-				break;			
-			case 'wkhtmltopdf':
-?>
+                            break;
+        case 'wkhtmltopdf':
+            ?>
 <!--BEGIN HEADER--><!DOCTYPE html>
 <html>
 <head>
 <?php
-	if(file_exists($this->getVar('base_path')."/local/pdf.css")){
-?>
+                if (file_exists($this->getVar('base_path')."/local/pdf.css")) {
+                    ?>
 		<link type="text/css" href="<?php print $this->getVar('base_path'); ?>/local/pdf.css" rel="stylesheet" />
-<?php	
-	} else {
-?>
+<?php
+                } else {
+                    ?>
 		<link type="text/css" href="<?php print $this->getVar('base_path'); ?>/pdf.css" rel="stylesheet" />
 <?php
-	}
-	print caGetReportLogo()."<div class='pagingText' id='pagingText' style='position: absolute; top: 0px; right: 0px;'> </div>";
-?>
+                }
+                print caGetReportLogo()."<div class='pagingText' id='pagingText' style='position: absolute; top: 0px; right: 0px;'> </div>";
+            ?>
 
 	<script>
 		function dynvar() {
@@ -95,5 +95,5 @@
 </html>
 <!--END HEADER-->
 <?php
-	}
+    }
 }

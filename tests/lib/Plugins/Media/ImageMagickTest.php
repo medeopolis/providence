@@ -33,8 +33,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once( __CA_APP_DIR__ . "/helpers/systemHelpers.php" );
-require_once( __CA_APP_DIR__ . "/lib/Plugins/Media/ImageMagick.php" );
+require_once(__CA_APP_DIR__ . "/helpers/systemHelpers.php");
+require_once(__CA_APP_DIR__ . "/lib/Plugins/Media/ImageMagick.php");
 
 /**
  * Class ImageMagickTest
@@ -43,53 +43,60 @@ require_once( __CA_APP_DIR__ . "/lib/Plugins/Media/ImageMagick.php" );
  * See configuration on tests/conf.
  *
  */
-class ImageMagickTest extends TestCase {
+class ImageMagickTest extends TestCase
+{
+    protected $im_plugin = null;
+    protected $prophet = null;
 
-	protected $im_plugin = null;
-	protected $prophet = null;
+    protected function setUp(): void
+    {
+        $this->im_plugin = new WLPlugMediaImageMagick();
+        $this->im_plugin->register();
+        $this->im_plugin->setBasePath('/usr/bin');
+    }
 
-	protected function setUp(): void {
-		$this->im_plugin = new WLPlugMediaImageMagick();
-		$this->im_plugin->register();
-		$this->im_plugin->setBasePath('/usr/bin');
-	}
-	
-	# -------------------------------------------------------
-	public function testConvertCmd() {
-		$command = $this->im_plugin->command( 'convert' );
-		$this->assertEquals( '/usr/bin/convert', $command );
-	}
+    # -------------------------------------------------------
+    public function testConvertCmd()
+    {
+        $command = $this->im_plugin->command('convert');
+        $this->assertEquals('/usr/bin/convert', $command);
+    }
 
-	public function testIdentifyCmd() {
-		$command = $this->im_plugin->command( 'identify' );
-		$this->assertEquals( '/usr/bin/identify', $command );
-	}
+    public function testIdentifyCmd()
+    {
+        $command = $this->im_plugin->command('identify');
+        $this->assertEquals('/usr/bin/identify', $command);
+    }
 
-	public function testWhateverCmd() {
-		$command = $this->im_plugin->command( 'whatever' );
-		$this->assertEquals( '/usr/bin/whatever', $command );
-	}
+    public function testWhateverCmd()
+    {
+        $command = $this->im_plugin->command('whatever');
+        $this->assertEquals('/usr/bin/whatever', $command);
+    }
 
-	public function testMissingCmdWithEmptyArgs() {
-		$command = $this->im_plugin->commandWithDefaultArgs( 'whatever' );
-		$this->assertEquals( '/usr/bin/whatever ', $command );
-	}
+    public function testMissingCmdWithEmptyArgs()
+    {
+        $command = $this->im_plugin->commandWithDefaultArgs('whatever');
+        $this->assertEquals('/usr/bin/whatever ', $command);
+    }
 
-	public function testConvertCmdWithDefaultArgs() {
-		$command = $this->im_plugin->commandWithDefaultArgs( 'convert' );
-		$this->assertEquals( '/usr/bin/convert -limit thread 1', $command );
-	}
+    public function testConvertCmdWithDefaultArgs()
+    {
+        $command = $this->im_plugin->commandWithDefaultArgs('convert');
+        $this->assertEquals('/usr/bin/convert -limit thread 1', $command);
+    }
 
-	/**
-	 * First attempt for unit testing and mocks.
-	 */
-	public function testCheckStatus() {
-		$imagemagick_plugin = $this->getMockBuilder( WLPlugMediaImageMagick::class )->onlyMethods( [ 'register' ] )
-		                           ->getMock();
-		$imagemagick_plugin->method( 'register' )->willReturn( array( 'info' => 1 ) );
-		$status = $imagemagick_plugin->checkStatus();
+    /**
+     * First attempt for unit testing and mocks.
+     */
+    public function testCheckStatus()
+    {
+        $imagemagick_plugin = $this->getMockBuilder(WLPlugMediaImageMagick::class)->onlyMethods([ 'register' ])
+                                   ->getMock();
+        $imagemagick_plugin->method('register')->willReturn(array( 'info' => 1 ));
+        $status = $imagemagick_plugin->checkStatus();
 
-		$this->assertIsArray( $status );
-		$this->assertTrue( $status['available'] );
-	}
+        $this->assertIsArray($status);
+        $this->assertTrue($status['available']);
+    }
 }

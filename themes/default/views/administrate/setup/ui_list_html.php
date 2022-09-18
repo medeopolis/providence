@@ -28,11 +28,11 @@
 $va_editor_ui_list = $this->getVar('editor_ui_list');
 
 $vs_type_menu = '<div class="sf-small-menu form-header-button rounded">'.
-							'<div class="caNavHeaderIcon">'.
-								'<a href="#" onclick="_navigateToNewForm(jQuery(\'#tableList\').val());">'.caNavIcon(__CA_NAV_ICON_ADD__, 2).'</a>'.
-							'</div>'.
-						'<form action="#">'._t('New interface for ').' '.caHTMLSelect('editor_type', $this->getVar('table_list'), array('id' => 'tableList')).'</form>'.
-						'</div>';
+                            '<div class="caNavHeaderIcon">'.
+                                '<a href="#" onclick="_navigateToNewForm(jQuery(\'#tableList\').val());">'.caNavIcon(__CA_NAV_ICON_ADD__, 2).'</a>'.
+                            '</div>'.
+                        '<form action="#">'._t('New interface for ').' '.caHTMLSelect('editor_type', $this->getVar('table_list'), array('id' => 'tableList')).'</form>'.
+                        '</div>';
 ?>
 <script language="JavaScript" type="text/javascript">
 	jQuery(document).ready(function(){
@@ -45,12 +45,12 @@ $vs_type_menu = '<div class="sf-small-menu form-header-button rounded">'.
 </script>
 <div class="sectionBox">
 	<?php
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>',
-			'',
-			$vs_type_menu
-		);
-	?>
+        print caFormControlBox(
+    '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caItemList\').caFilterTable(this.value); return false;" size="20"/></div>',
+    '',
+    $vs_type_menu
+);
+?>
 
 	<table id="caItemList" class="listtable">
 		<thead>
@@ -72,8 +72,8 @@ $vs_type_menu = '<div class="sf-small-menu form-header-button rounded">'.
 		</thead>
 		<tbody>
 <?php
-	foreach($va_editor_ui_list as $va_ui) {
-?>
+foreach ($va_editor_ui_list as $va_ui) {
+    ?>
 		<tr>
 			<td>
 				<?php print $va_ui['name']; ?>
@@ -92,7 +92,7 @@ $vs_type_menu = '<div class="sf-small-menu form-header-button rounded">'.
 			</td>
 		</tr>
 <?php
-	}
+}
 ?>
 		</tbody>
 	</table>

@@ -25,27 +25,27 @@
  *
  * ----------------------------------------------------------------------
  */
- 
- 	
- 	$va_sets_list = $this->getVar('sets_list');
- 	$vb_sets_available = (is_array($va_sets_list) && sizeof($va_sets_list));
- 	
 
-	print "<h1>"._t("Export data to Artefacts Canada")."</h1>\n";
 
-	print "<div class='searchReindexHelpText'>";
-	print _t("<p>To export data for selected objects to Artefacts Canada create a set containing the objects, then select that set from the list below. A ZIP file containing an Artefacts Canada-compatible data file as well as all related media will be created and made available for download.</p>
+$va_sets_list = $this->getVar('sets_list');
+$vb_sets_available = (is_array($va_sets_list) && sizeof($va_sets_list));
+
+
+print "<h1>"._t("Export data to Artefacts Canada")."</h1>\n";
+
+print "<div class='searchReindexHelpText'>";
+print _t("<p>To export data for selected objects to Artefacts Canada create a set containing the objects, then select that set from the list below. A ZIP file containing an Artefacts Canada-compatible data file as well as all related media will be created and made available for download.</p>
 	");
-	if (!$vb_sets_available) {
-		print _t('<h2><em>You must create a set before you can export to Artefacts Canada.</em></h2>');
-	}
+if (!$vb_sets_available) {
+    print _t('<h2><em>You must create a set before you can export to Artefacts Canada.</em></h2>');
+}
 
-	if ($vb_sets_available) {
-		print caFormTag($this->request, 'Run', 'caArtefactsCanadaExportForm', null, 'post', 'multipart/form-data', '_top', ['noCSRFToken' => true, 'disableUnsavedChangesWarning' => true, 'noTimestamp' => true]);
-		print "<p>"._t('Export set %1', $this->getVar('sets_list_select'))."</p>\n";
-		print "<div style='text-align: center'>".caFormSubmitButton($this->request, __CA_NAV_ICON_GO__, _t("Export"), 'caArtefactsCanadaExportForm', [])."</div>";
-		print "</form>";
-	}
+if ($vb_sets_available) {
+    print caFormTag($this->request, 'Run', 'caArtefactsCanadaExportForm', null, 'post', 'multipart/form-data', '_top', ['noCSRFToken' => true, 'disableUnsavedChangesWarning' => true, 'noTimestamp' => true]);
+    print "<p>"._t('Export set %1', $this->getVar('sets_list_select'))."</p>\n";
+    print "<div style='text-align: center'>".caFormSubmitButton($this->request, __CA_NAV_ICON_GO__, _t("Export"), 'caArtefactsCanadaExportForm', [])."</div>";
+    print "</form>";
+}
 
 ?>
  	</div>

@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * app/views/system/preferences_html.php : 
+ * app/views/system/preferences_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,48 +15,48 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
- 	
-	$t_user = $this->getVar('t_user');
-	$vs_group = $this->getVar('group');
- 
- ?>
+
+
+$t_user = $this->getVar('t_user');
+$vs_group = $this->getVar('group');
+
+?>
 <div class="sectionBox">
 <?php
-	print $vs_control_box = caFormControlBox(
-		caFormSubmitButton($this->request, __CA_NAV_ICON_SAVE__, _t("Save"), 'PreferencesForm').' '.
-		caFormNavButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Reset"), '', 'system', 'Preferences', $this->request->getAction(), array()), 
-		'', 
-		''
-	);
+   print $vs_control_box = caFormControlBox(
+    caFormSubmitButton($this->request, __CA_NAV_ICON_SAVE__, _t("Save"), 'PreferencesForm').' '.
+       caFormNavButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Reset"), '', 'system', 'Preferences', $this->request->getAction(), array()),
+    '',
+    ''
+);
 
-	$va_group_info = $t_user->getPreferenceGroupInfo($vs_group);
-	print "<h1>"._t("Preferences").": "._t($va_group_info['name'])."</h1>\n";
-	
-	print caFormTag($this->request, 'Save', 'PreferencesForm');
-	
-	$va_prefs = $t_user->getValidPreferences($vs_group);
-	
-	
-	
-	foreach($va_prefs as $vs_pref) {
-		print $t_user->preferenceHtmlFormElement($vs_pref, null, array());
-	}
+$va_group_info = $t_user->getPreferenceGroupInfo($vs_group);
+print "<h1>"._t("Preferences").": "._t($va_group_info['name'])."</h1>\n";
+
+print caFormTag($this->request, 'Save', 'PreferencesForm');
+
+$va_prefs = $t_user->getValidPreferences($vs_group);
+
+
+
+foreach ($va_prefs as $vs_pref) {
+    print $t_user->preferenceHtmlFormElement($vs_pref, null, array());
+}
 ?>
 		<input type="hidden" name="action" value="<?php print $this->request->getAction(); ?>"/>
 	</form>
 <?php
-	print $vs_control_box;
+    print $vs_control_box;
 ?>
 </div>
 	<div class="editorBottomPadding"><!-- empty --></div>

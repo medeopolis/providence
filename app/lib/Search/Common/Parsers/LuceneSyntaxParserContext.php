@@ -30,7 +30,8 @@
  * ----------------------------------------------------------------------
  */
 
-class LuceneSyntaxParserContext {
+class LuceneSyntaxParserContext
+{
     /**
      * Default field for the context.
      *
@@ -61,8 +62,8 @@ class LuceneSyntaxParserContext {
     /**
      * Entries grouping mode
      */
-    const GM_SIGNS   = 0;  // Signs mode: '+term1 term2 -term3 +(subquery1) -(subquery2)'
-    const GM_BOOLEAN = 1;  // Boolean operators mode: 'term1 and term2  or  (subquery1) and not (subquery2)'
+    public const GM_SIGNS   = 0;  // Signs mode: '+term1 term2 -term3 +(subquery1) -(subquery2)'
+    public const GM_BOOLEAN = 1;  // Boolean operators mode: 'term1 and term2  or  (subquery1) and not (subquery2)'
 
     /**
      * Grouping mode
@@ -94,9 +95,9 @@ class LuceneSyntaxParserContext {
      * @var string
      */
     private $_encoding;
-    
-    
-	private $opn_default_operator = LuceneSyntaxParser::B_AND;
+
+
+    private $opn_default_operator = LuceneSyntaxParser::B_AND;
 
 
     /**
@@ -110,7 +111,7 @@ class LuceneSyntaxParserContext {
         $this->_encoding     = $encoding;
         $this->_defaultField = $defaultField;
     }
-    
+
     /**
      * Return current code
      */
@@ -127,7 +128,7 @@ class LuceneSyntaxParserContext {
      */
     public function getField()
     {
-        return ($this->_nextEntryField !== null)  ?  $this->_nextEntryField : $this->_defaultField;
+        return ($this->_nextEntryField !== null) ? $this->_nextEntryField : $this->_defaultField;
     }
 
     /**
@@ -157,7 +158,7 @@ class LuceneSyntaxParserContext {
 
         if ($sign == Zend_Search_Lucene_Search_QueryToken::TT_REQUIRED) {
             $this->_nextEntrySign = true;
-        } else if ($sign == Zend_Search_Lucene_Search_QueryToken::TT_PROHIBITED) {
+        } elseif ($sign == Zend_Search_Lucene_Search_QueryToken::TT_PROHIBITED) {
             $this->_nextEntrySign = false;
         } else {
             throw new Zend_Search_Lucene_Exception('Unrecognized sign type.');
@@ -258,7 +259,7 @@ class LuceneSyntaxParserContext {
     {
         $query = new Zend_Search_Lucene_Search_Query_Boolean();
 
-       // if (Zend_Search_Lucene_Search_QueryParser::getDefaultOperator() == Zend_Search_Lucene_Search_QueryParser::B_AND) {
+        // if (Zend_Search_Lucene_Search_QueryParser::getDefaultOperator() == Zend_Search_Lucene_Search_QueryParser::B_AND) {
         if ($this->getDefaultOperator() == LuceneSyntaxParser::B_AND) {
             $defaultSign = true; // required
         } else {
@@ -267,7 +268,7 @@ class LuceneSyntaxParserContext {
         }
 
         foreach ($this->_entries as $entryId => $entry) {
-            $sign = ($this->_signs[$entryId] !== null) ?  $this->_signs[$entryId] : $defaultSign;
+            $sign = ($this->_signs[$entryId] !== null) ? $this->_signs[$entryId] : $defaultSign;
             $query->addSubquery($entry->getQuery($this->_encoding), $sign);
         }
 
@@ -393,22 +394,24 @@ class LuceneSyntaxParserContext {
             return $this->_signStyleExpressionQuery();
         }
     }
-    
-    /**
-	 * Set default boolean operator
-	 *
-	 * @param integer $operator
-	 */
-	public function setDefaultOperator($operator) {
-		$this->opn_default_operator = $operator;
-	}
 
-	/**
-	 * Get default boolean operator
-	 *
-	 * @return integer
-	 */
-	public function getDefaultOperator() {
-		return $this->opn_default_operator;
-	}
+    /**
+     * Set default boolean operator
+     *
+     * @param integer $operator
+     */
+    public function setDefaultOperator($operator)
+    {
+        $this->opn_default_operator = $operator;
+    }
+
+    /**
+     * Get default boolean operator
+     *
+     * @return integer
+     */
+    public function getDefaultOperator()
+    {
+        return $this->opn_default_operator;
+    }
 }

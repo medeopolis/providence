@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * themes/default/views/system/configuration_error_html.php : 
+ * themes/default/views/system/configuration_error_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -29,9 +29,9 @@
  *
  * ----------------------------------------------------------------------
  */
-		
+
 if (!is_array($opa_error_messages)) {
-	$opa_error_messages = self::$opa_error_messages;
+    $opa_error_messages = self::$opa_error_messages;
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -52,9 +52,11 @@ if (!is_array($opa_error_messages)) {
 				or more specific information on detected issues review the messages below:</div>"; ?>
 <?php
 foreach ($opa_error_messages as $vs_message) {
-?>
+    ?>
 			<div class="permissionError">
-				<?php if (function_exists("caNavIcon")) { print caNavIcon(__CA_NAV_ICON_ALERT__ , 2, array('class' => 'permissionErrorIcon')); } ?>
+				<?php if (function_exists("caNavIcon")) {
+				    print caNavIcon(__CA_NAV_ICON_ALERT__, 2, array('class' => 'permissionErrorIcon'));
+				} ?>
 				<?= $vs_message; ?>
 				<div style='clear:both; height:1px;'><!-- empty --></div>
 			</div>

@@ -29,7 +29,7 @@
  *
  * ----------------------------------------------------------------------
  */
- use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
 require_once(__CA_BASE_DIR__.'/tests/testsWithData/BaseTestWithData.php');
 
@@ -37,117 +37,118 @@ require_once(__CA_BASE_DIR__.'/tests/testsWithData/BaseTestWithData.php');
  * Class CheckAccessGetWithTemplateTest
  * Note: Requires testing profile!
  */
-class CheckAccessGetWithTemplateTest extends BaseTestWithData {
-	# -------------------------------------------------------
-	/**
-	 * @var ca_objects
-	 */
-	protected $opt_object;
-	# -------------------------------------------------------
-	protected function setUp() : void {
-		// don't forget to call parent so that the request is set up
-		parent::setUp();
+class CheckAccessGetWithTemplateTest extends BaseTestWithData
+{
+    # -------------------------------------------------------
+    /**
+     * @var ca_objects
+     */
+    protected $opt_object;
+    # -------------------------------------------------------
+    protected function setUp(): void
+    {
+        // don't forget to call parent so that the request is set up
+        parent::setUp();
 
-		/**
-		 * @see http://docs.collectiveaccess.org/wiki/Web_Service_API#Creating_new_records
-		 * @see https://gist.githubusercontent.com/skeidel/3871797/raw/item_request.json
-		 */
+        /**
+         * @see http://docs.collectiveaccess.org/wiki/Web_Service_API#Creating_new_records
+         * @see https://gist.githubusercontent.com/skeidel/3871797/raw/item_request.json
+         */
 
-		$vn_object_id = $this->addTestRecord('ca_objects', array(
-			'intrinsic_fields' => array(
-				'type_id' => 'moving_image',
-				'access' => 1,
-			),
-			'preferred_labels' => array(
-				array(
-					"locale" => "en_US",
-					"name" => "My test moving image"
-				),
-			)
-		));
+        $vn_object_id = $this->addTestRecord('ca_objects', array(
+            'intrinsic_fields' => array(
+                'type_id' => 'moving_image',
+                'access' => 1,
+            ),
+            'preferred_labels' => array(
+                array(
+                    "locale" => "en_US",
+                    "name" => "My test moving image"
+                ),
+            )
+        ));
 
-		$this->assertGreaterThan(0, $vn_object_id);
-		$this->opt_object = new ca_objects($vn_object_id);
+        $this->assertGreaterThan(0, $vn_object_id);
+        $this->opt_object = new ca_objects($vn_object_id);
 
-		$vn_entity_id = $this->addTestRecord('ca_entities', array(
-			'intrinsic_fields' => array(
-				'type_id' => 'ind',
-				'idno' => '101',
-				'lifespan' => '12/17/1989 -',
-				'access' => 1,
-			),
-			'preferred_labels' => array(
-				array(
-					"locale" => "en_US",
-					"forename" => "Homer",
-					"middlename" => "J.",
-					"surname" => "Simpson",
-				),
-			),
-			'nonpreferred_labels' => array(
-				array(
-					"locale" => "en_US",
-					"forename" => "Max",
-					"middlename" => "",
-					"surname" => "Power",
-					"type_id" => "alt",
-				),
-			),
-			'related' => array(
-				'ca_objects' => array(
-					array(
-						'object_id' => $vn_object_id,
-						'type_id' => 'creator',
-						'effective_date' => '2015',
-						'source_info' => 'Me'
-					)
-				),
-			),
-		));
+        $vn_entity_id = $this->addTestRecord('ca_entities', array(
+            'intrinsic_fields' => array(
+                'type_id' => 'ind',
+                'idno' => '101',
+                'lifespan' => '12/17/1989 -',
+                'access' => 1,
+            ),
+            'preferred_labels' => array(
+                array(
+                    "locale" => "en_US",
+                    "forename" => "Homer",
+                    "middlename" => "J.",
+                    "surname" => "Simpson",
+                ),
+            ),
+            'nonpreferred_labels' => array(
+                array(
+                    "locale" => "en_US",
+                    "forename" => "Max",
+                    "middlename" => "",
+                    "surname" => "Power",
+                    "type_id" => "alt",
+                ),
+            ),
+            'related' => array(
+                'ca_objects' => array(
+                    array(
+                        'object_id' => $vn_object_id,
+                        'type_id' => 'creator',
+                        'effective_date' => '2015',
+                        'source_info' => 'Me'
+                    )
+                ),
+            ),
+        ));
 
-		$this->assertGreaterThan(0, $vn_entity_id);
+        $this->assertGreaterThan(0, $vn_entity_id);
 
-		$vn_entity_id = $this->addTestRecord('ca_entities', array(
-			'intrinsic_fields' => array(
-				'type_id' => 'ind',
-				'idno' => '102',
-				'access' => 0,
-			),
-			'preferred_labels' => array(
-				array(
-					"locale" => "en_US",
-					"forename" => "Bart",
-					"middlename" => "",
-					"surname" => "Simpson",
-				),
-			),
-			'related' => array(
-				'ca_objects' => array(
-					array(
-						'object_id' => $vn_object_id,
-						'type_id' => 'publisher',
-						'effective_date' => '2014-2015',
-						'source_info' => 'Homer'
-					)
-				),
-			),
-		));
+        $vn_entity_id = $this->addTestRecord('ca_entities', array(
+            'intrinsic_fields' => array(
+                'type_id' => 'ind',
+                'idno' => '102',
+                'access' => 0,
+            ),
+            'preferred_labels' => array(
+                array(
+                    "locale" => "en_US",
+                    "forename" => "Bart",
+                    "middlename" => "",
+                    "surname" => "Simpson",
+                ),
+            ),
+            'related' => array(
+                'ca_objects' => array(
+                    array(
+                        'object_id' => $vn_object_id,
+                        'type_id' => 'publisher',
+                        'effective_date' => '2014-2015',
+                        'source_info' => 'Homer'
+                    )
+                ),
+            ),
+        ));
 
-		$this->assertGreaterThan(0, $vn_entity_id);
-	}
-	# -------------------------------------------------------
-	public function testGets() {
+        $this->assertGreaterThan(0, $vn_entity_id);
+    }
+    # -------------------------------------------------------
+    public function testGets()
+    {
+        $this->assertEquals(
+            'Homer J. Simpson; Bart Simpson',
+            $this->opt_object->getWithTemplate('<unit relativeTo="ca_entities">^ca_entities.preferred_labels</unit>')
+        );
 
-		$this->assertEquals(
-			'Homer J. Simpson; Bart Simpson',
-			$this->opt_object->getWithTemplate('<unit relativeTo="ca_entities">^ca_entities.preferred_labels</unit>')
-		);
-
-		$this->assertEquals(
-			'Homer J. Simpson',
-			$this->opt_object->getWithTemplate('<unit relativeTo="ca_entities">^ca_entities.preferred_labels</unit>', array('checkAccess' => array('1')))
-		);
-
-	}
-	# -------------------------------------------------------
+        $this->assertEquals(
+            'Homer J. Simpson',
+            $this->opt_object->getWithTemplate('<unit relativeTo="ca_entities">^ca_entities.preferred_labels</unit>', array('checkAccess' => array('1')))
+        );
+    }
+    # -------------------------------------------------------
 }

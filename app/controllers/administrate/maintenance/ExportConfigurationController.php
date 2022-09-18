@@ -29,33 +29,35 @@
 require_once(__CA_APP_DIR__."/helpers/configurationHelpers.php");
 require_once(__CA_LIB_DIR__."/ConfigurationExporter.php");
 
-class ExportConfigurationController extends ActionController {
+class ExportConfigurationController extends ActionController
+{
+    # ------------------------------------------------
+    public function __construct(&$po_request, &$po_response, $pa_view_paths=null)
+    {
+        parent::__construct($po_request, $po_response, $pa_view_paths);
 
-	# ------------------------------------------------	
-	public function __construct(&$po_request, &$po_response, $pa_view_paths=null) {
-		parent::__construct($po_request, $po_response, $pa_view_paths);
-		
-		if (!$this->request->isLoggedIn()) {
-			$this->response->setRedirect($this->request->config->get('error_display_url').'/n/2320?r='.urlencode($this->request->getFullUrlPath()));
- 			return;
-		}	
-	}
-	# ------------------------------------------------
-	public function Index(){
-		$this->render('export_configuration_landing_html.php');
-	}
-	# ------------------------------------------------
-	public function Export(){
-		set_time_limit(3600);
-		$name = preg_replace("![^A-Za-z0-9_\-]+!", "_", __CA_APP_DISPLAY_NAME__);
-		$vs_xml = ConfigurationExporter::exportConfigurationAsXML($name, _t('Profile created on %1 by %2', caGetLocalizedDate(), $this->request->user->get('fname').' '.$this->request->user->get('lname')), 'base', '');
-		
-		$this->view->setVar('profile', $vs_xml);
-		$this->view->setVar('profile_file_name', $name.'_config.xml');
-		$this->render('export_configuration_binary.php');
-		
-		return;
-	}
-	# ------------------------------------------------
+        if (!$this->request->isLoggedIn()) {
+            $this->response->setRedirect($this->request->config->get('error_display_url').'/n/2320?r='.urlencode($this->request->getFullUrlPath()));
+            return;
+        }
+    }
+    # ------------------------------------------------
+    public function Index()
+    {
+        $this->render('export_configuration_landing_html.php');
+    }
+    # ------------------------------------------------
+    public function Export()
+    {
+        set_time_limit(3600);
+        $name = preg_replace("![^A-Za-z0-9_\-]+!", "_", __CA_APP_DISPLAY_NAME__);
+        $vs_xml = ConfigurationExporter::exportConfigurationAsXML($name, _t('Profile created on %1 by %2', caGetLocalizedDate(), $this->request->user->get('fname').' '.$this->request->user->get('lname')), 'base', '');
+
+        $this->view->setVar('profile', $vs_xml);
+        $this->view->setVar('profile_file_name', $name.'_config.xml');
+        $this->render('export_configuration_binary.php');
+
+        return;
+    }
+    # ------------------------------------------------
 }
-?>

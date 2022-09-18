@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * app/controllers/lookup/UserGroupController.php : 
+ * app/controllers/lookup/UserGroupController.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,28 +15,30 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 	require_once(__CA_LIB_DIR__."/BaseLookupController.php");
- 
- 	class UserGroupController extends BaseLookupController {
- 		# -------------------------------------------------------
- 		protected $opb_uses_hierarchy_browser = false;
- 		protected $ops_table_name = 'ca_user_groups';		// name of "subject" table (what we're editing)
- 		protected $ops_name_singular = 'user group';
- 		protected $ops_search_class = 'UserGroupSearch';
- 		protected $opa_filters = array();
- 		# -------------------------------------------------------
-		public function Get($pa_additional_query_params=null, $pa_options=null) {
-			return parent::Get($pa_additional_query_params, $pa_options);
-		}
- 		# -------------------------------------------------------
- 	}
+require_once(__CA_LIB_DIR__."/BaseLookupController.php");
+
+class UserGroupController extends BaseLookupController
+{
+    # -------------------------------------------------------
+    protected $opb_uses_hierarchy_browser = false;
+    protected $ops_table_name = 'ca_user_groups';		// name of "subject" table (what we're editing)
+    protected $ops_name_singular = 'user group';
+    protected $ops_search_class = 'UserGroupSearch';
+    protected $opa_filters = array();
+    # -------------------------------------------------------
+    public function Get($pa_additional_query_params=null, $pa_options=null)
+    {
+        return parent::Get($pa_additional_query_params, $pa_options);
+    }
+    # -------------------------------------------------------
+}

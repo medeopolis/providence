@@ -25,20 +25,20 @@
  *
  * ----------------------------------------------------------------------
  */
- 	$t_form 		= $this->getVar('t_form');
-	$va_form_list 	= $this->getVar('form_list');
+$t_form 		= $this->getVar('t_form');
+$va_form_list 	= $this->getVar('form_list');
 
 
-	$t_list = new ca_lists();
-	
-	$vs_set_type_menu = '<div class="sf-small-menu form-header-button rounded">'.
-							'<div class="caNavHeaderIcon">'.
-								'<a href="#" onclick="_navigateToNewForm(jQuery(\'#tableList\').val());">'.caNavIcon(__CA_NAV_ICON_ADD__, 2).'</a>'.
-							'</div>'.
-						'<form action="#">'._t('New search form for ').' '.caHTMLSelect('table_num', $this->getVar('table_list'), array('id' => 'tableList')).'</form>'.
-						'</div>';
-						
-	//$vs_set_type_menu = caNavHeaderButton($this->request, __CA_NAV_ICON_ADD__, _t('New form'), 'manage/search_forms', 'SearchFormEditor', 'Edit', array('form_id' => 0));
+$t_list = new ca_lists();
+
+$vs_set_type_menu = '<div class="sf-small-menu form-header-button rounded">'.
+                        '<div class="caNavHeaderIcon">'.
+                            '<a href="#" onclick="_navigateToNewForm(jQuery(\'#tableList\').val());">'.caNavIcon(__CA_NAV_ICON_ADD__, 2).'</a>'.
+                        '</div>'.
+                    '<form action="#">'._t('New search form for ').' '.caHTMLSelect('table_num', $this->getVar('table_list'), array('id' => 'tableList')).'</form>'.
+                    '</div>';
+
+//$vs_set_type_menu = caNavHeaderButton($this->request, __CA_NAV_ICON_ADD__, _t('New form'), 'manage/search_forms', 'SearchFormEditor', 'Edit', array('form_id' => 0));
 ?>
 <script language="JavaScript" type="text/javascript">
 /* <![CDATA[ */
@@ -52,13 +52,13 @@
 /* ]]> */
 </script>
 <div class="sectionBox">
-	<?php 
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caFormList\').caFilterTable(this.value); return false;" size="20"/></div>', 
-			'', 
-			$vs_set_type_menu
-		); 
-	?>
+	<?php
+        print caFormControlBox(
+            '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caFormList\').caFilterTable(this.value); return false;" size="20"/></div>',
+            '',
+            $vs_set_type_menu
+        );
+?>
 	
 	<table id="caFormList" class="listtable">
 		<thead>
@@ -77,9 +77,9 @@
 		</thead>
 		<tbody>
 <?php
-	if (sizeof($va_form_list)) {
-		foreach($va_form_list as $va_form) {
-?>
+if (sizeof($va_form_list)) {
+    foreach ($va_form_list as $va_form) {
+        ?>
 			<tr>
 				<td>
 					<?php print $va_form['name']; ?>
@@ -97,12 +97,11 @@
 				</td>
 			</tr>
 <?php
-		TooltipManager::add('.deleteIcon', _t("Delete"));
-		TooltipManager::add('.editIcon', _t("Edit"));
-		
-		}
-	} else {
-?>
+                TooltipManager::add('.deleteIcon', _t("Delete"));
+        TooltipManager::add('.editIcon', _t("Edit"));
+    }
+} else {
+    ?>
 		<tr>
 			<td colspan='4'>
 				<div align="center">
@@ -112,8 +111,7 @@
 		</tr>
 <?php
 
-
-	}
+}
 ?>
 		</tbody>
 	</table>

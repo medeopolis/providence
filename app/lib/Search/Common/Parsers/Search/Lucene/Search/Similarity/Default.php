@@ -34,7 +34,6 @@
  */
 class Zend_Search_Lucene_Search_Similarity_Default extends Zend_Search_Lucene_Search_Similarity
 {
-
     /**
      * Implemented as '1/sqrt(numTerms)'.
      *

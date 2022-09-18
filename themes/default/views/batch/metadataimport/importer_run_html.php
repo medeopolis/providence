@@ -30,15 +30,15 @@ $t_importer 			= $this->getVar('t_importer');
 $va_last_settings 		= $this->getVar('last_settings');
 
 print $vs_control_box = caFormControlBox(
-		caFormJSButton($this->request, __CA_NAV_ICON_SAVE__, _t("Execute data import"), 'caBatchMetadataImportFormButton', array('onclick' => 'caShowConfirmBatchExecutionPanel(); return false;')).' '.
-		caFormNavButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), '', 'batch', 'MetadataImport', 'Index', array()),
-		'', 
-		''
-	);
+    caFormJSButton($this->request, __CA_NAV_ICON_SAVE__, _t("Execute data import"), 'caBatchMetadataImportFormButton', array('onclick' => 'caShowConfirmBatchExecutionPanel(); return false;')).' '.
+    caFormNavButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), '', 'batch', 'MetadataImport', 'Index', array()),
+    '',
+    ''
+);
 ?>
 <div class="sectionBox">
 <?php
-		print caFormTag($this->request, 'ImportData/'.$this->request->getActionExtra(), 'caBatchMetadataImportForm', null, 'POST', 'multipart/form-data', '_top', array('noCSRFToken' => false, 'disableUnsavedChangesWarning' => true, 'noTimestamp' => true));
+        print caFormTag($this->request, 'ImportData/'.$this->request->getActionExtra(), 'caBatchMetadataImportForm', null, 'POST', 'multipart/form-data', '_top', array('noCSRFToken' => false, 'disableUnsavedChangesWarning' => true, 'noTimestamp' => true));
 ?>
 		<div class='bundleLabel'>
 			<span class="formLabelText"><?php print _t('Importer'); ?></span> 
@@ -46,7 +46,7 @@ print $vs_control_box = caFormControlBox(
 				<div class="caLabelList" >
 					<p>
 <?php
-		print ca_data_importers::getImporterListAsHTMLFormElement('importer_id', null, array('id' => 'caImporterList', 'onchange' => 'caSetBatchMetadataImportFormState(true);'), array('value' => $t_importer->getPrimaryKey()));
+        print ca_data_importers::getImporterListAsHTMLFormElement('importer_id', null, array('id' => 'caImporterList', 'onchange' => 'caSetBatchMetadataImportFormState(true);'), array('value' => $t_importer->getPrimaryKey()));
 ?>
 					</p>
 				</div>
@@ -58,9 +58,9 @@ print $vs_control_box = caFormControlBox(
 				<div class="caLabelList" >
 					<p>
 <?php
-		print ca_data_importers::getInputFormatListAsHTMLFormElement('inputFormat', array('id' => 'caInputFormatList', 'onchange' => 'caSetBatchMetadataImportFormState(true);'));
+        print ca_data_importers::getInputFormatListAsHTMLFormElement('inputFormat', array('id' => 'caInputFormatList', 'onchange' => 'caSetBatchMetadataImportFormState(true);'));
 
-		print "<span id='caImportAllDatasetsContainer' class='formLabelPlain'>".caHTMLCheckboxInput('importAllDatasets', array('id' => 'caImportAllDatasets', 'value' => 1), array()).' '._t('Import all data sets')."</span>\n";
+print "<span id='caImportAllDatasetsContainer' class='formLabelPlain'>".caHTMLCheckboxInput('importAllDatasets', array('id' => 'caImportAllDatasets', 'value' => 1), array()).' '._t('Import all data sets')."</span>\n";
 ?>	
 					</p>
 				</div>
@@ -74,29 +74,35 @@ print $vs_control_box = caFormControlBox(
 						<table class="caFileSourceControls">
 							<tr class="caFileSourceControls">
 								<td class="caSourceFileControlRadio">
-<?php	
-		$va_attr = array('value' => 'file',  'onclick' => 'caSetBatchMetadataImportFormState();', 'id' => 'caFileInputRadio');
-		if (caGetOption('fileInput', $va_last_settings, 'file') === 'file') { $va_attr['checked'] = 'checked'; }
-		print caHTMLRadioButtonInput("fileInput", $va_attr)."</td><td class='formLabel caFileSourceControls'>"._t('From a file')." <span id='caFileInputContainer'><input type='file' name='sourceFile' id='caSourceFile'/></span>";
-		
+<?php
+        $va_attr = array('value' => 'file',  'onclick' => 'caSetBatchMetadataImportFormState();', 'id' => 'caFileInputRadio');
+if (caGetOption('fileInput', $va_last_settings, 'file') === 'file') {
+    $va_attr['checked'] = 'checked';
+}
+print caHTMLRadioButtonInput("fileInput", $va_attr)."</td><td class='formLabel caFileSourceControls'>"._t('From a file')." <span id='caFileInputContainer'><input type='file' name='sourceFile' id='caSourceFile'/></span>";
+
 ?>
 								</td>
 							</tr>
 							<tr class="caFileSourceControls">
 								<td class="caSourceFileControlRadio">
-<?php		
-		$va_attr = array('value' => 'import',  'onclick' => 'caSetBatchMetadataImportFormState();', 'id' => 'caFileBrowserRadio');
-		if (caGetOption('fileInput', $va_last_settings, 'file') === 'import') { $va_attr['checked'] = 'checked'; }	
-		print caHTMLRadioButtonInput("fileInput", $va_attr)."</td><td class='formLabel caFileSourceControls'>"._t('From the import directory')." <div id='caFileBrowserContainer'>".$this->getVar('file_browser')."</div>";
+<?php
+        $va_attr = array('value' => 'import',  'onclick' => 'caSetBatchMetadataImportFormState();', 'id' => 'caFileBrowserRadio');
+if (caGetOption('fileInput', $va_last_settings, 'file') === 'import') {
+    $va_attr['checked'] = 'checked';
+}
+print caHTMLRadioButtonInput("fileInput", $va_attr)."</td><td class='formLabel caFileSourceControls'>"._t('From the import directory')." <div id='caFileBrowserContainer'>".$this->getVar('file_browser')."</div>";
 ?>
 								</td>
 							</tr>
 							<tr class="caFileSourceControls" id='caFileGoogleDriveContainer'>
 								<td class="caSourceFileControlRadio">
-<?php		
-		$va_attr = array('value' => 'googledrive',  'onclick' => 'caSetBatchMetadataImportFormState();', 'id' => 'caFileGoogleDriveRadio');
-		if (caGetOption('fileInput', $va_last_settings, 'file') === 'googledrive') { $va_attr['checked'] = 'checked'; }	
-		print caHTMLRadioButtonInput("fileInput", $va_attr)."</td><td class='formLabel caFileSourceControls'>"._t('From GoogleDrive')." <span id='caFileGoogleDriveInputContainer'>".caHTMLTextInput('google_drive_url', ['value' => caGetOption('googleDriveUrl', $va_last_settings, ''), 'class' => 'urlBg', 'id' => 'caFileGoogleDriveInput'], ['width' => '500px'])."</span>";
+<?php
+        $va_attr = array('value' => 'googledrive',  'onclick' => 'caSetBatchMetadataImportFormState();', 'id' => 'caFileGoogleDriveRadio');
+if (caGetOption('fileInput', $va_last_settings, 'file') === 'googledrive') {
+    $va_attr['checked'] = 'checked';
+}
+print caHTMLRadioButtonInput("fileInput", $va_attr)."</td><td class='formLabel caFileSourceControls'>"._t('From GoogleDrive')." <span id='caFileGoogleDriveInputContainer'>".caHTMLTextInput('google_drive_url', ['value' => caGetOption('googleDriveUrl', $va_last_settings, ''), 'class' => 'urlBg', 'id' => 'caFileGoogleDriveInput'], ['width' => '500px'])."</span>";
 ?>
 								</td>
 							</tr>
@@ -111,7 +117,7 @@ print $vs_control_box = caFormControlBox(
 				<div class="caLabelList" >
 					<p>
 <?php
-		print caHTMLTextInput('sourceUrl', array('id' => 'caSourceUrl', 'class' => 'urlBg'), array('width' => '300px'));
+        print caHTMLTextInput('sourceUrl', array('id' => 'caSourceUrl', 'class' => 'urlBg'), array('width' => '300px'));
 ?>
 					</p>
 				</div>
@@ -123,7 +129,7 @@ print $vs_control_box = caFormControlBox(
 				<div class="caLabelList" >
 					<p>
 <?php
-		print caHTMLTextInput('sourceText', array('id' => 'caSourceText'), array('width' => '600px', 'height' => 3));
+        print caHTMLTextInput('sourceText', array('id' => 'caSourceText'), array('width' => '600px', 'height' => 3));
 ?>
 					</p>
 				</div>
@@ -135,7 +141,7 @@ print $vs_control_box = caFormControlBox(
 				<div class="caLabelList">
 					<p>
 <?php
-		print caHTMLSelect('logLevel', caGetLogLevels(), array('id' => 'caLogLevel'), array('value' => $va_last_settings['logLevel']));
+        print caHTMLSelect('logLevel', caGetLogLevels(), array('id' => 'caLogLevel'), array('value' => $va_last_settings['logLevel']));
 ?>
 					</p>
 				</div>
@@ -147,19 +153,21 @@ print $vs_control_box = caFormControlBox(
 				<div class="caLabelList">
 					<table style="width: 600px; margin-left: 10px;">
 <?php
-		$c = 0;
-		$acc = [];
-		$limit_log_to_selected = caGetOption('limitLogTo', $va_last_settings, [], ['castTo' => 'array']);
-		foreach(['GENERAL' => _t('General information'), 'EXISTING_RECORD_POLICY' => _t('Existing record policy messages'), 'SKIP' => _t('Skip message'), 'RELATIONSHIPS' => _t('Relationship creation messages')] as $level => $name) {
-			$attr = ['value' => $level];
-			if(in_array($level, $limit_log_to_selected)) { $attr['checked'] = true; }
-			$acc[] = "<td class='formLabelPlain' style='padding: 5px'>".caHTMLCheckboxInput('limitLogTo[]', $attr, [])." {$name}</td>";
-			$c++;
-			if (($c % 2) == 0) {
-				print "<tr>".join("", $acc)."</tr>\n";
-				$acc = [];
-			}
-		}
+        $c = 0;
+$acc = [];
+$limit_log_to_selected = caGetOption('limitLogTo', $va_last_settings, [], ['castTo' => 'array']);
+foreach (['GENERAL' => _t('General information'), 'EXISTING_RECORD_POLICY' => _t('Existing record policy messages'), 'SKIP' => _t('Skip message'), 'RELATIONSHIPS' => _t('Relationship creation messages')] as $level => $name) {
+    $attr = ['value' => $level];
+    if (in_array($level, $limit_log_to_selected)) {
+        $attr['checked'] = true;
+    }
+    $acc[] = "<td class='formLabelPlain' style='padding: 5px'>".caHTMLCheckboxInput('limitLogTo[]', $attr, [])." {$name}</td>";
+    $c++;
+    if (($c % 2) == 0) {
+        print "<tr>".join("", $acc)."</tr>\n";
+        $acc = [];
+    }
+}
 ?>
 					</table>
 				</div>
@@ -170,23 +178,25 @@ print $vs_control_box = caFormControlBox(
 			<div class="bundleContainer">
 				<div class="caLabelList" >
 					<p class="formLabelPlain">
-<?php	
-		$va_attr = array('id' => 'caDryRun', 'value' => 1);
-		if ($va_last_settings['dryRun'] == 1) { $va_attr['checked'] = 1; }
-		print caHTMLCheckboxInput('dryRun', $va_attr)." "._t('Dry run');
+<?php
+        $va_attr = array('id' => 'caDryRun', 'value' => 1);
+if ($va_last_settings['dryRun'] == 1) {
+    $va_attr['checked'] = 1;
+}
+print caHTMLCheckboxInput('dryRun', $va_attr)." "._t('Dry run');
 ?>
 					</p>
 					
 				</div>
 			</div>
 		</div>
-<?php	
-		print $this->render("metadataimport/confirm_html.php");	
+<?php
+        print $this->render("metadataimport/confirm_html.php");
 ?>
 		</form>
 </div>
 <?php
-	print $vs_control_box; 
+    print $vs_control_box;
 ?>
 <div class="editorBottomPadding"><!-- empty --></div>
 

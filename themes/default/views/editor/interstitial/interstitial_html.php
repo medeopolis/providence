@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * app/views/editor/interstitial/interstitial_html.php : 
+ * app/views/editor/interstitial/interstitial_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,44 +15,44 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
- 	global $g_ui_locale_id;
- 
- 	$t_subject 			= $this->getVar('t_subject');
-	$vn_subject_id 		= $this->getVar('subject_id');
-	
-	$va_restrict_to_types = $this->getVar('restrict_to_types');
-	
-	$vs_field_name_prefix = $this->getVar('field_name_prefix');
-	$vs_n 				= $this->getVar('n');
-	$vs_q				= caUcFirstUTF8Safe($this->getVar('q'), true);
 
-	$vb_can_edit	 	= true; //$t_subject->isSaveable($this->request);
-	
-	$vs_form_name = "InterstitialEditorForm";
-		
-	$t_left= $t_subject->getLeftTableInstance();
-	$t_right= $t_subject->getRightTableInstance();
-	$vs_rel_name = "<em>".$t_left->getTypeName()."</em> ⇔ <em>".$t_right->getTypeName()."</em>";
+global $g_ui_locale_id;
+
+$t_subject 			= $this->getVar('t_subject');
+$vn_subject_id 		= $this->getVar('subject_id');
+
+$va_restrict_to_types = $this->getVar('restrict_to_types');
+
+$vs_field_name_prefix = $this->getVar('field_name_prefix');
+$vs_n 				= $this->getVar('n');
+$vs_q				= caUcFirstUTF8Safe($this->getVar('q'), true);
+
+$vb_can_edit	 	= true; //$t_subject->isSaveable($this->request);
+
+$vs_form_name = "InterstitialEditorForm";
+
+$t_left= $t_subject->getLeftTableInstance();
+$t_right= $t_subject->getRightTableInstance();
+$vs_rel_name = "<em>".$t_left->getTypeName()."</em> ⇔ <em>".$t_right->getTypeName()."</em>";
 ?>		
 <form action="#" name="<?php print $vs_form_name; ?>" method="POST" enctype="multipart/form-data" id="<?php print $vs_form_name.$vs_field_name_prefix.$vs_n; ?>">
-	<div class='dialogHeader quickAddDialogHeader'><?php 
-	print "<div class='quickAddTypeList'>"._t('Edit %1 relationship', $vs_rel_name)."</div>"; 
-	
-	if ($vb_can_edit) {	
-		print "<div style='float: right;'>".caJSButton($this->request, __CA_NAV_ICON_SAVE__, _t("Save"), "{$vs_form_name}{$vs_field_name_prefix}{$vs_n}", array("onclick" => "caSave{$vs_form_name}{$vs_field_name_prefix}{$vs_n}(event);"))
-		.' '.caJSButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), "{$vs_form_name}{$vs_field_name_prefix}{$vs_n}", array("onclick" => "jQuery(\"#{$vs_form_name}".$vs_field_name_prefix.$vs_n."\").parent().data(\"panel\").hidePanel();"))."</div><br style='clear: both;'/>\n";
-	}
+	<div class='dialogHeader quickAddDialogHeader'><?php
+    print "<div class='quickAddTypeList'>"._t('Edit %1 relationship', $vs_rel_name)."</div>";
+
+if ($vb_can_edit) {
+    print "<div style='float: right;'>".caJSButton($this->request, __CA_NAV_ICON_SAVE__, _t("Save"), "{$vs_form_name}{$vs_field_name_prefix}{$vs_n}", array("onclick" => "caSave{$vs_form_name}{$vs_field_name_prefix}{$vs_n}(event);"))
+    .' '.caJSButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), "{$vs_form_name}{$vs_field_name_prefix}{$vs_n}", array("onclick" => "jQuery(\"#{$vs_form_name}".$vs_field_name_prefix.$vs_n."\").parent().data(\"panel\").hidePanel();"))."</div><br style='clear: both;'/>\n";
+}
 ?>
 	</div>
 
@@ -62,21 +62,19 @@
 		<div class="quickAddFormTopPadding"><!-- empty --></div>
 <?php
 
-			
-			if(is_array($va_form_elements = $t_subject->getBundleFormHTMLForScreen($this->getVar('screen'), array(
-					'request' => $this->request, 
-					'formName' => $vs_form_name.$vs_field_name_prefix.$vs_n,
-					'restrictToTypes' => array($t_subject->get('type_id'))
-			)))) {
-			
-				print join("\n", $va_form_elements);
-			} else {
-			
-			//TODO better errors
-?>
+
+            if (is_array($va_form_elements = $t_subject->getBundleFormHTMLForScreen($this->getVar('screen'), array(
+                    'request' => $this->request,
+                    'formName' => $vs_form_name.$vs_field_name_prefix.$vs_n,
+                    'restrictToTypes' => array($t_subject->get('type_id'))
+            )))) {
+                print join("\n", $va_form_elements);
+            } else {
+                //TODO better errors
+                ?>
 	<h2><?php print _t("No user interface defined"); ?></h2>
 <?php
-			}
+            }
 ?>
 		<input type='hidden' name='_formName' value='<?php print $vs_form_name.$vs_field_name_prefix.$vs_n; ?>'/>
 		<input type='hidden' name='screen' value='<?php print htmlspecialchars($this->getVar('screen')); ?>'/>

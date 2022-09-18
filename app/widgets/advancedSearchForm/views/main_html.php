@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * app/widgets/count/views/main_html.php : 
+ * app/widgets/count/views/main_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,20 +15,20 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
- 	$po_request			= $this->getVar('request');
-	$vs_widget_id			= $this->getVar('widget_id');
-	$t_form				= $this->getVar('t_form');
+
+$po_request			= $this->getVar('request');
+$vs_widget_id			= $this->getVar('widget_id');
+$t_form				= $this->getVar('t_form');
 ?>
 <div class="dashboardWidgetContentContainer" style="overflow-x: hidden; overflow-y: auto;">
 	<div style="width:98%">

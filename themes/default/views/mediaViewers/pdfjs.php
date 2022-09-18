@@ -29,15 +29,15 @@
  *
  * ----------------------------------------------------------------------
  */
- 
-	$t_subject = $this->getVar('t_subject');
-	$vn_page = (int)$this->getVar('page');
-	
-	$vs_width = caParseElementDimension($this->getVar('width'), ['returnAsString' => true, 'default' => '100%']);
-	$vs_height = caParseElementDimension($this->getVar('height'), ['returnAsString' => true, 'default' => '100%']);
-	
-	$url = $this->getVar('media_url');
-	//print "url=".$this->getVar('media_url');
+
+$t_subject = $this->getVar('t_subject');
+$vn_page = (int)$this->getVar('page');
+
+$vs_width = caParseElementDimension($this->getVar('width'), ['returnAsString' => true, 'default' => '100%']);
+$vs_height = caParseElementDimension($this->getVar('height'), ['returnAsString' => true, 'default' => '100%']);
+
+$url = $this->getVar('media_url');
+//print "url=".$this->getVar('media_url');
 ?>
 
 <div id="outerContainer">

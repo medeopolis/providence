@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * themes/default/views/bundles/ca_metadata_dictionary_rules.php : 
+ * themes/default/views/bundles/ca_metadata_dictionary_rules.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,38 +15,40 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	AssetLoadManager::register('sortableUI');
 
-	$vs_id_prefix 			= $this->getVar('placement_code').$this->getVar('id_prefix');
-	$t_entry 				= $this->getVar('t_entry');	
-	$t_rule					= $this->getVar('t_rule');
-	
-	$settings_values_list	= $this->getVar('settings_values_list');
-	$settings_tags			= $this->getVar('settings_tags');
+AssetLoadManager::register('sortableUI');
 
-	$va_initial_values = $this->getVar('rules');	// list of existing rules
-	if(!is_array($va_initial_values)) { $va_initial_values = []; }
-	$va_errors = $va_failed_inserts = [];
-	
-	print caEditorBundleShowHideControl($this->request, $vs_id_prefix);
-	print caEditorBundleMetadataDictionary($this->request, $vs_id_prefix, $va_settings);
- ?>
+$vs_id_prefix 			= $this->getVar('placement_code').$this->getVar('id_prefix');
+$t_entry 				= $this->getVar('t_entry');
+$t_rule					= $this->getVar('t_rule');
+
+$settings_values_list	= $this->getVar('settings_values_list');
+$settings_tags			= $this->getVar('settings_tags');
+
+$va_initial_values = $this->getVar('rules');	// list of existing rules
+if (!is_array($va_initial_values)) {
+    $va_initial_values = [];
+}
+$va_errors = $va_failed_inserts = [];
+
+print caEditorBundleShowHideControl($this->request, $vs_id_prefix);
+print caEditorBundleMetadataDictionary($this->request, $vs_id_prefix, $va_settings);
+?>
  <div id="<?php print $vs_id_prefix; ?>">
 <?php
-	//
-	// The bundle template - used to generate each bundle in the form
-	//
+    //
+    // The bundle template - used to generate each bundle in the form
+    //
 ?>
 	<textarea class='caItemTemplate' style='display: none;'>
 		<div id="<?php print $vs_id_prefix; ?>Item_{n}" class="labelInfo">
@@ -78,7 +80,7 @@
 			</table>
 		</div>
 <?php
-	//print TooltipManager::getLoadHTML('bundle_ca_tour_stops_list');
+    //print TooltipManager::getLoadHTML('bundle_ca_tour_stops_list');
 ?>
 	</textarea>
 	
@@ -90,13 +92,15 @@
 	</div>
 </div>
 <?php
-	// order element
+    // order element
 ?>
 			
 <script type="text/javascript">
 	caUI.initBundle('#<?php print $vs_id_prefix; ?>', {
 		fieldNamePrefix: '<?php print $vs_id_prefix; ?>_',
-		templateValues: ['rule_code', 'rule_level', 'expression', 'rule_id', 'typename', <?php print join(", ", array_map(function($v) { return "'{$v}'"; }, $settings_tags)); ?>],
+		templateValues: ['rule_code', 'rule_level', 'expression', 'rule_id', 'typename', <?php print join(", ", array_map(function ($v) {
+		    return "'{$v}'";
+		}, $settings_tags)); ?>],
 		initialValues: <?php print json_encode($va_initial_values); ?>,
 		initialValueOrder: <?php print json_encode(array_keys($va_initial_values)); ?>,
 		errors: <?php print json_encode($va_errors); ?>,

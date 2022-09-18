@@ -24,10 +24,10 @@
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
- */ 
- 	$vo_result = $this->getVar('result');
-	$vn_items_per_page = $this->getVar('current_items_per_page');
-	
+ */
+$vo_result = $this->getVar('result');
+$vn_items_per_page = $this->getVar('current_items_per_page');
+
 ?>
 	<div id="tagsResults">
 		<form id="tagListForm"><input type="hidden" name="mode" value="search">
@@ -51,28 +51,28 @@
 			<tbody>
 
 <?php
-		$i = 0;
-		$vn_item_count = 0;
-		
-		while(($vn_item_count < $vn_items_per_page) && $vo_result->nextHit()) {
-?>
+        $i = 0;
+$vn_item_count = 0;
+
+while (($vn_item_count < $vn_items_per_page) && $vo_result->nextHit()) {
+    ?>
 				<tr>
 					<td>
 						<?php print caNavLink($this->request, $tag = $vo_result->get('ca_item_tags.tag'), '', 'find', 'QuickSearch', 'Index', ['search' => "ca_item_tags.tag:\"{$tag}\""]); ?>
 					</td>
 					<td>
 <?php
-						print ca_items_x_tags::find(['tag_id' => $vo_result->get('ca_item_tags.tag_id')], ['returnAs' => 'count']);
-?>
+                            print ca_items_x_tags::find(['tag_id' => $vo_result->get('ca_item_tags.tag_id')], ['returnAs' => 'count']);
+    ?>
 					</td>
 					<td>
 						<input type="checkbox" name="tag_id[]" value="<?php print $vo_result->get('ca_item_tags.tag_id'); ?>">
 					</td>
 				</tr>
 <?php
-			$i++;
-			$vn_item_count++;
-		}
+                $i++;
+    $vn_item_count++;
+}
 ?>
 			</tbody>
 		</table></form>

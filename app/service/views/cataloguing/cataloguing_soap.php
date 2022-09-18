@@ -27,6 +27,5 @@
  */
 
 
-	$vo_soap_server = $this->getVar("soap_server");
-	$vo_soap_server->handle();
-?>
+$vo_soap_server = $this->getVar("soap_server");
+$vo_soap_server->handle();

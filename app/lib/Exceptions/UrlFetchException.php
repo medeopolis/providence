@@ -33,4 +33,6 @@
 /**
  *
  */
-	class UrlFetchException extends ApplicationException {} 
+class UrlFetchException extends ApplicationException
+{
+}

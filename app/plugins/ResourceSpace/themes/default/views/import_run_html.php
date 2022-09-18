@@ -26,11 +26,11 @@
  * ----------------------------------------------------------------------
  */
 
-	$pa_resourcespace_ids = 		$this->getVar('resourcespace_ids');
-	$pn_importer_id = 		$this->getVar('importer_id');
-	$ps_job_id = 			$this->getVar('job_id');
-	$pn_log_level = 		$this->getVar('log_level');
- ?>
+$pa_resourcespace_ids = 		$this->getVar('resourcespace_ids');
+$pn_importer_id = 		$this->getVar('importer_id');
+$ps_job_id = 			$this->getVar('job_id');
+$pn_log_level = 		$this->getVar('log_level');
+?>
 
 <h1><?php print _t('Importing from ResourceSpace'); ?></h1>
 

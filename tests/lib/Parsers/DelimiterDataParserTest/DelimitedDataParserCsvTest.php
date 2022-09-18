@@ -30,26 +30,27 @@
  * ----------------------------------------------------------------------
  */
 
-require_once( __CA_LIB_DIR__ . '/Parsers/DelimitedDataParser.php' );
-require_once( 'BaseDelimitedDataParser.php' );
+require_once(__CA_LIB_DIR__ . '/Parsers/DelimitedDataParser.php');
+require_once('BaseDelimitedDataParser.php');
 
 
-class DelimitedDataParserCsvTest extends BaseDelimitedDataParser {
+class DelimitedDataParserCsvTest extends BaseDelimitedDataParser
+{
+    protected $file = null;
+    protected $data = null;
 
-	protected $file = null;
-	protected $data = null;
+    protected function setUp(): void
+    {
+        // Read CSV File
+        $this->file = __DIR__ . '/data/test.csv';
+        $this->data = DelimitedDataParser::load($this->file, array(
+            'delimiter' => ',',
+        ));
+    }
 
-	protected function setUp(): void {
-		// Read CSV File
-		$this->file = __DIR__ . '/data/test.csv';
-		$this->data = DelimitedDataParser::load( $this->file, array(
-			'delimiter' => ',',
-		) );
-	}
-
-	public function testFileType() {
-
-		$this->assertNotNull( $this->data );
-		$this->assertEquals( 'txt', $this->data->getType() );
-	}
+    public function testFileType()
+    {
+        $this->assertNotNull($this->data);
+        $this->assertEquals('txt', $this->data->getType());
+    }
 }

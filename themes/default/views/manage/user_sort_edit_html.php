@@ -33,14 +33,14 @@ $va_sort_element_list = $this->getVar('sort_element_list');
 $va_sort_bundle_names = $this->getVar('sort_bundle_names');
 
 $vs_select_1_val = $vs_select_2_val = $vs_select_3_val = null;
-if(is_array($va_sort_bundle_names) && (sizeof($va_sort_bundle_names)>0)) {
-	$vs_select_1_val = array_shift($va_sort_bundle_names);
+if (is_array($va_sort_bundle_names) && (sizeof($va_sort_bundle_names)>0)) {
+    $vs_select_1_val = array_shift($va_sort_bundle_names);
 }
-if(is_array($va_sort_bundle_names) && (sizeof($va_sort_bundle_names)>0)) {
-	$vs_select_2_val = array_shift($va_sort_bundle_names);
+if (is_array($va_sort_bundle_names) && (sizeof($va_sort_bundle_names)>0)) {
+    $vs_select_2_val = array_shift($va_sort_bundle_names);
 }
-if(is_array($va_sort_bundle_names) && (sizeof($va_sort_bundle_names)>0)) {
-	$vs_select_3_val = array_shift($va_sort_bundle_names);
+if (is_array($va_sort_bundle_names) && (sizeof($va_sort_bundle_names)>0)) {
+    $vs_select_3_val = array_shift($va_sort_bundle_names);
 }
 
 ?>
@@ -57,7 +57,9 @@ if(is_array($va_sort_bundle_names) && (sizeof($va_sort_bundle_names)>0)) {
 <?php print caFormTag($this->request, 'Save', 'caUserSortForm'); ?>
 
 	<?php print $t_sort->htmlFormElement('name') ?>
-	<?php if(!$vn_sort_id) { print $t_sort->htmlFormElement('table_num'); } ?>
+	<?php if (!$vn_sort_id) {
+	    print $t_sort->htmlFormElement('table_num');
+	} ?>
 
 
 	<table>

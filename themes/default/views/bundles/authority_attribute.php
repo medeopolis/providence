@@ -38,33 +38,33 @@ $table						= $this->getVar('table');
 $for_search					= $this->getVar('forSearch');
 
 if (!$for_search) {
-?>
+    ?>
 <div id='<?= $vs_field_name_prefix; ?>_display{n}' style='float: right;'> </div>
 <?php
 }
 print caHTMLTextInput(
-	"{$vs_field_name_prefix}_autocomplete{n}",
-	array(
-		'size' => (isset($pa_options['width']) && $pa_options['width'] > 0) ? $pa_options['width'] : $va_settings['fieldWidth'],
-		'height' => (isset($pa_options['height']) && $pa_options['height'] > 0) ? $pa_options['height'] : 1,
-		'value' => '{{'.$pa_element_info['element_id'].'}}',
-		'maxlength' => 512,
-		'id' => "{$vs_field_name_prefix}_autocomplete{n}",
-		'class' => $vs_class
-	)
+    "{$vs_field_name_prefix}_autocomplete{n}",
+    array(
+        'size' => (isset($pa_options['width']) && $pa_options['width'] > 0) ? $pa_options['width'] : $va_settings['fieldWidth'],
+        'height' => (isset($pa_options['height']) && $pa_options['height'] > 0) ? $pa_options['height'] : 1,
+        'value' => '{{'.$pa_element_info['element_id'].'}}',
+        'maxlength' => 512,
+        'id' => "{$vs_field_name_prefix}_autocomplete{n}",
+        'class' => $vs_class
+    )
 );
 print caHTMLHiddenInput(
-	"{$vs_field_name_prefix}_{n}",
-	array(
-		'value' => '{{'.$pa_element_info['element_id'].'}}',
-		'id' => "{$vs_field_name_prefix}_{n}"
-	)
+    "{$vs_field_name_prefix}_{n}",
+    array(
+        'value' => '{{'.$pa_element_info['element_id'].'}}',
+        'id' => "{$vs_field_name_prefix}_{n}"
+    )
 );
 
 print ' '.caNavIcon(__CA_NAV_ICON_DELETE__, 12, ['id' => "{$vs_field_name_prefix}_clear_{n}"]);
 ?>
 
-<?php if(!$for_search) { ?>
+<?php if (!$for_search) { ?>
 <div id='caRelationQuickAddPanel<?= $vs_field_name_prefix; ?>_{n}' class='caRelationQuickAddPanel'>
 	<div id='caRelationQuickAddPanel<?= $vs_field_name_prefix; ?>ContentArea_{n}'>
 		<div class='dialogHeader'><?= _t('Quick Add'); ?></div>
@@ -73,7 +73,7 @@ print ' '.caNavIcon(__CA_NAV_ICON_DELETE__, 12, ['id' => "{$vs_field_name_prefix
 <?php } ?>
 <script type='text/javascript'>
 	jQuery(document).ready(function() {
-<?php if(!$for_search) { ?>
+<?php if (!$for_search) { ?>
 		if (caUI.initPanel) {
 			var caRelationQuickAddPanel<?= $vs_field_name_prefix; ?>_{n};
 			caRelationQuickAddPanel<?= $vs_field_name_prefix; ?>_{n} = caUI.initPanel({
@@ -117,7 +117,7 @@ print ' '.caNavIcon(__CA_NAV_ICON_DELETE__, 12, ['id' => "{$vs_field_name_prefix
 				});
 			},
 			select: function( event, ui ) {
-<?php if(!$for_search) { ?>
+<?php if (!$for_search) { ?>
 				var quickaddPanel = caRelationQuickAddPanel<?= $vs_field_name_prefix; ?>_{n};
 				var quickaddUrl = '<?= $vs_quickadd_url; ?>';
 				

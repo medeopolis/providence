@@ -25,10 +25,14 @@
  *
  * ----------------------------------------------------------------------
  */
-	if (!is_array($va_download_list = $this->getVar('download_list'))) { $va_download_list = []; }
-	if (!is_array($va_tables = $this->getVar('tables'))) { $va_tables = []; }
-	$va_labels_by_table_num = $this->getVar("labels_by_table_num");
-	$vs_group_by = $this->getVar("download_list_group_by");
+if (!is_array($va_download_list = $this->getVar('download_list'))) {
+    $va_download_list = [];
+}
+if (!is_array($va_tables = $this->getVar('tables'))) {
+    $va_tables = [];
+}
+$va_labels_by_table_num = $this->getVar("labels_by_table_num");
+$vs_group_by = $this->getVar("download_list_group_by");
 
 ?>
 <script language="JavaScript" type="text/javascript">
@@ -39,20 +43,20 @@
 /* ]]> */
 </script>
 <div class="sectionBox">
-	<?php 
-		print caFormTag($this->request, 'Index', 'downloadLogSearch', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true));
-		print caFormControlBox(
-			'<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caDownloadList\').caFilterTable(this.value); return false;" size="20"/></div>', 
-			'', 
-			_t('Group by %1 from %2', caHTMLSelect('group_by', array(_t('Downloads') => "download", _t('Record') => "record"), null, array('value' => $vs_group_by)), caHTMLTextInput('search', array('size' => 12, 'value' => $this->getVar('download_list_search'), 'class' => 'dateBg'))).caFormSubmitButton($this->request, __CA_NAV_ICON_SEARCH__, "", 'downloadLogSearch')
-		);
-		print "</form>"; 
-	?>
+	<?php
+        print caFormTag($this->request, 'Index', 'downloadLogSearch', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true));
+print caFormControlBox(
+    '<div class="list-filter">'._t('Filter').': <input type="text" name="filter" value="" onkeyup="$(\'#caDownloadList\').caFilterTable(this.value); return false;" size="20"/></div>',
+    '',
+    _t('Group by %1 from %2', caHTMLSelect('group_by', array(_t('Downloads') => "download", _t('Record') => "record"), null, array('value' => $vs_group_by)), caHTMLTextInput('search', array('size' => 12, 'value' => $this->getVar('download_list_search'), 'class' => 'dateBg'))).caFormSubmitButton($this->request, __CA_NAV_ICON_SEARCH__, "", 'downloadLogSearch')
+);
+print "</form>";
+?>
 	<table id="caDownloadList" class="listtable">
 <?php
-	switch($vs_group_by){
-		case "record":
-?>	
+switch($vs_group_by) {
+    case "record":
+        ?>	
 				<thead>
 					<tr>
 						<th class="list-header-unsorted">
@@ -71,9 +75,9 @@
 				</thead>
 				<tbody>
 		<?php
-			if (sizeof($va_download_list)) {
-				foreach($va_download_list as $va_download) {
-		?>
+                    if (sizeof($va_download_list)) {
+                        foreach ($va_download_list as $va_download) {
+                            ?>
 					<tr>
 						<td>
 							<?php print caEditorLink($this->request, $va_labels_by_table_num[$va_download['info']['table_num']][$va_download['info']['row_id']], '', $va_tables[$va_download['info']['table_num']]['name'], $va_download['info']['row_id'], array()); ?>
@@ -90,9 +94,9 @@
 						</td>
 					</tr>
 		<?php
-				}
-			} else {
-		?>
+                        }
+                    } else {
+                        ?>
 				<tr>
 					<td colspan='9'>
 						<div align="center">
@@ -101,15 +105,15 @@
 					</td>
 				</tr>
 		<?php
-			}
-		?>
+                    }
+        ?>
 				</tbody>
 <?php
-		break;
-		# ---------------------------------------------------------
-		case "download":
-		default:
-?>	
+        break;
+        # ---------------------------------------------------------
+    case "download":
+    default:
+        ?>	
 				<thead>
 					<tr>
 						<th class="list-header-unsorted">
@@ -137,9 +141,9 @@
 				</thead>
 				<tbody>
 		<?php
-			if (sizeof($va_download_list)) {
-				foreach($va_download_list as $va_download) {
-		?>
+                    if (sizeof($va_download_list)) {
+                        foreach ($va_download_list as $va_download) {
+                            ?>
 					<tr>
 						<td>
 							<?php print caGetLocalizedDate($va_download['log_datetime']); ?>
@@ -164,9 +168,9 @@
 						</td>
 					</tr>
 		<?php
-				}
-			} else {
-		?>
+                        }
+                    } else {
+                        ?>
 				<tr>
 					<td colspan='9'>
 						<div align="center">
@@ -175,12 +179,12 @@
 					</td>
 				</tr>
 		<?php
-			}
-		?>
+                    }
+        ?>
 				</tbody>
 <?php
-		break;
-	}
+        break;
+}
 ?>
 	</table>
 </div>

@@ -25,18 +25,18 @@
  *
  * ----------------------------------------------------------------------
  */
- 
- 	
- 	$va_importer_list = $this->getVar('importer_list');
- 	$vb_importers_available = (is_array($va_importer_list) && sizeof($va_importer_list));
- 	
- 	print $vs_control_box = caFormControlBox(
-		($vb_importers_available ? (caFormSubmitButton($this->request, __CA_NAV_ICON_SAVE__, _t("Import"), 'caWorldCatResultsForm')) : '').' '.
-		(caFormNavButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), '', '*', '*', 'Index')),
-		'',
-		''
-	);
- ?>
+
+
+$va_importer_list = $this->getVar('importer_list');
+$vb_importers_available = (is_array($va_importer_list) && sizeof($va_importer_list));
+
+print $vs_control_box = caFormControlBox(
+    ($vb_importers_available ? (caFormSubmitButton($this->request, __CA_NAV_ICON_SAVE__, _t("Import"), 'caWorldCatResultsForm')) : '').' '.
+    (caFormNavButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), '', '*', '*', 'Index')),
+    '',
+    ''
+);
+?>
  <form action="#" id="caWorldCatSearchForm">
  	<div class="formLabel">
  		<?php print _t('Find in WorldCat').': '.caHTMLTextInput("term", array('value' => '', 'id' => 'caWorldCatTerm'), array('width' => '250px')); ?>
@@ -45,15 +45,15 @@
  </form>
  
 <?php
-	print caFormTag($this->request, 'Run', 'caWorldCatResultsForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true, 'noTimestamp' => true));
+   print caFormTag($this->request, 'Run', 'caWorldCatResultsForm', null, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true, 'noTimestamp' => true));
 ?>
 	<div class="<?php print $vb_importers_available ? 'formLabel' : 'formLabelError'; ?>">
 <?php
-	if ($vb_importers_available) {
-		print _t('Import using').': '.$this->getVar('importer_list_select');
-	} else {
-		print _t('You must load at least one WorldCat mapping before you can import');
-	}
+    if ($vb_importers_available) {
+        print _t('Import using').': '.$this->getVar('importer_list_select');
+    } else {
+        print _t('You must load at least one WorldCat mapping before you can import');
+    }
 ?>
  	</div>
  	
@@ -71,15 +71,15 @@
 			</div>
 		</div>
 <?php
-	print $this->request->config->get('worlcat_isbn_exists_key');
+    print $this->request->config->get('worlcat_isbn_exists_key');
 ?>
 	</div>
 	
 	<div class='formLabel'>
 <?php
-		if ($vb_importers_available) {
-			print _t('Log level').': '.caHTMLSelect('log_level', caGetLogLevels(), array('id' => 'caLogLevel'), array('value' => $this->getVar('log_level')));
-		}
+        if ($vb_importers_available) {
+            print _t('Log level').': '.caHTMLSelect('log_level', caGetLogLevels(), array('id' => 'caLogLevel'), array('value' => $this->getVar('log_level')));
+        }
 ?>
 	</div>
 </form>

@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------
- * views/manage/tools/tool_settings_html.php : 
+ * views/manage/tools/tool_settings_html.php :
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
@@ -15,38 +15,38 @@
  * the terms of the provided license as published by Whirl-i-Gig
  *
  * CollectiveAccess is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * WITHOUT ANY WARRANTIES whatsoever, including any implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This source code is free and modifiable under the terms of 
+ * This source code is free and modifiable under the terms of
  * GNU General Public License. (http://www.gnu.org/copyleft/gpl.html). See
  * the "license.txt" file for details, or visit the CollectiveAccess web site at
  * http://www.CollectiveAccess.org
  *
  * ----------------------------------------------------------------------
  */
- 
-	$o_tool = 				$this->getVar('tool');
-	$vs_tool_identifier = 	$o_tool->getToolIdentifier();
-	
-	$va_settings = 			$this->getVar('available_settings');
-	$vs_form_id = 			$this->getVar('form_id');
-	$va_last_settings =		$this->getVar('last_settings');
+
+$o_tool = 				$this->getVar('tool');
+$vs_tool_identifier = 	$o_tool->getToolIdentifier();
+
+$va_settings = 			$this->getVar('available_settings');
+$vs_form_id = 			$this->getVar('form_id');
+$va_last_settings =		$this->getVar('last_settings');
 ?>
 <h1><?php print $o_tool->getToolName(); ?></h1>
 <div class="toolPluginHelpText">
 	<p><?php print $o_tool->getToolDescription(); ?></p>
 </div>
 <?php
-	print caFormTag($this->request, 'Run', $vs_form_id, null, 'POST', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true, 'noTimestamp' => true));
-	
-	print $vs_control_box = caFormControlBox(
-		caFormJSButton($this->request, __CA_NAV_ICON_SAVE__, _t("Run"), "caRunTool{$vs_tool_identifier}", array('onclick' => 'caShowConfirmToolExecutionPanel(); return false;')).' '.
-		caFormNavButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), '', 'manage', 'Tools', 'Settings', array('tool' => $vs_tool_identifier)),
-		'', 
-		''
-	);
-	// Print command <select>
+    print caFormTag($this->request, 'Run', $vs_form_id, null, 'POST', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true, 'noTimestamp' => true));
+
+print $vs_control_box = caFormControlBox(
+    caFormJSButton($this->request, __CA_NAV_ICON_SAVE__, _t("Run"), "caRunTool{$vs_tool_identifier}", array('onclick' => 'caShowConfirmToolExecutionPanel(); return false;')).' '.
+    caFormNavButton($this->request, __CA_NAV_ICON_CANCEL__, _t("Cancel"), '', 'manage', 'Tools', 'Settings', array('tool' => $vs_tool_identifier)),
+    '',
+    ''
+);
+// Print command <select>
 ?>
 		<div class='bundleLabel'>
 			<span class="formLabelText"><?php print _t('Command'); ?></span> 
@@ -54,31 +54,31 @@
 				<div class="caLabelList">
 					<p>
 <?php
-					print caHTMLSelect('command', $o_tool->getCommands(), array('id' => 'caToolCommand'));
+                    print caHTMLSelect('command', $o_tool->getCommands(), array('id' => 'caToolCommand'));
 ?>	
 					</p>
 				</div>
 			</div>
 		</div>
-<?php	
+<?php
 
-	// Print settings controls
-	foreach($va_settings as $vs_setting => $va_setting_info) {
-?>
+    // Print settings controls
+    foreach ($va_settings as $vs_setting => $va_setting_info) {
+        ?>
 		<div class='bundleLabel'>
 			<span class="formLabelText"><?php print $va_setting_info['label']; ?></span> 
 			<div class="bundleContainer">
 				<div class="caLabelList" >
 					<p>
 <?php
-					print $o_tool->settingHTMLFormElement($vs_setting, array('id' => "{$vs_form_id}_{$vs_setting}", 'name' => "{$vs_form_id}_{$vs_setting}", 'request' => $this->request, 'noContainerDiv' => true));
-?>	
+                            print $o_tool->settingHTMLFormElement($vs_setting, array('id' => "{$vs_form_id}_{$vs_setting}", 'name' => "{$vs_form_id}_{$vs_setting}", 'request' => $this->request, 'noContainerDiv' => true));
+        ?>	
 					</p>
 				</div>
 			</div>
 		</div>
 <?php
-	}
+    }
 ?>
 		<div class='bundleLabel'>
 			<span class="formLabelText"><?php print _t('Log level'); ?></span> 
@@ -86,7 +86,7 @@
 				<div class="caLabelList" >
 					<p>
 <?php
-					print caHTMLSelect('logLevel', caGetLogLevels(), array('id' => 'caLogLevel'), array('value' => $va_last_settings['logLevel']));
+                    print caHTMLSelect('logLevel', caGetLogLevels(), array('id' => 'caLogLevel'), array('value' => $va_last_settings['logLevel']));
 ?>
 					</p>
 				</div>
@@ -94,11 +94,11 @@
 		</div>
 <?php
 
-	print $this->render("tools/confirm_html.php");
+    print $this->render("tools/confirm_html.php");
 
-	print $vs_control_box;
-	
-	print caHTMLHiddenInput("tool", array('value' => $vs_tool_identifier));
+print $vs_control_box;
+
+print caHTMLHiddenInput("tool", array('value' => $vs_tool_identifier));
 ?>
 	</form>
 	
