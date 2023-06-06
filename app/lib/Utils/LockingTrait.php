@@ -52,9 +52,12 @@ trait LockingTrait {
 	 */
 	static public function lockAcquire() : bool {
 		$lock_path = self::lockPath();
-		
+		$curent_process_id = getmypid();
+
 		// @todo: is fopen(... , 'x') thread safe? or at least "process safe"?
 		$got_lock = (bool) (self::$s_lock_resource = @fopen($lock_path, 'x'));
+		# Try and write PID to lock file
+		file_put_contents($lock_path, $curent_process_id);
 
 		if($got_lock) {
 			// make absolutely sure the lock is released, even if a PHP error occurrs during script execution
@@ -62,11 +65,24 @@ trait LockingTrait {
 			register_shutdown_function("{$c}::lockRelease");
 		}
 
-		// if we couldn't get the lock, check if the lock file is old (i.e. older than 120 minutes)
-		// if that's the case, it's likely something went wrong and the lock hangs.
-		// so we just kill it and try to re-acquire
+		// If we did not get a lock and the lock file exists we will check why
 		if(!$got_lock && file_exists($lock_path)) {
+			intval($lockfile_process_id = file_get_contents($lock_path));
+			if($curent_process_id != $lockfile_process_id) {
+				# Things are out of sync
+				error_log('Lock file ' . $lock_file . ' has a different process ID to running script.');
+				error_log('Moving on to lock file age test');
+			} else {
+				# Same process running; we're OK to continue
+				error_log('Lock file ' . $lock_file . ' is for the running process');
+				return true;
+			}
+
+			// check if the lock file is old (i.e. older than 180 minutes)
+			// if that's the case, it's likely something went wrong and the lock hangs.
+			// so we just kill it and try to re-acquire
 			if((time() - caGetFileMTime($lock_path)) > self::$s_lock_timeout) {
+				error_log('Releasing lock file ' . $lock_file . '.');
 				self::lockRelease();
 				return self::lockAcquire();
 			}
