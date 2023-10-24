@@ -86,7 +86,7 @@ jQuery.fn.template = function( objValues ){
 					);
  			}
 		}
- 
+					
 		// At this point, our HTML will have fully replaced
 		// values. Now, let's convert it into a jQuery DOM
 		// element and return it.

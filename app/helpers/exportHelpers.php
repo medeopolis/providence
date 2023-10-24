@@ -75,7 +75,6 @@ function caExportFormatForTemplate(string $table, string $template) : ?string {
 	}
 	return null;
 }
-
 # ----------------------------------------
 /**
  *
@@ -369,7 +368,7 @@ function caGenerateDownloadFileName(string $ps_template, ?array $options=null) :
  * @param string $output_filename
  * @param array $options Options include:
  *		output = where to output data. Values may be FILE (write to file) or STREAM. [Default is stream]
- *		display = ca_bundle_displays object loaded with currently selected displat. [Default is null]
+ *		display = ca_bundle_displays object loaded with currently selected display. [Default is null]
  *
  * @return ?array|bool If output is FILE, path to file or null if file could not be generated. If output is STREAM null returned on error; true returned on success
  *
@@ -387,6 +386,8 @@ function caExportResult(RequestHTTP $request, $result, string $template, string 
 	
 	$table = $result->tableName();
 	
+	$template_type = caGetOption('printTemplateType', $options, 'results');
+	
 	$type = $display_id = null;
 	if($t_display = caGetOption('display', $options, null)) {
 		$display_id = $t_display->getPrimaryKey();
@@ -394,7 +395,7 @@ function caExportResult(RequestHTTP $request, $result, string $template, string 
 	$export_config = $template_info = null;
 	
 	if (!(bool)$config->get('disable_pdf_output') && substr($template, 0, 5) === '_pdf_') {
-		$template_info = caGetPrintTemplateDetails(caGetOption('printTemplateType', $options, 'results'), substr($template, 5));
+		$template_info = caGetPrintTemplateDetails($template_type, substr($template, 5));
 		$type = 'pdf';
 	} elseif (!(bool)$config->get('disable_pdf_output') && (substr($template, 0, 9) === '_display_')) {
 		$display_id = substr($template, 9);
@@ -425,7 +426,7 @@ function caExportResult(RequestHTTP $request, $result, string $template, string 
 		} else {
 			throw new ApplicationException(_t("Invalid format %1", $template));
 		}
-		$template_info = caGetPrintTemplateDetails(caGetOption('printTemplateType', $options, 'results'), 'display');
+		$template_info = caGetPrintTemplateDetails($template_type, 'display');
 		$type = 'pdf';
 	} elseif(!(bool)$config->get('disable_export_output') && preg_match('!^_([a-z]+)_!', $template, $m)) {
 		switch($m[1]) {
@@ -667,7 +668,7 @@ function caExportResult(RequestHTTP $request, $result, string $template, string 
 	
 						$info = $result->getMediaInfo('ca_object_representations.media', $version);
 				
-						if($va_info['MIMETYPE'] == 'image/jpeg') { // don't try to insert anything non-jpeg into an Excel file
+						if($info['MIMETYPE'] == 'image/jpeg') { // don't try to insert anything non-jpeg into an Excel file
 							if (is_file($path = $result->getMediaPath('ca_object_representations.media', $version))) {
 								$image = "image".$supercol.$column.$line;
 								$drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
@@ -945,10 +946,10 @@ function caExportResult(RequestHTTP $request, $result, string $template, string 
 			
 			if($output === 'STREAM') { 
 				$request->isDownload(true);
-				caExportViewAsPDF($view, $template_info, $filename, array_merge($options, ['printTemplateType' => 'results']));
+				caExportViewAsPDF($view, $template_info, $filename, array_merge($options, ['printTemplateType' => $template_type]));
 			} else {
 				$tmp_filename = caGetTempFileName('caExportResult', '');
-				if(!caExportViewAsPDF($view, $template_info, $filename, ['writeToFile' => $tmp_filename, 'printTemplateType' => 'results'])) {
+				if(!caExportViewAsPDF($view, $template_info, $filename, ['writeToFile' => $tmp_filename, 'printTemplateType' => $template_type])) {
 					return null;
 				}
 				return [
@@ -1254,7 +1255,8 @@ function caExportSummary($request, BaseModel $t_instance, string $template, int 
 				if (!$filename_template = $config->get("{$table}_summary_file_naming")) {
 					$filename_template = $view->getVar('filename') ? $filename_template : caGetOption('filename', $template_info, 'print_summary');
 				}
-				if (!($filename = caProcessTemplateForIDs($filename_template, $table, [$subject_id]))) {
+				
+				if (!($filename = caProcessTemplateForIDs($filename_template, $table, [$t_instance->getPrimaryKey()]))) {
 					$filename = 'print_summary';
 				}
 				
