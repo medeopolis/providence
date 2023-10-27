@@ -319,10 +319,13 @@
 		public static function purge_deleted($po_opts=null) {
 			require_once(__CA_LIB_DIR__."/Logging/Downloadlog.php");
 
-      # TODO: Add a way to override this via CLI option
-      if (defined('__CA_PURGE_RECORDS_POSSIBLE__') && __CA_PURGE_RECORDS_POSSIBLE__ == true) {
-        CLIUtils::addMessage(_t("Purging has been disabled by setting __CA_PURGE_RECORDS__ to 0"));
-        return false;
+      $override_purge_restriction = (bool)$po_opts->getOption('override');
+
+      # Purging is not allowed, unless overriden (for whatever reason)
+      # FIXME: This check is broken atm but i don't have fixing it in me right now.
+      if ! (__CA_ALLOW_RECORD_PURGE__ == true && $override_purge_restriction == true ) {
+          CLIUtils::addMessage(_t("Purging has been disabled by setting __CA_ALLOW_RECORD_PURGE__ to false. Run with 'override' to purge this data"));
+          return false;
       }
 		
 			CLIUtils::addMessage(_t("Are you sure you want to PERMANENTLY remove all deleted records? This cannot be undone.\n\nType 'y' to proceed or 'N' to cancel, then hit return ", $vn_current_revision, __CollectiveAccess_Schema_Rev__));
@@ -386,7 +389,9 @@
 		 */
 		public static function purge_deletedParamList() {
 			return array(
-				"tables|t=s" => _t('List of tables for which to purge deleted records. List multiple tables names separated by commas. If no table list is provided all tables are purged.')
+        # TODO: Add support for deleting individual records
+				"tables|t=s" => _t('List of tables for which to purge deleted records. List multiple tables names separated by commas. If no table list is provided all tables are purged.'),
+        "override|d" => _t('Allow purging despite __CA_ALLOW_RECORD_PURGE__ being set')
 			);
 		}
 		# -------------------------------------------------------

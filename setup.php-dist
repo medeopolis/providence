@@ -228,13 +228,13 @@ if (!defined('__CA_STACKTRACE_ON_EXCEPTION__')) {
 	define('__CA_STACKTRACE_ON_EXCEPTION__', false);
 }
 
-# __CA_PURGE_RECORDS_POSSIBLE__
+# __CA_ALLOW_RECORD_PURGE__
 #
 # Allow records to be purged from CA. This is enabled by default but in some
 # cases it may be preferable that deleted records cannot be removed without
 # manual and explicit intervention.
-if (!defined('__CA_PURGE_RECORDS_POSSIBLE__')) {
-	define('__CA_PURGE_RECORDS_POSSIBLE__', true);
+if (!defined('__CA_ALLOW_RECORD_PURGE__')) {
+	define('__CA_ALLOW_RECORD_PURGE__', true);
 }
 
 

@@ -129,7 +129,7 @@ class OAIPMHService extends BaseService {
   # Determine response based on show_deleted and record_duration
 
   $vb_show_deleted = (bool)$this->opa_provider_info['show_deleted'];
-  $vb_retained_indefinitely = '__CA_PURGE_RECORDS_POSSIBLE__';
+  $vb_retained_indefinitely = '__CA_ALLOW_RECORD_PURGE__';
 
   # Include deleted records in OAI-PMH listings
   if (! $vb_show_deleted) {
