@@ -318,6 +318,12 @@
 		 */
 		public static function purge_deleted($po_opts=null) {
 			require_once(__CA_LIB_DIR__."/Logging/Downloadlog.php");
+
+      # TODO: Add a way to override this via CLI option
+      if (defined('__CA_PURGE_RECORDS_POSSIBLE__') && __CA_PURGE_RECORDS_POSSIBLE__ == true) {
+        CLIUtils::addMessage(_t("Purging has been disabled by setting __CA_PURGE_RECORDS__ to 0"));
+        return false;
+      }
 		
 			CLIUtils::addMessage(_t("Are you sure you want to PERMANENTLY remove all deleted records? This cannot be undone.\n\nType 'y' to proceed or 'N' to cancel, then hit return ", $vn_current_revision, __CollectiveAccess_Schema_Rev__));
             flush();

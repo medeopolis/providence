@@ -228,6 +228,16 @@ if (!defined('__CA_STACKTRACE_ON_EXCEPTION__')) {
 	define('__CA_STACKTRACE_ON_EXCEPTION__', false);
 }
 
+# __CA_PURGE_RECORDS_POSSIBLE__
+#
+# Allow records to be purged from CA. This is enabled by default but in some
+# cases it may be preferable that deleted records cannot be removed without
+# manual and explicit intervention.
+if (!defined('__CA_PURGE_RECORDS_POSSIBLE__')) {
+	define('__CA_PURGE_RECORDS_POSSIBLE__', true);
+}
+
+
 require(__DIR__."/app/helpers/post-setup.php");
 
 /* ----------------------------------------------------------------------

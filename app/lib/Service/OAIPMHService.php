@@ -121,6 +121,30 @@ class OAIPMHService extends BaseService {
 	 * 'target' table name for the current request
 	 */
 	private $table;
+
+  /**
+   * How do we handle deleted records
+   */
+
+  # Determine response based on show_deleted and record_duration
+
+  $vb_show_deleted = (bool)$this->opa_provider_info['show_deleted'];
+  $vb_retained_indefinitely = '__CA_PURGE_RECORDS_POSSIBLE__';
+
+  # Include deleted records in OAI-PMH listings
+  if (! $vb_show_deleted) {
+    $vb_deleted_record = 'no'
+  } else {
+    # vb_show_deleted is true
+
+    # If records are retained forever
+    if ($vb_retained_indefinitely) {
+      $vb_deleted_record = 'persistent'
+    } else {
+      $vb_deleted_record = 'transient'
+    }
+  }
+
 	
 	# -------------------------------------------------------
 	/** 
@@ -272,7 +296,7 @@ class OAIPMHService extends BaseService {
 			'protocolVersion'   => self::OAI_PMH_PROTOCOL_VERSION,
 			'adminEmail'        => $this->opa_provider_info['admin_email'],
 			'earliestDatestamp' => self::unixToUtc($t_change_log->getEarliestTimestampForIDs($this->table, null)),
-			'deletedRecord'     => 'transient',
+			'deletedRecord'     => self::$vb_deleted_record
 			'granularity'       => self::OAI_GRANULARITY_STRING
 		);
 
