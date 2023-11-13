@@ -2867,7 +2867,7 @@ function caFileIsIncludable($ps_file) {
 
 	  if(function_exists("posix_getpwnam")) {
 		  // Not running in web server so try to guess
-		  foreach(array('apache', 'www-data', 'www', 'httpd', 'nobody') as $vs_possible_user) {
+		  foreach(array('apache', 'www-data', 'www', 'httpd', 'nginx', 'nobody') as $vs_possible_user) {
 			if (posix_getpwnam($vs_possible_user)) {
 				return $vs_possible_user;
 			}
