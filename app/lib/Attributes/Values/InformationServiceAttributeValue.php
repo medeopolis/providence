@@ -29,17 +29,11 @@
  *
  * ----------------------------------------------------------------------
  */
-
-/**
- *
- */
 define("__CA_ATTRIBUTE_VALUE_INFORMATIONSERVICE__", 20);
 
-require_once(__CA_LIB_DIR__.'/Configuration.php');
 require_once(__CA_LIB_DIR__.'/InformationServiceManager.php');
 require_once(__CA_LIB_DIR__.'/Attributes/Values/IAttributeValue.php');
 require_once(__CA_LIB_DIR__.'/Attributes/Values/AttributeValue.php');
-require_once(__CA_LIB_DIR__.'/Configuration.php');
 require_once(__CA_LIB_DIR__.'/BaseModel.php');	// we use the BaseModel field type (FT_*) and display type (DT_*) constants
 
 global $_ca_attribute_settings;
@@ -324,6 +318,9 @@ class InformationServiceAttributeValue extends AttributeValue implements IAttrib
 				if($selected_result && !caGetOption('isRecursive', $pa_options, false)) {
 					return self::parseValue($selected_result['url'], $pa_element_info, array_merge($pa_options, ['isRecursive' => true]));
 				}
+				if(!$selected_result) {
+					return null;
+				}
 				return [
 			        'value_longtext1' => $ps_value,
 			        'value_longtext2' => '',
@@ -360,6 +357,9 @@ class InformationServiceAttributeValue extends AttributeValue implements IAttrib
 		if(!$this->opo_plugin) {
 			$this->opo_plugin = InformationServiceManager::getInformationServiceInstance($vs_service);
 		}
+		
+		$vs_element = '';
+		
         if (!$pb_for_search) {
         	// Add additional UI elements for services that require them (Eg. Numishare)
         	$additional_ui_controls = method_exists($this->opo_plugin, 'getAdditionalFields') ? $this->opo_plugin->getAdditionalFields($pa_element_info) : [];
