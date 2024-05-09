@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/Auth/Adapters/Shibboleth.php : default authentication backend
+ * app/lib/Auth/Adapters/Shibboleth.php : Shibboleth SAML SSO platform auth
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software

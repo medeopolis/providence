@@ -1,6 +1,6 @@
 <?php
 /** ---------------------------------------------------------------------
- * app/lib/Auth/Adapters/Okta.php : default authentication backend
+ * app/lib/Auth/Adapters/Okta.php : Okta Identity service auth
  * ----------------------------------------------------------------------
  * CollectiveAccess
  * Open-source collections management software
