@@ -54,7 +54,7 @@ class AuthenticationManager {
 	 */
 	public static function init($ps_adapter=null) {
 		if(!is_null($ps_adapter) || (self::$g_authentication_adapter === null)) {
-			AuthenticationManager::$g_authentication_conf = $o_auth_config = Configuration::load(__CA_APP_DIR__."/conf/authentication.conf");
+			AuthenticationManager::$g_authentication_conf = $o_auth_config = Configuration::load(__CA_CONF_DIR__."/authentication.conf");
 
 			$vs_auth_adapter = (!is_null($ps_adapter)) ? $ps_adapter : $o_auth_config->get('auth_adapter');
 			
