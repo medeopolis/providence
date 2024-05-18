@@ -198,6 +198,11 @@ if (!defined("__CA_LOCAL_CONFIG_DIRECTORY__")) {
 if (!defined("__CA_DEFAULT_THEME_CONFIG_DIRECTORY__")) {
 	define("__CA_DEFAULT_THEME_CONFIG_DIRECTORY__", __CA_THEMES_DIR__."/".__CA_THEME__."/conf");
 }
+# FIXME: What should this be defined _to_? anything?
+if (!defined("__CA_PRINT_TEMPLATES_LOCAL_DIR__")) {
+	define("__CA_PRINT_TEMPLATES_LOCAL_DIR__.", __CA_APP_DIR__."/invalid");
+}
+
 
 #
 # Load the application version number

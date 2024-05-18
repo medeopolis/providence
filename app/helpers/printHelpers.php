@@ -50,22 +50,27 @@ use Zend\Stdlib\Glob;
 		$va_paths = [];
 		switch($ps_type) {
 			case 'results':
+				if (is_dir(__CA_PRINT_TEMPLATES_LOCAL_DIR__.'/printTemplates/results')) { $va_paths[] = __CA_PRINT_TEMPLATES_LOCAL_DIR__.'/printTemplates/results'; }
 				if (is_dir(__CA_THEME_DIR__.'/printTemplates/results')) { $va_paths[] = __CA_THEME_DIR__.'/printTemplates/results'; }
 				$va_paths[] = __CA_APP_DIR__.'/printTemplates/results';
 				break;
 			case 'summary':
+				if (is_dir(__CA_PRINT_TEMPLATES_LOCAL_DIR__.'/printTemplates/summary')) { $va_paths[] = __CA_PRINT_TEMPLATES_LOCAL_DIR__.'/printTemplates/summary'; }
 				if (is_dir(__CA_THEME_DIR__.'/printTemplates/summary')) { $va_paths[] = __CA_THEME_DIR__.'/printTemplates/summary'; }
 				$va_paths[] = __CA_APP_DIR__.'/printTemplates/summary';
 				break;
 			case 'labels':
+				if (is_dir(__CA_PRINT_TEMPLATES_LOCAL_DIR__.'/printTemplates/labels')) { $va_paths[] = __CA_PRINT_TEMPLATES_LOCAL_DIR__.'/printTemplates/labels'; } 
 				if (is_dir(__CA_THEME_DIR__.'/printTemplates/labels')) { $va_paths[] = __CA_THEME_DIR__.'/printTemplates/labels'; } 
 				$va_paths[] = __CA_APP_DIR__.'/printTemplates/labels';
 				break;
 			case 'bundles':
+				if(is_dir(__CA_PRINT_TEMPLATES_LOCAL_DIR__.'/printTemplates/bundles')) { $va_paths[] = __CA_PRINT_TEMPLATES_LOCAL_DIR__.'/printTemplates/bundles'; }
 				if(is_dir(__CA_THEME_DIR__.'/printTemplates/bundles')) { $va_paths[] = __CA_THEME_DIR__.'/printTemplates/bundles'; }
 				$va_paths[] = __CA_APP_DIR__.'/printTemplates/bundles';
 				break;
 			case 'sets':
+				if(is_dir(__CA_PRINT_TEMPLATES_LOCAL_DIR__.'/printTemplates/sets')) { $va_paths[] = __CA_PRINT_TEMPLATES_LOCAL_DIR__.'/printTemplates/sets'; }
 				if(is_dir(__CA_THEME_DIR__.'/printTemplates/sets')) { $va_paths[] = __CA_THEME_DIR__.'/printTemplates/sets'; }
 				$va_paths[] = __CA_APP_DIR__.'/printTemplates/sets';
 				break;
