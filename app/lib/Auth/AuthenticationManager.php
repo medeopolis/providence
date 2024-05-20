@@ -91,19 +91,18 @@ class AuthenticationManager {
 		self::init();
 		if(AuthenticationManager::isFree()) { return null; }
 
-		if ($vn_rc = self::$g_authentication_adapter->authenticate($ps_username, $ps_password, $pa_options)) {
-			return $vn_rc;
-		}
+		# Capture return (bool) from authenticate()
+		$auth_status_adapter = self::$g_authentication_adapter->authenticate($ps_username, $ps_password, $pa_options);
 
-		if ((AuthenticationManager::$g_authentication_conf->get('allow_fallback_to_ca_users_auth')) && !self::$g_authentication_adapter instanceof CaUsersAuthAdapter) {
+		if ((false === $auth_status_adapter) && (AuthenticationManager::$g_authentication_conf->get('allow_fallback_to_ca_users_auth')) && !self::$g_authentication_adapter instanceof CaUsersAuthAdapter) {
 			// fall back to ca_users "native" authentication
 			self::init('CaUsers');
 			$vn_rc = self::$g_authentication_adapter->authenticate($ps_username, $ps_password, $pa_options);
 			self::$g_authentication_adapter = null;
 			return $vn_rc;
+		} else {
+			return $auth_status_adapter;
 		}
-
-		return null;
 	}
 
 	/**
