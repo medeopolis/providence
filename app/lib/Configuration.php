@@ -99,7 +99,7 @@ class Configuration {
 	 * @param string $ps_file_path
 	 * @param bool $pb_dont_cache Don't use config file cached. [Default is false]
 	 * @param bool $pb_dont_cache_instance Don't attempt to cache config file Configuration instance. [Default is false]
-	 * @param bool $pb_dont_load_from_default_path Don't attempt to load additional configuration files from default paths (defined by __CA_LOCAL_CONFIG_DIRECTORY__ and __CA_LOCAL_CONFIG_DIRECTORY__). [Default is false]
+	 * @param bool $pb_dont_load_from_default_path Don't attempt to load additional configuration files from default paths (defined by __CA_LOCAL_CONFIG_DIRECTORY__ and __CA_DEFAULT_THEME_CONFIG_DIRECTORY__). [Default is false]
 	 * @return Configuration
 	 */
 	static function load($ps_file_path=__CA_APP_CONFIG__, $pb_dont_cache=false, $pb_dont_cache_instance=false, $pb_dont_load_from_default_path=false) {
@@ -121,7 +121,7 @@ class Configuration {
 	 * @param string $ps_file_path Absolute path to configuration file to parse
 	 * @param bool $pb_die_on_error If true, request processing will halt with call to die() on error in parsing config file. [Default is false]
 	 * @param bool $pb_dont_cache If true, file will be parsed even if it's already cached. [Default is false]
-	 * @param bool $pb_dont_load_from_default_path Don't attempt to load additional configuration files from default paths (defined by __CA_LOCAL_CONFIG_DIRECTORY__ and __CA_LOCAL_CONFIG_DIRECTORY__). [Default is false]
+	 * @param bool $pb_dont_load_from_default_path Don't attempt to load additional configuration files from default paths (defined by __CA_LOCAL_CONFIG_DIRECTORY__ and __CA_DEFAULT_THEME_CONFIG_DIRECTORY__). [Default is false]
 	 *
 	 *
 	 */
@@ -261,7 +261,7 @@ class Configuration {
 	}
 	/* ---------------------------------------- */
 	/**
-	 * Parses configuration file located at $ps_file_path.
+	 * Parses configuration file located at $ps_filepath.
 	 *
 	 * @param $ps_filepath - absolute path to configuration file to parse
 	 * @param $pb_die_on_error - if true, die() will be called on parse error halting request; default is false
