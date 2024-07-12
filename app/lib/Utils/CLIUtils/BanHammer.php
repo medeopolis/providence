@@ -95,7 +95,7 @@ trait CLIUtilsBanHammer {
 	}
 	# -------------------------------------------------------
 	/**
-	 * Remove all bans
+	 * Remove all whitelisted entries
 	 */
 	public static function clear_whitelist($opts=null) {
 		if($reasons = $opts->getOption('reason')) {
