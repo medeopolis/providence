@@ -13,13 +13,13 @@ name: OSV-Scanner
 
 on:
   pull_request:
-    branches: [ "dev/php8", "master" ]
+    branches: [ "dev/php8", "dev-php8-workflows" ]
   merge_group:
-    branches: [ "dev/php8", "master" ]
+    branches: [ "dev/php8", "dev-php8-workflows" ]
   schedule:
     - cron: '40 17 * * 0'
   push:
-    branches: [ "dev/php8", "master" ]
+    branches: [ "dev/php8", "dev-php8-workflows" ]
 
 permissions:
   # Require writing security events to upload SARIF file to security tab
