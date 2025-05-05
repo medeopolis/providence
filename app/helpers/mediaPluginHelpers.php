@@ -1147,7 +1147,7 @@ function caExtractTextFromPDF(string $filepath, ?array $options=null) : ?string 
 	$page_limits = " -f {$page_start} ";
 	if($num_pages > 0) { $page_limits .= "-l ".($page_start + $num_pages)." "; }
 	
-	$tmp_filename = tempnam('/tmp', 'CA_PDF_TEXT');
+	$tmp_filename = tempnam(__CA_TEMP_DIR__, 'CA_PDF_TEXT');
 	caExec($pdf_to_text_path.' -q -enc UTF-8 '.$page_limits.caEscapeShellArg($filepath).' '.caEscapeShellArg($tmp_filename).(caIsPOSIX() ? " 2> /dev/null" : ""));
 	$extracted_text = file_get_contents($tmp_filename);
 	
