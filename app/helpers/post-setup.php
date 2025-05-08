@@ -63,6 +63,10 @@ if (!defined("__CA_CONF_DIR__")) {
 # Path to CollectiveAccess 'temp' directory
 if (!defined("__CA_TEMP_DIR__")) {
 	define("__CA_TEMP_DIR__", __CA_APP_DIR__."/tmp");
+
+# Allow overriding log directory via setup.php
+if (!defined("__CA_LOG_DIR__")) {
+	define("__CA_LOG_DIR__", __CA_APP_DIR__."/app/log");
 }
 
 # --------------------------------------------------------------------------------------------
