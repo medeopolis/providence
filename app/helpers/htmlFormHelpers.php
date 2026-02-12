@@ -274,8 +274,6 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 					import { ResizableHeight} from 'ckresizeable';						
 					import { CAMediaList } from 'ckcamedialist';					
 					import { CAItemLink } from 'ckcaitemlink';
-				
-					import { ResizableHeight } from 'ckresizeable';
 
 					ClassicEditor.create( document.querySelector( '#{$name}' ), {
 						plugins: [ 
