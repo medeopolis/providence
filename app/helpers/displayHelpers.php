@@ -6444,13 +6444,15 @@ function caGetCK5Toolbar(array $options=null) : ?array {
 		'textcolor' => ['code' => 'fontColor'],
 		'background' => ['code' => 'fontBackgroundColor'],
 		
+		'highlight' => ['code' => 'highlight'],
 		'blockquote' => ['code' => 'blockQuote'],
 		'link' => ['code' => 'link'],
-		'image' => ['code' => 'linkImage'],
+		'image' => ['code' => 'insertImage'],
 		'video' => ['code' => 'mediaEmbed'],
 		'formula' => ['code' => 'formula'],
 		'align' => ['code' => 'alignment'],
 		
+		'specialcharacters' => ['code' => 'specialCharacters'],
 		'numberedlist' => ['code' => 'numberedList'],
 		'bulletedlist' => ['code' => 'bulletedList'],
 		'checkList' => ['code' => 'todoList'],
@@ -6460,6 +6462,7 @@ function caGetCK5Toolbar(array $options=null) : ?array {
 	
 		'undo' => ['code' => 'undo'],	
 		'redo' => ['code' => 'redo'],
+		'-' => ['code' => '|'],
 		
 		'medialist' => ['code' => 'camedialist'],
 		'itemlink' => ['code' => 'caitemlink'],
