@@ -214,28 +214,46 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 				$element .= "
 				<script type=\"module\">
 					import {
-					 ClassicEditor, BlockQuote, BlockToolbar, Bold, Code, Essentials, FontBackgroundColor, Font, FontColor, FontFamily, 
-					 FontSize, GeneralHtmlSupport, Heading, Highlight, HtmlComment, ImageBlock, ImageCaption, ImageInline, 
-					 ImageTextAlternative, Indent, IndentBlock, Italic, Link, List, ListProperties, MediaEmbed, 
-					 Paragraph, PasteFromOffice, RemoveFormat, SelectAll, SourceEditing, SpecialCharacters, SpecialCharactersArrows, 
-					 SpecialCharactersCurrency, SpecialCharactersEssentials, SpecialCharactersLatin, SpecialCharactersMathematical, 
-					 SpecialCharactersText, Strikethrough, Subscript, Superscript, TextTransformation, TodoList, Underline, Undo, LinkImage
+						Alignment, Autoformat, AutoImage, AutoLink,
+						BlockQuote, Bold, Bookmark,
+						Clipboard, ClassicEditor, Code, CodeBlock,
+						Essentials,
+						Font, Fullscreen,
+						Heading, Highlight, HorizontalLine, HtmlComment,
+						Image, ImageCaption, ImageInsert, ImageResize, ImageStyle, ImageTextAlternative, ImageToolbar, Indent, IndentBlock, Italic,
+						Link, LinkImage, List, ListProperties,
+						MediaEmbed,
+						PasteFromOffice, Paragraph,
+						RemoveFormat,
+						SelectAll, ShowBlocks, SourceEditing, SpecialCharacters, SpecialCharactersEssentials, Strikethrough, Subscript, Superscript,
+						Table, TableCaption, TableColumnResize, TableToolbar, TextTransformation, TodoList,
+						Underline, Undo,
 					} from 'ckeditor5';
 				
 					ClassicEditor
 						.create( document.querySelector( '#{$name}' ), {
 							plugins: [ 
-								BlockQuote, BlockToolbar, Bold, Code, Essentials, FontBackgroundColor, FontColor, FontFamily, FontSize, 
-								GeneralHtmlSupport, Heading, Highlight, HtmlComment, ImageBlock, ImageCaption, ImageInline, 
-								ImageTextAlternative, Indent, IndentBlock, Italic, Link, List, ListProperties, MediaEmbed, 
-								Paragraph, PasteFromOffice, RemoveFormat, SelectAll, SourceEditing, SpecialCharacters, 
-								SpecialCharactersArrows, SpecialCharactersCurrency, SpecialCharactersEssentials, 
-								SpecialCharactersLatin, SpecialCharactersMathematical, SpecialCharactersText, Strikethrough, 
-								Subscript, Superscript, TextTransformation, TodoList, Underline, Undo, LinkImage
+								Alignment, Autoformat, AutoImage, AutoLink, 
+								BlockQuote, Bold, Bookmark,
+								Clipboard, Code, CodeBlock, 
+								Essentials, 
+								Font, Fullscreen,
+								Heading, Highlight, Horizontalline, HtmlComment,
+								Image, ImageCaption, ImageInsert, ImageResize, ImageStyle, ImageTextAlternative, ImageToolbar, Indent, IndentBlock, Italic, 
+								Link, LinkImage, List ListProperties, 
+								MediaEmbed, 
+								PasteFromOffice, Paragraph, 
+								RemoveFormat,
+								SelectAll, ShowBlocks, SourceEditing, SpecialCharacters, SpecialCharactersEssentials, Strikethrough, Subscript, Superscript, 
+								Table, TableToolbar, TableColumnResize, TableCaption, TextTransformation, TodoList, 
+								Underline, Undo,
 							],
 							toolbar: {
 								items: ".json_encode($toolbar).",
 								shouldNotGroupWhenFull: true
+							},
+							table: {
+								contentToolbar: [ 'tablecolumn', 'tableRow', 'mergeTableCells' ]
 							}
 						} ).then(editor => {
 								// Add current instance to list of initialized editors
@@ -245,16 +263,15 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 							})
 						.catch((e) => console.log('Error initializing CKEditor: ' + e));
 				</script>\n";
-							
 				
 				$attr_string = _caHTMLMakeAttributeString($attributes, $options);			
 				$element .= "<div id=\"{$name}_container\" style='width: {$width}px; height: {$height}px; overflow-y: auto;'>
 					<{$tag_name} name=\"{$name}\" id=\"{$name}\">{$attributes['value']}</{$tag_name}></div>
-<style>
-#{$name}_container .ck-editor__editable_inline {
-min-height: calc({$height}px - 100px);
-}
-</style>";
+				<style>
+					#{$name}_container .ck-editor__editable_inline {
+						min-height: calc({$height}px - 100px);
+					}
+				</style>";
 				break;
 			case 'quilljs';
 			default:
@@ -288,7 +305,6 @@ min-height: calc({$height}px - 100px);
 				break;
 		}
 		
-		$o_config = Configuration::load();
 		if(!is_array($va_toolbar_config = $o_config->getAssoc(caGetOption('cktoolbar', $options, 'wysiwyg_editor_toolbar')))) { $va_toolbar_config = []; }
 	} elseif ($is_textarea) {
 		$value = $attributes['value'] ?? null;
