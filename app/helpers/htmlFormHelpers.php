@@ -215,10 +215,11 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 				<script type=\"module\">
 					import {
 						Alignment, Autoformat, AutoImage, AutoLink,
-						BlockQuote, Bold, Bookmark,
+						BlockQuote, Bold,
 						Clipboard, ClassicEditor, Code, CodeBlock,
 						Essentials,
-						Font, Fullscreen,
+						Font,
+						GeneralHtmlSupport,
 						Heading, Highlight, HorizontalLine, HtmlComment,
 						Image, ImageCaption, ImageInsert, ImageResize, ImageStyle, ImageTextAlternative, ImageToolbar, Indent, IndentBlock, Italic,
 						Link, LinkImage, List, ListProperties,
@@ -234,13 +235,14 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 						.create( document.querySelector( '#{$name}' ), {
 							plugins: [ 
 								Alignment, Autoformat, AutoImage, AutoLink, 
-								BlockQuote, Bold, Bookmark,
+								BlockQuote, Bold, 
 								Clipboard, Code, CodeBlock, 
 								Essentials, 
-								Font, Fullscreen,
+								Font,
+								GeneralHtmlSupport,
 								Heading, Highlight, Horizontalline, HtmlComment,
 								Image, ImageCaption, ImageInsert, ImageResize, ImageStyle, ImageTextAlternative, ImageToolbar, Indent, IndentBlock, Italic, 
-								Link, LinkImage, List ListProperties, 
+								Link, LinkImage, List, ListProperties, 
 								MediaEmbed, 
 								PasteFromOffice, Paragraph, 
 								RemoveFormat,
@@ -254,7 +256,19 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 							},
 							table: {
 								contentToolbar: [ 'tablecolumn', 'tableRow', 'mergeTableCells' ]
+							},
+							// Try and minimise what is allowed here. Eg. Attributes like id and class. 
+							htmlSupport: { 
+								allow: [
+									{
+										name: /.*/,
+										attributes: true,
+										classes: true,
+										styles: true
+									}
+								]
 							}
+							//TODO - Add Image toolbar. Disable upload image
 						} ).then(editor => {
 								// Add current instance to list of initialized editors
 								if(!caUI) { caUI = {}; }

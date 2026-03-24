@@ -6454,7 +6454,7 @@ function caGetQuillToolbar(array $options=null) : ?array {
 		'removeformat' => ['code' => 'clean'],	// synonym for "clean"
 		
 		//'font' => ['code' => 'font', 'value' => []],	// Doesn't actually set font - sets Quill-specific class so let's not offer this
-		//'fontsize' => ['code' => 'size', 'value' => []], / Doesn't actually set size - sets Quill-specific class so let's not offer this
+		//'fontsize' => ['code' => 'size', 'value' => []], // Doesn't actually set size - sets Quill-specific class so let's not offer this
 		'textcolor' => ['code' => 'color', 'value' => []],
 		//'background' => ['code' => 'background', 'value' => []], // Doesn't appear to render even thought Quill docs reference it
 		
@@ -6512,7 +6512,7 @@ function caGetCK5Toolbar(array $options=null) : ?array {
 		'background' => ['code' => 'fontBackgroundColor'],
 		'blockquote' => ['code' => 'blockQuote'],
 		'bold' => ['code' => 'bold'], //
-		'bookmark' => ['code' => 'bookmark'], //might not work / premium feature
+		//'bookmark' => ['code' => 'bookmark'], // Premium Feature 
 		'bulletedlist' => ['code' => 'bulletedList'],
 		'checklist' => ['code' => 'todoList'],
 		'clean' => ['code' => 'removeFormat'],
@@ -6520,7 +6520,7 @@ function caGetCK5Toolbar(array $options=null) : ?array {
 		'codeblock' => ['code' => 'codeBlock'], 
 		'font' => ['code' => 'fontfamily'],	
 		'fontsize' => ['code' => 'fontsize'],
-		'fullscreen' => ['code' => 'fullscreen'], 
+		//'fullscreen' => ['code' => 'fullscreen'], //saying it's not available. Only available in newer version?
 		'header' => ['code' => 'heading'],	
 		'highlight' => ['code' => 'highlight'], 
 		'horizontalline' => ['code' => 'horizontalLine'], 
