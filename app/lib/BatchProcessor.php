@@ -193,7 +193,8 @@ class BatchProcessor {
 
 		if (isset($pa_options['sendMail']) && $pa_options['sendMail']) {
 			if ($vs_email = trim($po_request->user->get('email'))) {
-				caSendMessageUsingView($po_request, array($vs_email => $po_request->user->get('fname').' '.$po_request->user->get('lname')), __CA_ADMIN_EMAIL__, _t('[%1] Batch edit completed', $po_request->config->get('app_display_name')), 'batch_processing_completed.tpl',
+				$from_address = __CA_SMTP_EMAIL__ ?: __CA_ADMIN_EMAIL__;
+				caSendMessageUsingView($po_request, array($vs_email => $po_request->user->get('fname').' '.$po_request->user->get('lname')), $from_address, _t('[%1] Batch edit completed', $po_request->config->get('app_display_name')), 'batch_processing_completed.tpl',
 					array(
 						'notices' => $notices, 'errors' => $errors,
 						'batchSize' => $num_items, 'numErrors' => sizeof($errors), 'numProcessed' => sizeof($notices),
@@ -1218,8 +1219,8 @@ class BatchProcessor {
 				if ($error_count > 0) { 
 					$attachments[] = ['path' => $error_log, 'name' => 'error_log.csv', 'mimetype' => 'text/csv'];
 				}
-		
-				caSendMessageUsingView($po_request, array($vs_email => $po_request->user->get('fname').' '.$po_request->user->get('lname')), __CA_ADMIN_EMAIL__, _t('[%1] Batch media import completed', $po_request->config->get('app_display_name')), 'batch_media_import_completed.tpl',
+				$from_address = __CA_SMTP_EMAIL__ ?: __CA_ADMIN_EMAIL__;
+				caSendMessageUsingView($po_request, array($vs_email => $po_request->user->get('fname').' '.$po_request->user->get('lname')), $from_address, _t('[%1] Batch media import completed', $po_request->config->get('app_display_name')), 'batch_media_import_completed.tpl',
 					array(
 						'notices' => $va_notices, 'errors' => $va_errors,
 						'directory' => $vs_relative_directory, 'numErrors' => sizeof($va_errors), 'numProcessed' => $vn_c,
@@ -1473,7 +1474,8 @@ class BatchProcessor {
 		if (isset($pa_options['sendMail']) && $pa_options['sendMail']) {
 			if ($vs_email = trim($po_request->user->get('email'))) {
 				$t_importer ? $info = $t_importer->getInfoForLastImport() : null;
-				caSendMessageUsingView($po_request, array($vs_email => $po_request->user->get('fname').' '.$po_request->user->get('lname')), __CA_ADMIN_EMAIL__, _t('[%1] Batch metadata import completed', $po_request->config->get('app_display_name')), 'batch_metadata_import_completed.tpl', 
+				$from_address = __CA_SMTP_EMAIL__ ?: __CA_ADMIN_EMAIL__;
+				caSendMessageUsingView($po_request, array($vs_email => $po_request->user->get('fname').' '.$po_request->user->get('lname')), $from_address, _t('[%1] Batch metadata import completed', $po_request->config->get('app_display_name')), 'batch_metadata_import_completed.tpl', 
 					[
 						'sourceFile' => $pa_options['sourceFile'],
 						'sourceFileName' => $pa_options['sourceFileName'],

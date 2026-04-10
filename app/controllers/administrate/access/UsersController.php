@@ -187,7 +187,9 @@ class UsersController extends ActionController {
 					# -- generate mail text from template - get both the text and the html versions
 					$mail_message_text = $o_view->render("mailTemplates/account_activation.tpl");
 					$mail_message_html = $o_view->render("mailTemplates/account_activation_html.tpl");
-					caSendmail($t_user->get('email'), $this->request->config->get("ca_admin_email"), $subject_line, $mail_message_text, $mail_message_html, null, null, null, ['source' => 'Account activation']);						
+					$from_address = $this->request->config->get("ca_smtp_email") ?: $this->request->config->get("ca_admin_email"); 
+					$reply_to = $this->request->config->get("ca_admin_email");
+					caSendmail($t_user->get('email'), $from_address, $subject_line, $mail_message_text, $mail_message_html, null, null, null, ['source' => 'Account activation', 'replyTo' => $reply_to]);						
 				}
 
 				$this->notification->addNotification($message, __NOTIFICATION_TYPE_INFO__);
@@ -435,7 +437,9 @@ class UsersController extends ActionController {
 							# -- generate mail text from template - get both the text and the html versions
 							$mail_message_text = $o_view->render("mailTemplates/account_activation.tpl");
 							$mail_message_html = $o_view->render("mailTemplates/account_activation_html.tpl");
-							caSendmail($t_user->get('email'), $this->request->config->get("ca_admin_email"), $subject_line, $mail_message_text, $mail_message_html, null, null, null, ['source' => 'Account activation']);						
+							$from_address = $this->request->config->get("ca_smtp_email") ?: $this->request->config->get("ca_admin_email"); 
+							$reply_to = $this->request->config->get("ca_admin_email");
+							caSendmail($t_user->get('email'), $from_address, $subject_line, $mail_message_text, $mail_message_html, null, null, null, ['source' => 'Account activation', 'replyTo' => $reply_to]);						
 						}
 						
 					}

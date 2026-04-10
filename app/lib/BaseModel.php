@@ -13358,7 +13358,8 @@ $pa_options["display_form_field_tips"] = true;
 		$vb_we_set_transaction = false;
 				
 		$vs_app_name = $this->getAppConfig()->get('app_display_name');
-		$vs_sender_email = $this->getAppConfig()->get('notification_email_sender');
+		$vs_sender_email = $this->getAppConfig()->get('smtp_email') ?: $this->getAppConfig()->get('notification_email_sender');
+		$reply_to = $this->getAppConfig()->get('notification_email_sender');
 		
 		if (!$this->inTransaction()) {
 			$this->setTransaction(new Transaction($this->getDb()));
@@ -13404,7 +13405,7 @@ $pa_options["display_form_field_tips"] = true;
 					
 			// Send email immediately when queue is not enabled
 			if ((!defined("__CA_QUEUE_ENABLED__") || !__CA_QUEUE_ENABLED__) && (bool)$vb_send_email && $this->hasField('email') && ($vs_to_email = $this->get('email'))) {
-				if (caSendMessageUsingView(null, $vs_to_email, $vs_sender_email, $this->getAppConfig()->get('notification_email_subject'), "notification.tpl", ['notification' => $ps_message, 'sent_on' => time()],null, null, ['source' => 'Notification'])) {
+				if (caSendMessageUsingView(null, $vs_to_email, $vs_sender_email, $this->getAppConfig()->get('notification_email_subject'), "notification.tpl", ['notification' => $ps_message, 'sent_on' => time()],null, null, ['source' => 'Notification', 'replyTo' => $reply_to])) {
 					$t_subject->set('delivery_email_sent_on', _t('now'));
 					$t_subject->update();
 				} // caSendMessageUsingView logs failures
@@ -13438,7 +13439,7 @@ $pa_options["display_form_field_tips"] = true;
 				}
 				// Send email immediately when queue is not enabled
 				if ((!defined("__CA_QUEUE_ENABLED__") || !__CA_QUEUE_ENABLED__) && (bool)$vb_send_email && $t_instance->hasField('email') && ($t_instance->load($va_subject['row_id'])) &&  ($vs_to_email = $t_instance->get('email'))) {
-					if (caSendMessageUsingView(null, $vs_to_email, $vs_sender_email, $this->getAppConfig()->get('notification_email_subject'), "notification.tpl", ['notification' => $ps_message, 'datetime' => time(), 'datetime_display' => caGetLocalizedDate()], null, null, ['source' => 'Notification'])) {
+					if (caSendMessageUsingView(null, $vs_to_email, $vs_sender_email, $this->getAppConfig()->get('notification_email_subject'), "notification.tpl", ['notification' => $ps_message, 'datetime' => time(), 'datetime_display' => caGetLocalizedDate()], null, null, ['source' => 'Notification', 'replyTo' => $reply_to])) {
 						$t_subject->set('delivery_email_sent_on', _t('now'));
 						$t_subject->update();
 					} // caSendMessageUsingView logs failures

@@ -171,13 +171,14 @@ class WLPlugTaskQueueHandlerdataExport Extends WLPlug Implements IWLPlugTaskQueu
 			$t_download->update();
 		}
 		
+		$from_address = __CA_SMTP_EMAIL__ ?: __CA_ADMIN_EMAIL__;
 		try {
 			switch($mode = $parameters['mode']) {
 				case 'EXPORT':
 					$t_display = ($display_id = $parameters['display_id'] ?? null) ? new ca_bundle_displays($display_id) : null;
 					$res = caExportResult($req, $result, $parameters['request']['export_format'], _t('Data_Export'), ['printTemplateType' => 'results', 'output' => 'FILE', 'display' => $t_display, 'checkAccess' => $parameters['request']['checkAccess'] ?? null]);
 					if(is_array($res)) {
-						caSendMessageUsingView($req, $user->get('email'), __CA_ADMIN_EMAIL__, _t('[%1] Data export for %2', __CA_APP_DISPLAY_NAME__, strip_tags($parameters['searchExpressionForDisplay'])), 'data_export_result.tpl', $parameters, null, null, ['attachments' => [
+						caSendMessageUsingView($req, $user->get('email'), $from_address, _t('[%1] Data export for %2', __CA_APP_DISPLAY_NAME__, strip_tags($parameters['searchExpressionForDisplay'])), 'data_export_result.tpl', $parameters, null, null, ['attachments' => [
 							[
 								'name' => "data_export.{$res['extension']}",
 								'path' => $res['path'],
@@ -186,13 +187,13 @@ class WLPlugTaskQueueHandlerdataExport Extends WLPlug Implements IWLPlugTaskQueu
 						]);
 					} else {
 						$report['errors'][] = $parameters['errors'] = _t('Output failed'); 
-						caSendMessageUsingView($req, $user->get('email'), __CA_ADMIN_EMAIL__, _t('[%1] Data export failed', __CA_APP_DISPLAY_NAME__), 'data_export_failure.tpl', $parameters, null, null, []);
+						caSendMessageUsingView($req, $user->get('email'), $from_address, _t('[%1] Data export failed', __CA_APP_DISPLAY_NAME__), 'data_export_failure.tpl', $parameters, null, null, []);
 					}
 					break;
 				case 'LABELS':
 					$res = caExportAsLabels($req, $result, $parameters['request']['label_form'], _t('Labels'), _t('Labels'), ['output' => 'FILE', 'checkAccess' => $parameters['request']['checkAccess'] ?? null]);
 					if(is_array($res)) {
-						caSendMessageUsingView($req, $user->get('email'), __CA_ADMIN_EMAIL__, _t('[%1] Labels for %2', __CA_APP_DISPLAY_NAME__, strip_tags($parameters['searchExpressionForDisplay'])), 'label_export_result.tpl', $parameters, null, null, ['attachments' => [
+						caSendMessageUsingView($req, $user->get('email'), $from_address, _t('[%1] Labels for %2', __CA_APP_DISPLAY_NAME__, strip_tags($parameters['searchExpressionForDisplay'])), 'label_export_result.tpl', $parameters, null, null, ['attachments' => [
 							[
 								'name' => 'labels.pdf',		// labels are always PDF
 								'path' => $res['path'],
@@ -201,19 +202,19 @@ class WLPlugTaskQueueHandlerdataExport Extends WLPlug Implements IWLPlugTaskQueu
 						]);
 					} else {
 						$report['errors'][] = $parameters['errors'] = _t('Output failed'); 
-						caSendMessageUsingView($req, $user->get('email'), __CA_ADMIN_EMAIL__, _t('[%1] Label export failed', __CA_APP_DISPLAY_NAME__), 'label_export_failure.tpl', $parameters, null, null, []);
+						caSendMessageUsingView($req, $user->get('email'), $from_address, _t('[%1] Label export failed', __CA_APP_DISPLAY_NAME__), 'label_export_failure.tpl', $parameters, null, null, []);
 					}
 					break;
 				case 'SUMMARY':
 					if(!$result->nextHit()) {
 						$this->error->setError(551, _t("[TaskQueue::dataExport::process] Record does not exist", $mode),"dataExport->process()");
 						$report['errors'][] = $parameters['errors'] = _t('Record does not exist');
-						caSendMessageUsingView($req, $user->get('email'), __CA_ADMIN_EMAIL__, _t('[%1] Summary export failed', __CA_APP_DISPLAY_NAME__), 'summary_export_failure.tpl', $parameters, null, null, []);
+						caSendMessageUsingView($req, $user->get('email'), $from_address, _t('[%1] Summary export failed', __CA_APP_DISPLAY_NAME__), 'summary_export_failure.tpl', $parameters, null, null, []);
 						break;
 					}
 					$res = caExportSummary($req, $result->getInstance(), $parameters['request']['template'], (int)$parameters['request']['display_id'], _t('Download'), _t('Download'), ['output' => 'FILE', 'checkAccess' => $parameters['request']['checkAccess'] ?? null]);
 					if(is_array($res)) {
-						caSendMessageUsingView($req, $user->get('email'), __CA_ADMIN_EMAIL__, _t('[%1] Summary for %2', __CA_APP_DISPLAY_NAME__, strip_tags($parameters['searchExpressionForDisplay'])), 'summary_export_result.tpl', $parameters, null, null, ['attachments' => [
+						caSendMessageUsingView($req, $user->get('email'), $from_address, _t('[%1] Summary for %2', __CA_APP_DISPLAY_NAME__, strip_tags($parameters['searchExpressionForDisplay'])), 'summary_export_result.tpl', $parameters, null, null, ['attachments' => [
 							[
 								'name' => "summary.{$res['extension']}",
 								'path' => $res['path'],
@@ -222,13 +223,13 @@ class WLPlugTaskQueueHandlerdataExport Extends WLPlug Implements IWLPlugTaskQueu
 						]);
 					} else {
 						$report['errors'][] = $parameters['errors'] = _t('Output failed');
-						caSendMessageUsingView($req, $user->get('email'), __CA_ADMIN_EMAIL__, _t('[%1] Summary export failed', __CA_APP_DISPLAY_NAME__), 'summary_export_failure.tpl', $parameters, null, null, []);
+						caSendMessageUsingView($req, $user->get('email'), $from_address, _t('[%1] Summary export failed', __CA_APP_DISPLAY_NAME__), 'summary_export_failure.tpl', $parameters, null, null, []);
 					}
 					break;
 				case 'SETS':
 					$res = caExportResult($req, $result, $parameters['request']['export_format'], _t('Set_Export'), ['printTemplateType' => 'sets', 'set' => new ca_sets($parameters['set_id'] ?? null), 'output' => 'FILE', 'checkAccess' => $parameters['request']['checkAccess'] ?? null]);
 					if(is_array($res)) {
-						caSendMessageUsingView($req, $user->get('email'), __CA_ADMIN_EMAIL__, _t('[%1] Set export for %2', __CA_APP_DISPLAY_NAME__, strip_tags($parameters['searchExpressionForDisplay'])), 'set_export_result.tpl', $parameters, null, null, ['attachments' => [
+						caSendMessageUsingView($req, $user->get('email'), $from_address, _t('[%1] Set export for %2', __CA_APP_DISPLAY_NAME__, strip_tags($parameters['searchExpressionForDisplay'])), 'set_export_result.tpl', $parameters, null, null, ['attachments' => [
 							[
 								'name' => "data_export.{$res['extension']}",
 								'path' => $res['path'],
@@ -237,7 +238,7 @@ class WLPlugTaskQueueHandlerdataExport Extends WLPlug Implements IWLPlugTaskQueu
 						]);
 					} else {
 						$report['errors'][] = $parameters['errors'] = _t('Output failed'); 
-						caSendMessageUsingView($req, $user->get('email'), __CA_ADMIN_EMAIL__, _t('[%1] Set export failed', __CA_APP_DISPLAY_NAME__), 'set_export_failure.tpl', $parameters, null, null, []);
+						caSendMessageUsingView($req, $user->get('email'), $from_address, _t('[%1] Set export failed', __CA_APP_DISPLAY_NAME__), 'set_export_failure.tpl', $parameters, null, null, []);
 					}
 					break;
 				default:

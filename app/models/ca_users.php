@@ -3218,15 +3218,15 @@ class ca_users extends BaseModel {
 		$this->update();
 
 		caLogEvent('SYS', _t('User %1 was permanently deactivated because the maximum number of consecutive unsuccessful password reset attemps was reached.', $this->get('user_name')), 'ca_users->passwordResetDeactivateAccount');
-			
+		$from_address = __CA_SMTP_EMAIL__ ?: __CA_ADMIN_EMAIL__;
 		global $g_request;
 		caSendMessageUsingView(
 			$g_request,
 			$this->get('email'),
-			__CA_ADMIN_EMAIL__,
+			$from_address,
 			"[{$vs_app_name}] "._t("Information regarding your account"),
 			'account_deactivated.tpl',
-			[], null, null, ['source' => 'Account deactivation']
+			[], null, null, ['source' => 'Account deactivation', 'replyTo' => __CA_ADMIN_EMAIL__ ]
 		);
 	}
 	# ----------------------------------------
@@ -3248,18 +3248,18 @@ class ca_users extends BaseModel {
 		global $g_request;
 		$vs_user_email = $this->get('email');
 		$vs_app_name = $this->getAppConfig()->get("app_name");
-
+		$from_address = __CA_SMTP_EMAIL__ ?: __CA_ADMIN_EMAIL__;
 		return caSendMessageUsingView(
 			$g_request,
 			$vs_user_email,
-			__CA_ADMIN_EMAIL__,
+			$from_address,
 			"[{$vs_app_name}] "._t("Information regarding your password"),
 			'forgot_password.tpl',
 			[
 				'password_reset_token' => $ps_password_reset_token,
 				'user_name' => $this->get('user_name'),
 				'site_host' => $this->getAppConfig()->get('site_host'),
-			], null, null, ['source' => 'Password reset']
+			], null, null, ['source' => 'Password reset', 'replyTo' => __CA_ADMIN_EMAIL__]
 		);
 	}
 	# ----------------------------------------

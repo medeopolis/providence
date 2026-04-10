@@ -65,7 +65,10 @@ class notificationsPlugin extends BaseApplicationPlugin {
 		if (is_array($va_notifications = ca_users::getQueuedEmailNotifications())) {
 			
 			$vs_app_name = $this->opo_config->get('app_display_name');
-			$vs_sender_email = $this->opo_config->get('notification_email_sender');
+			# Set the from address the same address as the SMTP server. 
+			# Fall back to configured sender email. Set the sender email as the reply to.
+			$vs_sender_email = $this->opo_config->get("ca_smtp_email") ?: $this->opo_config->get('notification_email_sender');
+			$reply_to = $this->opo_config->get('notification_email_sender');
 	
 			// digest by user
 			$va_notifications_by_user = array_reduce($va_notifications, function($c, $i) { $c[$i['user_id']][] = $i; return $c; }, []);
@@ -73,7 +76,7 @@ class notificationsPlugin extends BaseApplicationPlugin {
 			foreach($va_notifications_by_user as $vn_user_id => $va_notifications_for_user) {
 				if(!sizeof($va_notifications_for_user)) { continue; }
 				$vs_to_email = $va_notifications_for_user[0]['email'];
-				if (caSendMessageUsingView(null, $vs_to_email, $vs_sender_email, $this->opo_config->get('notification_email_subject'), "notification_digest.tpl", ['notifications' => $va_notifications_for_user, 'sent_on' => time()], null, null, ['source' => 'Notification'])) {
+				if (caSendMessageUsingView(null, $vs_to_email, $vs_sender_email, $this->opo_config->get('notification_email_subject'), "notification_digest.tpl", ['notifications' => $va_notifications_for_user, 'sent_on' => time()], null, null, ['source' => 'Notification', 'replyTo' => $reply_to])) {
 					$va_notification_subject_ids = array_map(function($v) { return $v['subject_id']; }, $va_notifications_for_user);
 					$t_subject = new ca_notification_subjects();
 					foreach($va_notification_subject_ids as $vn_subject_id) {

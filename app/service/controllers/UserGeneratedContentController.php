@@ -363,8 +363,11 @@ class UserGeneratedContentController extends \GraphQLServices\GraphQLServiceCont
 								# -- generate mail text from template - get both the text and the html versions
 								$mail_message_text = $o_view->render("mailTemplates/set_comment_notification.tpl");
 								$mail_message_html = $o_view->render("mailTemplates/set_comment_notification_html.tpl");
-		
-								if(caSendmail($emails, Configuration::load()->get("ca_admin_email"), $subject_line, $mail_message_text, $mail_message_html)) {
+								# -- set from and reply to address. 
+								# -- The from address needs to be the SMTP email address that is sending the email.
+								$from_address = Configuration::load()->get("ca_smtp_email") ?: Configuration::load()->get("ca_admin_email"); 
+								$reply_to = Configuration::load()->get("ca_admin_email");
+								if(caSendmail($emails, $from_address, $subject_line, $mail_message_text, $mail_message_html, null, null, null, ['replyTo' => $reply_to])) {
 									$email_sent = true;
 								}
 							}
@@ -378,8 +381,11 @@ class UserGeneratedContentController extends \GraphQLServices\GraphQLServiceCont
 								# -- generate mail text from template - get both the text and the html versions
 								$mail_message_text = $o_view->render("mailTemplates/admin_comment_notification.tpl");
 								$mail_message_html = $o_view->render("mailTemplates/admin_comment_notification_html.tpl");
-		
-								if(caSendmail(Configuration::load()->get("ca_admin_email"), Configuration::load()->get("ca_admin_email"), $subject_line, $mail_message_text, $mail_message_html)) {
+								# -- The from address needs to be the SMTP email address that is sending the email.
+								# -- doesn't need a reply to for this type of email
+								$from_address = Configuration::load()->get("ca_smtp_email") ?: Configuration::load()->get("ca_admin_email"); 
+
+								if(caSendmail(Configuration::load()->get("ca_admin_email"), $from_address, $subject_line, $mail_message_text, $mail_message_html)) {
 									$email_sent = true;
 								}
 							}
