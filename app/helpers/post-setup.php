@@ -333,6 +333,15 @@ if (!defined("__CA_SMTP_AUTH__")) {
 	define("__CA_SMTP_AUTH__", '');
 }
 
+#
+# __CA_SMTP_EMAIL__ = email address of the SMTP mailbox to use in 'from' address
+# This might be the same as __CA_SMTP_USER__
+# for backwards compatibility, set the __CA_SMTP_EMAIL__ to be __CA_ADMIN_EMAIL if not set
+#
+if (!defined("__CA_SMTP_EMAIL")) {
+	define("__CA_SMTP_EMAIL__", __CA_ADMIN_EMAIL__);
+}
+
 # __CA_SMTP_USER__ = User name for outgoing mail authentication
 #
 if (!defined("__CA_SMTP_USER__")) {
