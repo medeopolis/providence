@@ -338,7 +338,7 @@ if (!defined("__CA_SMTP_AUTH__")) {
 # This might be the same as __CA_SMTP_USER__
 # for backwards compatibility, set the __CA_SMTP_EMAIL__ to be __CA_ADMIN_EMAIL if not set
 #
-if (!defined("__CA_SMTP_EMAIL")) {
+if (!defined("__CA_SMTP_EMAIL__")) {
 	define("__CA_SMTP_EMAIL__", __CA_ADMIN_EMAIL__);
 }
 
