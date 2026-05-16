@@ -1,0 +1,30 @@
+.ck-anchor {
+	position: relative;
+	/* inline element so it doesn't disrupt flow */
+	display: inline-block;
+	font-family: "Font Awesome 5 Free";
+	font-weight: bold;
+	font-size:1rem;
+	text-decoration: none !important;
+}
+
+.ck-anchor::after {
+	content: "\f02e";
+	margin-right:0.4em;
+}
+
+.ck-anchor-dialog {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
+}
+
+.ck-anchor-dialog__label {
+	font-size: 0.85em;
+	font-weight: 600;
+}
+
+.ck-anchor-dialog__select {
+	width: 100%;
+}
+

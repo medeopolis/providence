@@ -6543,7 +6543,7 @@ function caGetCK5Toolbar(array $options=null) : ?array {
 		'background' => ['code' => 'fontBackgroundColor'],
 		'blockquote' => ['code' => 'blockQuote'],
 		'bold' => ['code' => 'bold'], //
-		//'bookmark' => ['code' => 'bookmark'], // Premium Feature 
+		'insertbookmark' => ['code' => 'insertBookmark'], 
 		'bulletedlist' => ['code' => 'bulletedList'],
 		'checklist' => ['code' => 'todoList'],
 		'clean' => ['code' => 'removeFormat'],

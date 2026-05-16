@@ -230,17 +230,17 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 						Table, TableCaption, TableColumnResize, TableToolbar, TextTransformation, TodoList,
 						Underline, Undo,
 					} from 'ckeditor5';
-				
+			 		import Bookmark from 'ckbookmark';	
 					ClassicEditor
 						.create( document.querySelector( '#{$name}' ), {
 							plugins: [ 
 								Alignment, Autoformat, AutoImage, AutoLink, 
-								BlockQuote, Bold, 
+								Bookmark, BlockQuote, Bold, 
 								Clipboard, Code, CodeBlock, 
 								Essentials, 
 								Font,
 								GeneralHtmlSupport,
-								Heading, Highlight, Horizontalline, HtmlComment,
+								Heading, Highlight, HorizontalLine, HtmlComment,
 								Image, ImageCaption, ImageInsert, ImageResize, ImageStyle, ImageTextAlternative, ImageToolbar, Indent, IndentBlock, Italic, 
 								Link, LinkImage, List, ListProperties, 
 								MediaEmbed, 
