@@ -6,9 +6,12 @@ html {
 	box-sizing: content-box !important;
 }
 
+/* 
+* commenting this out, as it's interferring with ckeditor elements.
+* Not sure what this will upset just yet.
 *, *:before, *:after {
   box-sizing: inherit !important;
-}
+} */
 
 html {
     font: 12px "Helvetica Neue", Arial, Helvetica, Sans-serif;
