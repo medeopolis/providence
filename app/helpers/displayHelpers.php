@@ -5828,7 +5828,7 @@ function caProcessReferenceTags($request, $text, $options=null) {
 						$vn_value_id = (int)$va_tag['id'];
 
 						$t_instance = ca_attributes::getRowInstanceForValueID($vn_value_id);
-						if (!$t_instance->isReadable($request)) { continue; }
+						if (!$t_instance || !$t_instance->isReadable($request)) { continue; }
 						if ($template = $va_tag['content']) {
 
 							$t_attr = ca_attributes::getAttributeForValueID($vn_value_id);
@@ -6473,6 +6473,9 @@ function caGetQuillToolbar(array $options=null) : ?array {
 		'indent' => ['code' => 'indent', 'value' => '-1'],
 		
 		'direction' => ['code' => 'direction', 'value' => 'rtl'],
+		
+		'medialist' => ['code' => 'camedialist'],
+		'itemlink' => ['code' => 'caitemlink'],
 		//'undo' => ['code' => 'undo'],	// Doesn't appear to render even thought Quill docs reference it
 		//'redo' => ['code' => 'redo'], // Doesn't appear to render even thought Quill docs reference it
 	];
@@ -6538,7 +6541,10 @@ function caGetCK5Toolbar(array $options=null) : ?array {
 		'source' => ['code' => 'sourceEditing'],
 	
 		'undo' => ['code' => 'undo'],	
-		'redo' => ['code' => 'redo']
+		'redo' => ['code' => 'redo'],
+		
+		'medialist' => ['code' => 'camedialist'],
+		'itemlink' => ['code' => 'caitemlink'],
 	];
 	
 	$toolbar = $config->get(strtolower((caGetOption('type', $options, 'editor') )!== 'content') ? 'wysiwyg_editor_toolbar' : 'wysiwyg_content_editor_toolbar');
