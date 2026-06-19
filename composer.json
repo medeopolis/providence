@@ -16,7 +16,7 @@
     "ezyang/htmlpurifier": "~4.9",
     "xemlock/htmlpurifier-html5": "~0.1",
     "guzzlehttp/guzzle": "^7.9",
-    "guzzlehttp/psr7": "2.7.*",
+    "guzzlehttp/psr7": "^2.0",
     "james-heinrich/getid3": "^1.9.20",
     "joshralph/password-policy": "~0.2",
     "knplabs/github-api": "^3.14",
