@@ -85,7 +85,6 @@ class Configuration {
 	static $s_config_cache = null;
 	static $s_have_to_write_config_cache = false;
 	
-
 	/* ---------------------------------------- */
 	/**
 	 * Load a configuration file
@@ -120,6 +119,7 @@ class Configuration {
 	 *
 	 */
 	public function __construct($file_path=__CA_APP_CONFIG__, $die_on_error=false, $dont_cache=false, $dont_load_from_default_path=false) {
+
 		global $g_ui_locale, $g_configuration_cache_suffix;
 
 		$this->ops_config_file_path = $file_path ? $file_path : __CA_APP_CONFIG__;	# path to configuration file
@@ -872,23 +872,31 @@ class Configuration {
 	    $assoc_exists = false;
 	    if (!is_array($pm_key)) { $pm_key = [$pm_key]; }
 	    
+	    global $configEditor_enabled;
 	    foreach($pm_key as $key) {
-            if (isset(Configuration::$s_get_cache[$this->ops_md5_path][$key]) && Configuration::$s_get_cache[$this->ops_md5_path][$key]) { return Configuration::$s_get_cache[$this->ops_md5_path][$key]; }
-            $this->ops_error = "";
+		if($configEditor_enabled){
+			require_once(__CA_APP_DIR__.'/plugins/configEditor/lib/ConfDB.php');
+			$conf_db = new ConfDB();
+			$tmp = $conf_db->getConfig(pathinfo($this->ops_config_file_path,PATHINFO_FILENAME),$key);
+			if($tmp){ return $tmp['value']; }
+		}	
+	
+            	if (isset(Configuration::$s_get_cache[$this->ops_md5_path][$key]) && Configuration::$s_get_cache[$this->ops_md5_path][$key]) { return Configuration::$s_get_cache[$this->ops_md5_path][$key]; }
+            	$this->ops_error = "";
 
-            $tmp = $this->getScalar($key);
-            if (!strlen($tmp)) {
-                $tmp = $this->getList($key);
-            }
-            if (!is_array($tmp) && !strlen($tmp)) {
-                if (is_array($tmp = $this->getAssoc($key))) { $assoc_exists = true; }
-            }
-            Configuration::$s_get_cache[$this->ops_md5_path][$key] = $tmp;
+            	$tmp = $this->getScalar($key);
+            	if (!strlen($tmp)) {
+                	$tmp = $this->getList($key);
+            	}
+            	if (!is_array($tmp) && !strlen($tmp)) {
+                	if (is_array($tmp = $this->getAssoc($key))) { $assoc_exists = true; }
+            	}
+            	Configuration::$s_get_cache[$this->ops_md5_path][$key] = $tmp;
             
-            if (!is_array($tmp) && !strlen($tmp)) { continue; }
-            return $tmp;
-        }
-        return $assoc_exists ? [] : null;
+            	if (!is_array($tmp) && !strlen($tmp)) { continue; }
+           	return $tmp;
+            }
+            return $assoc_exists ? [] : null;
 	}
 	/* ---------------------------------------- */
 	/**
