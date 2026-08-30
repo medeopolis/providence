@@ -320,7 +320,7 @@ function caBatchGetMediaFilenameReplacementRegexList($options=null) {
  * @param string $ps_directory Directory in which to search for matches
  * @param string $ps_value The value to match on
  * @param array $pa_options Options include:
- *      log = KLogger instance [Default is null]
+ *      log = CALogger instance [Default is null]
  *      matchMode = Determines whether to search on file names, enclosing directory names or both. Valid values are DIRECTORY_NAME, FILE_AND_DIRECTORY_NAMES and FILE_NAME. [Default is FILE_NAME]
  *      matchType = Determines how file names are compared to the match value. Valid values are STARTS, ENDS, CONTAINS and EXACT. [Default is EXACT]
  *

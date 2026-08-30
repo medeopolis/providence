@@ -30,11 +30,11 @@
  * ----------------------------------------------------------------------
  */
 
-class AccessLogger extends KLogger {
+class AccessLogger extends CALogger {
 	/**
 	 *
 	 */
-	public function logJSON(string $action, array $details, $severity=KLogger::INFO) {
+	public function logJSON(string $action, array $details, $severity=CALogger::INFO) {
 		$payload = caPrettyJson([
 			'action' => $action,
 			'details' => $details

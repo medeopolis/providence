@@ -134,7 +134,7 @@ function caInitErrorHandler() : void {
  * @param Exception $e
  */
 function caDisplayException(Exception $e, ?array $options=null) : void {
-    if (defined("__CA_LIB_DIR__")) { require_once(__CA_LIB_DIR__.'/Logging/KLogger/KLogger.php'); }
+    if (defined("__CA_LIB_DIR__")) { require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php'); }
 	if(!is_a($e, "DatabaseException") && class_exists('AppController')) { AppController::getInstance()->removeAllPlugins(); }
 
 	$errno = 0;
@@ -148,9 +148,9 @@ function caDisplayException(Exception $e, ?array $options=null) : void {
 	$config = Configuration::load();
 	$log_dir = $config->get('batch_metadata_import_log_directory');
 	if(defined('__CA_ENABLE_DEBUG_OUTPUT__') && __CA_ENABLE_DEBUG_OUTPUT__) {
-		$o_log = new KLogger($log_dir, KLogger::DEBUG);
+		$o_log = new CALogger($log_dir, CALogger::DEBUG);
 	} else {
-		$o_log = new KLogger($log_dir, KLogger::ERR);
+		$o_log = new CALogger($log_dir, CALogger::ERR);
 	}
 
 	$o_log->logError(get_class($e) . ': ' . $e->getMessage());

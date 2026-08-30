@@ -347,7 +347,7 @@ trait CLIUtilsConfiguration {
 
 		$vn_log_level = $po_opts->getOption('log-level');
 
-		$o_log = (is_writable($vs_log_dir)) ? new KLogger($vs_log_dir, $vn_log_level) : null;
+		$o_log = (is_writable($vs_log_dir)) ? new CALogger($vs_log_dir, $vn_log_level) : null;
 
 		if ($o_log) { $o_log->logDebug(_t("[push-config-changes] Start preparing to push config changes")); }
 

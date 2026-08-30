@@ -59,7 +59,7 @@ class Installer {
 	
 	/** @var  bool */
 	protected $logging_status = false;
-	/** @var KLogger */
+	/** @var CALogger */
 	protected $log;
 	
 	/** @var  SimpleXMLElement */
@@ -103,7 +103,7 @@ class Installer {
 	 * @param boolean $overwrite overwrite existing install? optional, defaults to false
 	 * @param boolean $debug enable or disable debugging mode
 	 * @param boolean $skip_load dont actually load profile (useful if you want to fill in some gaps by hand)
-	 * @param boolean $log_output log output using Klogger
+	 * @param boolean $log_output log output using CALogger
 	 */
 	public function  __construct(string $directory, string $profile, ?string $admin_email=null, ?bool $overwrite=false, ?bool $debug=false, ?bool $skip_load=false, ?bool $log_output=false, $dont_validate=false) {
 		$this->profile_dir = $directory;
@@ -131,9 +131,9 @@ class Installer {
 		}
 
 		if($log_output) {
-			require_once(__CA_LIB_DIR__.'/Logging/KLogger/KLogger.php');
+			require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
 			// @todo make this configurable or get from app.conf?
-			$this->log = new \KLogger(__CA_LOG_DIR__, \KLogger::DEBUG);
+			$this->log = new \CALogger(__CA_LOG_DIR__, \CALogger::DEBUG);
 			$this->logging_status = true;
 		}
 	}

@@ -27,7 +27,7 @@
  */
 namespace Installer\Parsers;
 
-require_once(__CA_LIB_DIR__.'/Logging/KLogger/KLogger.php');
+require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
 
 abstract class BaseProfileParser {
 	# --------------------------------------------------
@@ -70,7 +70,7 @@ abstract class BaseProfileParser {
 	 * @param string $profile Name (with or without extension) of profile to parse
 	 */
 	public function __construct(?string $directory=null, ?string $profile=null) {
-		$this->log = new \KLogger(__CA_LOG_DIR__, \KLogger::DEBUG);
+		$this->log = new \CALogger(__CA_LOG_DIR__, \CALogger::DEBUG);
 		$this->notices = $this->warnings = $this->errors = [];
 		$this->debug = true;
 		if($profile) {

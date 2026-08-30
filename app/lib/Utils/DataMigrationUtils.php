@@ -178,8 +178,8 @@ class DataMigrationUtils {
 		$o_event = (isset($options['importEvent']) && $options['importEvent'] instanceof ca_data_import_events) ? $options['importEvent'] : null;
 		$ps_event_source = (isset($options['importEventSource']) && $options['importEventSource']) ? $options['importEventSource'] : "?";
 		
-		/** @var KLogger $o_log */
-		$o_log = (isset($options['log']) && $options['log'] instanceof KLogger) ? $options['log'] : null;
+		/** @var CALogger $o_log */
+		$o_log = (isset($options['log']) && $options['log'] instanceof CALogger) ? $options['log'] : null;
 		if ($options['cache'] && isset(DataMigrationUtils::$s_cached_list_item_ids[$vs_cache_key])) {
 			if (isset($options['returnInstance']) && $options['returnInstance']) {
 				$t_item = new ca_list_items(DataMigrationUtils::$s_cached_list_item_ids[$vs_cache_key]);
@@ -892,7 +892,7 @@ class DataMigrationUtils {
 	 * @param array $pa_values
 	 * @param array Options include:
 	 *		skipExistingValues = Skip add of value if it already exists for this instance. [Default is true]
-	 *		log = If KLogger instance is passed then actions will be logged. [Default is null]
+	 *		log = If CALogger instance is passed then actions will be logged. [Default is null]
 	 *		separateUpdatesForAttributes = Perform a separate update() for each attribute. This will ensure that an error triggered by any value will not affect setting on others, but is detrimental to performance. [Default is false]
 	 *		delimiter = Delimiter to split values on. [Default is null]
 	 *		matchOn = Optional list indicating sequence of checks for an existing record; values of array can be "label", "labels", "idno", "id". Ex. array("idno", "label") will first try to match on idno and then label if the first match fails. For entities only you may also specifiy "displayname", "surname" and "forename" to match on the text of the those label fields exclusively. If "none" is specified alone no matching is performed.
@@ -901,7 +901,7 @@ class DataMigrationUtils {
 	 * @return bool True on success, false on error 		
 	 */
 	private static function _setAttributes($pt_instance, $locale_id, $pa_values, $options=null) {
-		$o_log = (isset($options['log']) && $options['log'] instanceof KLogger) ? $options['log'] : null;
+		$o_log = (isset($options['log']) && $options['log'] instanceof CALogger) ? $options['log'] : null;
 		$vb_attr_errors = false;
 		
 		$vb_separate_updates = caGetOption('separateUpdatesForAttributes', $options, false);
@@ -1018,7 +1018,7 @@ class DataMigrationUtils {
 	 *
 	 */
 	private static function _setNonPreferredLabels($pt_instance, $locale_id, $options) {
-		$o_log = (isset($options['log']) && $options['log'] instanceof KLogger) ? $options['log'] : null;
+		$o_log = (isset($options['log']) && $options['log'] instanceof CALogger) ? $options['log'] : null;
 		
 		$vn_count = 0;
 		if(is_array($va_nonpreferred_labels = caGetOption("nonPreferredLabels", $options, null))) {
@@ -1060,7 +1060,7 @@ class DataMigrationUtils {
 	 *
 	 */
 	private static function _setIdno($pt_instance, $ps_idno, $options) {
-		$o_log = (isset($options['log']) && $options['log'] instanceof KLogger) ? $options['log'] : null;
+		$o_log = (isset($options['log']) && $options['log'] instanceof CALogger) ? $options['log'] : null;
 		
 		/** @var IIDNumbering $o_idno */
 		if ($o_idno = $pt_instance->getIDNoPlugInInstance()) {
@@ -1108,7 +1108,7 @@ class DataMigrationUtils {
 	 *                nonPreferredLabels = an optional array of nonpreferred labels to add to any newly created entities. Each label in the array is an array with required entity label values.
 	 *				  forceUpdate = update attributes set in $pa_values even if row already exists. [Default=false; no values are updated in existing rows]
 	 *				  matchMediaFilesWithoutExtension = For ca_object_representations, if media path is invalid, attempt to find media in referenced directory and sub-directories that has a matching name, regardless of file extension. [default=false] 
-	 *                log = if KLogger instance is passed then actions will be logged
+	 *                log = if CALogger instance is passed then actions will be logged
 	 *				  ignoreParent = Don't take into account parent_id value when looking for matching rows [Default is false]
 	 *				  ignoreType = Don't take into account type_id value when looking for matching rows [Default is false]
 	 *				  separateUpdatesForAttributes = Perform a separate update() for each attribute. This will ensure that an error triggered by any value will not affect setting on others, but is detrimental to performance. [Default is false]
@@ -1130,8 +1130,8 @@ class DataMigrationUtils {
 	 */
 	private static function _getID($ps_table, $pa_label, $pn_parent_id, $pn_type_id, $locale_id, $pa_values=null, $options=null) {
 		if (!is_array($options)) { $options = array(); }
-		/** @var KLogger $o_log */
-		$o_log = (isset($options['log']) && $options['log'] instanceof KLogger) ? $options['log'] : null;
+		/** @var CALogger $o_log */
+		$o_log = (isset($options['log']) && $options['log'] instanceof CALogger) ? $options['log'] : null;
 		
 		if (!$t_instance = Datamodel::getInstanceByTableName($ps_table, true))  { return null; }
 		$vs_table_display_name 			= $t_instance->getProperty('NAME_SINGULAR');
@@ -1563,7 +1563,7 @@ class DataMigrationUtils {
 	 * @param array $options
 	 *		dontOutputLevel = 
 	 *		dontPrint =
-	 *		log = KLogger instance to log errors to. [Default is null]
+	 *		log = CALogger instance to log errors to. [Default is null]
 	 *
 	 * @return string
 	 */

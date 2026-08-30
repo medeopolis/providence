@@ -29,7 +29,7 @@
  * 
  * ----------------------------------------------------------------------
  */
-require_once(__CA_LIB_DIR__.'/Logging/KLogger/KLogger.php');
+require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
 require_once(__CA_LIB_DIR__.'/Import/BaseDataReader.php');
 
 require_once(__CA_LIB_DIR__.'/Plugins/InformationService/TGN.php');
@@ -47,7 +47,7 @@ require_once(__CA_LIB_DIR__.'/Import/BaseRefinery.php');
  * @param array $pa_source_data
  * @param array $pa_item
  * @param int $pn_c
- * @param KLogger $o_log
+ * @param CALogger $o_log
  * 
  * @return int
  */
@@ -342,7 +342,7 @@ function caProcessRefineryParents($ps_refinery_name, $ps_table, $pa_parents, $pa
  * @param array $pa_source_data
  * @param array $pa_item
  * @param int $pn_c
- * @param KLogger $o_log
+ * @param CALogger $o_log
  * 
  * @return array
  */
@@ -537,7 +537,7 @@ function caProcessRefineryAttributes($pa_attributes, $pa_source_data, $pa_item, 
  * @param array $pa_source_data
  * @param array $pa_item
  * @param int $pn_c
- * @param KLogger $o_log
+ * @param CALogger $o_log
  * 
  * @return array
  */
@@ -1457,7 +1457,7 @@ function caGenericImportSplitter($ps_refinery_name, $ps_item_prefix, $ps_table, 
 * @param $pa_item array
 * @param $pa_source_data array
 * @param $pn_value_index int
-* @param $o_log KLogger
+* @param $o_log CALogger
 * @param $o_reader BaseDataReader
 * @param $va_val array
 * @param $va_attr_vals array
@@ -1568,17 +1568,17 @@ function caProcessImportItemSettingsForValue($pm_value, $pa_item, array $options
 }
 # ---------------------------------------
 /**
- * Returns array of valid importer logging levels. Keys of array are display names for levels, values are KLogger integer log-level constants
+ * Returns array of valid importer logging levels. Keys of array are display names for levels, values are CALogger integer log-level constants
  *
  * @return array
  */
 function caGetLogLevels() {
 	return array(
-		_t('Errors') => KLogger::ERR,
-		_t('Warnings') => KLogger::WARN,
-		_t('Alerts') => KLogger::NOTICE,
-		_t('Informational messages') => KLogger::INFO,
-		_t('Debugging messages') => KLogger::DEBUG
+		_t('Errors') => CALogger::ERR,
+		_t('Warnings') => CALogger::WARN,
+		_t('Alerts') => CALogger::NOTICE,
+		_t('Informational messages') => CALogger::INFO,
+		_t('Debugging messages') => CALogger::DEBUG
 	);
 }
 # ---------------------------------------

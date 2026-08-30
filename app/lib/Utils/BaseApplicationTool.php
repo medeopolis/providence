@@ -31,7 +31,7 @@
  */
 require_once(__CA_LIB_DIR__.'/Utils/IApplicationTool.php');
 require_once(__CA_LIB_DIR__.'/Utils/ApplicationToolSettings.php');
-require_once(__CA_LIB_DIR__.'/Logging/KLogger/KLogger.php');
+require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
 require_once(__CA_LIB_DIR__.'/ProgressBar.php');
  
 abstract class BaseApplicationTool implements IApplicationTool {
@@ -70,7 +70,7 @@ abstract class BaseApplicationTool implements IApplicationTool {
 	/**
 	 * Current logging level
 	 */
-	protected $opn_log_level = KLogger::NOTICE;
+	protected $opn_log_level = CALogger::NOTICE;
 	
 	/**
 	 * Description of tool for display
@@ -194,10 +194,10 @@ abstract class BaseApplicationTool implements IApplicationTool {
 	/**
 	 * Get logger instance. Tools can use this to log activity.
 	 *
-	 * @return KLogger
+	 * @return CALogger
 	 */
 	public function getLogger() {
-		return (is_writable($this->ops_log_path)) ? new KLogger($this->ops_log_path, $this->opn_log_level) : null;
+		return (is_writable($this->ops_log_path)) ? new CALogger($this->ops_log_path, $this->opn_log_level) : null;
 	}
 	# -------------------------------------------------------
 	/**
@@ -212,15 +212,15 @@ abstract class BaseApplicationTool implements IApplicationTool {
 	/**
 	 * Set current logging level 
 	 *
-	 * @param int $log_level KLogger constant for minimum log level to record. Default is KLogger::INFO. Constants are, in descending order of shrillness:
-	 *			KLogger::EMERG = Emergency messages (system is unusable)
-	 *			KLogger::ALERT = Alert messages (action must be taken immediately)
-	 *			KLogger::CRIT = Critical conditions
-	 *			KLogger::ERR = Error conditions
-	 *			KLogger::WARN = Warnings
-	 *			KLogger::NOTICE = Notices (normal but significant conditions)
-	 *			KLogger::INFO = Informational messages
-	 *			KLogger::DEBUG = Debugging messages
+	 * @param int $log_level CALogger constant for minimum log level to record. Default is CALogger::INFO. Constants are, in descending order of shrillness:
+	 *			CALogger::EMERG = Emergency messages (system is unusable)
+	 *			CALogger::ALERT = Alert messages (action must be taken immediately)
+	 *			CALogger::CRIT = Critical conditions
+	 *			CALogger::ERR = Error conditions
+	 *			CALogger::WARN = Warnings
+	 *			CALogger::NOTICE = Notices (normal but significant conditions)
+	 *			CALogger::INFO = Informational messages
+	 *			CALogger::DEBUG = Debugging messages
 	 *
 	 * @return bool True if log level was set
 	 */

@@ -28,7 +28,7 @@
 class pawtucketMediaImportPlugin extends BaseApplicationPlugin {
 	# -------------------------------------------------------
 	private $opo_config;
-	/** @var KLogger  */
+	/** @var CALogger  */
 	private $opo_log;
 	# -------------------------------------------------------
 	public function __construct($ps_plugin_path) {

@@ -85,7 +85,7 @@ class WLPlugFiles Extends BaseExternalExportFormatPlugin Implements IWLPlugExter
      * @param BaseModel $t_instance
      * @param array $target_info
      * @param array $options Options include:
-	 *		logLevel = KLogger constant for minimum log level to record. Default is KLogger::INFO. Constants are, in descending order of shrillness:
+	 *		logLevel = CALogger constant for minimum log level to record. Default is CALogger::INFO. Constants are, in descending order of shrillness:
 	 *			ALERT = Alert messages (action must be taken immediately)
 	 *			CRIT = Critical conditions
 	 *			ERR = Error conditions

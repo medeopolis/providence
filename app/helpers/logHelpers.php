@@ -29,24 +29,24 @@
  * 
  * ----------------------------------------------------------------------
  */
-require_once(__CA_LIB_DIR__."/Logging/KLogger/KLogger.php");
+require_once(__CA_LIB_DIR__."/Logging/KLogger/CALogger.php");
 require_once(__CA_LIB_DIR__."/Logging/AccessLogger.php");
 # ---------------------------------------
 /**
- * Return KLogger instance for import log
+ * Return CALogger instance for import log
  *
  * @param array $options Options include:
  *
  *                       logDirectory = Directory containing logs. [Default is to use app.conf
  *                       batch_metadata_import_log_directory value]
  *
- *                       logLevel = KLogger numeric constant of string code for log level. Valid string codes are
+ *                       logLevel = CALogger numeric constant of string code for log level. Valid string codes are
  *                       DEBUG, NOTICE, WARN, ERR, CRIT, ALERT and INFO. [Default is INFO]
  *
  *                       logToTempDirectoryIfLogDirectoryIsNotWritable = Log to system temporary directory if
  *                       configured log directory is not writable. [Default is false]
  *
- * @return KLogger instance
+ * @return CALogger instance
  * @throws ApplicationException
  */
 function caGetImportLogger($options=null) {
@@ -54,7 +54,7 @@ function caGetImportLogger($options=null) {
 }
 # ---------------------------------------
 /**
- * Return KLogger instance for log
+ * Return CALogger instance for log
  *
  * @param array $options Options include:
  *
@@ -63,7 +63,7 @@ function caGetImportLogger($options=null) {
  *                       logDirectory = Directory containing logs. [Default is to use app.conf $opt_name value]
  *						 logName = Optional log name. [Default is to use a generic log name]
  *
- *                       logLevel = KLogger numeric constant of string code for log level. Valid string codes
+ *                       logLevel = CALogger numeric constant of string code for log level. Valid string codes
  *                       are DEBUG, NOTICE, WARN, ERR, CRIT, ALERT and INFO. [Default is INFO]
  *
  *                       logToTempDirectoryIfLogDirectoryIsNotWritable = Log to system temporary directory if
@@ -71,12 +71,12 @@ function caGetImportLogger($options=null) {
  *
  * @param string $opt_name Name of app.conf configuration entry to use for log directory. [Default is null - use current working directory]
  *
- * @return KLogger instance
+ * @return CALogger instance
  * @throws ApplicationException
  */
 function caGetLogger($options=null, $opt_name=null) {
 	$log_dir = caGetLogPath($options, $opt_name);
-	return new KLogger($log_dir, caLogLevelStringToNumber(caGetOption('logLevel', $options, 'INFO')), caGetOption('logName', $options, null));
+	return new CALogger($log_dir, caLogLevelStringToNumber(caGetOption('logLevel', $options, 'INFO')), caGetOption('logName', $options, null));
 }
 # ---------------------------------------
 /**
@@ -103,40 +103,40 @@ function caGetLogPath($options=null, $opt_name=null) {
 }
 # ---------------------------------------
 /**
- * Convert text codes to KLogger constants
+ * Convert text codes to CALogger constants
  *
  * @param string $log_level Log level string. Valid values are DEBUG, NOTICE, WARN, ERR, CRIT, ALERT and INFO.
  *
  * @return int
  */
 function caLogLevelStringToNumber($log_level) {
-	require_once(__CA_LIB_DIR__.'/Logging/KLogger/KLogger.php');
+	require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
 	
 	if (is_numeric($log_level)) {
 		$log_level = (int)$log_level;
 	} else {
 		switch($log_level) {
 			case 'DEBUG':
-				$log_level = KLogger::DEBUG;
+				$log_level = CALogger::DEBUG;
 				break;
 			case 'NOTICE':
-				$log_level = KLogger::NOTICE;
+				$log_level = CALogger::NOTICE;
 				break;
 			case 'WARN':
-				$log_level = KLogger::WARN;
+				$log_level = CALogger::WARN;
 				break;
 			case 'ERR':
-				$log_level = KLogger::ERR;
+				$log_level = CALogger::ERR;
 				break;
 			case 'CRIT':
-				$log_level = KLogger::CRIT;
+				$log_level = CALogger::CRIT;
 				break;
 			case 'ALERT':
-				$log_level = KLogger::ALERT;
+				$log_level = CALogger::ALERT;
 				break;
 			default:
 			case 'INFO':
-				$log_level = KLogger::INFO;
+				$log_level = CALogger::INFO;
 				break;
 		}
 	}

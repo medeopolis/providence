@@ -484,15 +484,15 @@ class BatchProcessor {
 	 *		reportCallback =
 	 *		sendMail =
 	 *		log = log directory path
-	 *		logLevel = KLogger constant for minimum log level to record. Default is KLogger::INFO. Constants are, in descending order of shrillness:
-	 *			KLogger::EMERG = Emergency messages (system is unusable)
-	 *			KLogger::ALERT = Alert messages (action must be taken immediately)
-	 *			KLogger::CRIT = Critical conditions
-	 *			KLogger::ERR = Error conditions
-	 *			KLogger::WARN = Warnings
-	 *			KLogger::NOTICE = Notices (normal but significant conditions)
-	 *			KLogger::INFO = Informational messages
-	 *			KLogger::DEBUG = Debugging messages
+	 *		logLevel = CALogger constant for minimum log level to record. Default is CALogger::INFO. Constants are, in descending order of shrillness:
+	 *			CALogger::EMERG = Emergency messages (system is unusable)
+	 *			CALogger::ALERT = Alert messages (action must be taken immediately)
+	 *			CALogger::CRIT = Critical conditions
+	 *			CALogger::ERR = Error conditions
+	 *			CALogger::WARN = Warnings
+	 *			CALogger::NOTICE = Notices (normal but significant conditions)
+	 *			CALogger::INFO = Informational messages
+	 *			CALogger::DEBUG = Debugging messages
 	 * @return array
 	 */
 	public static function importMediaFromDirectory($po_request, $pa_options=null) {
@@ -1245,7 +1245,7 @@ class BatchProcessor {
 	/**
 	 *
 	 */
-	private static function _addNewRecord(BaseModel $t_instance, KLogger $o_log, array $options) : array {
+	private static function _addNewRecord(BaseModel $t_instance, CALogger $o_log, array $options) : array {
 		$errors = [];
 		
 		$t_instance->set('parent_id', caGetOption('parent_id', $options, null));
@@ -1381,15 +1381,15 @@ class BatchProcessor {
 	 *		importAllDatasets = 
 	 *		log = log directory path
 	 *		originalFilename = filename reported by client for uploaded data files
-	 *		logLevel = KLogger constant for minimum log level to record. Default is KLogger::INFO. Constants are, in descending order of shrillness:
-	 *			KLogger::EMERG = Emergency messages (system is unusable)
-	 *			KLogger::ALERT = Alert messages (action must be taken immediately)
-	 *			KLogger::CRIT = Critical conditions
-	 *			KLogger::ERR = Error conditions
-	 *			KLogger::WARN = Warnings
-	 *			KLogger::NOTICE = Notices (normal but significant conditions)
-	 *			KLogger::INFO = Informational messages
-	 *			KLogger::DEBUG = Debugging messages
+	 *		logLevel = CALogger constant for minimum log level to record. Default is CALogger::INFO. Constants are, in descending order of shrillness:
+	 *			CALogger::EMERG = Emergency messages (system is unusable)
+	 *			CALogger::ALERT = Alert messages (action must be taken immediately)
+	 *			CALogger::CRIT = Critical conditions
+	 *			CALogger::ERR = Error conditions
+	 *			CALogger::WARN = Warnings
+	 *			CALogger::NOTICE = Notices (normal but significant conditions)
+	 *			CALogger::INFO = Informational messages
+	 *			CALogger::DEBUG = Debugging messages
 	 */
 	public static function importMetadata($po_request, $ps_source, $ps_importer, $ps_input_format, $pa_options=null) {
 		$va_errors = $va_noticed = array();
@@ -1515,26 +1515,26 @@ class BatchProcessor {
 		} else {
 			switch($ps_log_level) {
 				case 'DEBUG':
-					$vn_log_level = KLogger::DEBUG;
+					$vn_log_level = CALogger::DEBUG;
 					break;
 				case 'NOTICE':
-					$vn_log_level = KLogger::NOTICE;
+					$vn_log_level = CALogger::NOTICE;
 					break;
 				case 'WARN':
-					$vn_log_level = KLogger::WARN;
+					$vn_log_level = CALogger::WARN;
 					break;
 				case 'ERR':
-					$vn_log_level = KLogger::ERR;
+					$vn_log_level = CALogger::ERR;
 					break;
 				case 'CRIT':
-					$vn_log_level = KLogger::CRIT;
+					$vn_log_level = CALogger::CRIT;
 					break;
 				case 'ALERT':
-					$vn_log_level = KLogger::ALERT;
+					$vn_log_level = CALogger::ALERT;
 					break;
 				default:
 				case 'INFO':
-					$vn_log_level = KLogger::INFO;
+					$vn_log_level = CALogger::INFO;
 					break;
 			}
 		}

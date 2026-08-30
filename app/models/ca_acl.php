@@ -213,7 +213,7 @@ class ca_acl extends BaseModel {
 	
 	static $log_debug_info = true;
 	
-	static $log = null;
+	static $log = null; // This should be a CALogger instance if used.
 	
 	# ------------------------------------------------------
 	/**
@@ -2405,7 +2405,7 @@ class ca_acl extends BaseModel {
 	/**
 	 *
 	 */
-	public static function log() : KLogger {
+	public static function log() : CALogger {
 		if(!ca_acl::$log) { ca_acl::$log = caGetLogger(['logLevel' => 'DEBUG']); }
 		return ca_acl::$log;
 	}

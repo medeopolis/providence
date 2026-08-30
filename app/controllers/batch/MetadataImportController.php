@@ -100,7 +100,7 @@ class MetadataImportController extends ActionController {
 				$va_file['tmp_name'] = [$va_file['tmp_name']];
 			}
 			foreach($va_file['name'] as $vn_i => $vs_name) {
-				if ($t_importer = ca_data_importers::loadImporterFromFile($va_file['tmp_name'][$vn_i], $va_errors, array('logDirectory' => $this->request->config->get('batch_metadata_import_log_directory'), 'logLevel' => KLogger::INFO, 'originalFilename' => $vs_name))) {
+				if ($t_importer = ca_data_importers::loadImporterFromFile($va_file['tmp_name'][$vn_i], $va_errors, array('logDirectory' => $this->request->config->get('batch_metadata_import_log_directory'), 'logLevel' => CALogger::INFO, 'originalFilename' => $vs_name))) {
 					$va_response['copied'][$vs_name] = true;
 					$vn_upload_count++;
 				} else {
@@ -319,7 +319,7 @@ class MetadataImportController extends ActionController {
 		$errors = [];
 		$is_new = true;
 		try {
-			$t_importer = ca_data_importers::loadImporterFromFile($tmp_file, $errors, ['logDirectory' => $this->request->config->get('batch_metadata_import_log_directory'), 'logLevel' => KLogger::INFO, 'sourceUrl' => $google_url], $is_new);
+			$t_importer = ca_data_importers::loadImporterFromFile($tmp_file, $errors, ['logDirectory' => $this->request->config->get('batch_metadata_import_log_directory'), 'logLevel' => CALogger::INFO, 'sourceUrl' => $google_url], $is_new);
 		} catch (Exception $e) {
 			$t_importer = null; 
 			$errors = [_t('Could not read Excel data')];

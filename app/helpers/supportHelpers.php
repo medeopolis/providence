@@ -33,7 +33,7 @@
  /**
    *
    */
-	require_once(__CA_LIB_DIR__.'/Logging/KLogger/KLogger.php');
+	require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
    
 
 
@@ -52,7 +52,7 @@
 		require_once(__CA_MODELS_DIR__.'/ca_list_items_x_list_items.php');
 		require_once(__CA_MODELS_DIR__.'/ca_relationship_types.php');
 
-		$o_log = new KLogger(__CA_LOG_DIR__, KLogger::INFO);
+		$o_log = new CALogger(__CA_LOG_DIR__, CALogger::INFO);
 		
 		if (!file_exists($ps_path_to_aat_data)) {
 			die("ERROR: cannot find AAT data.\n");
@@ -460,7 +460,7 @@
 	 */
 	function caLoadULAN($ps_path_to_ulan_data=null, $ps_path_to_ulan_config=null, $pa_options=null) {
 		$t = new Timer();
-		$o_log = new KLogger(__CA_LOG_DIR__, KLogger::INFO);
+		$o_log = new CALogger(__CA_LOG_DIR__, CALogger::INFO);
 	
 		$va_parent_child_links = array();
 		$va_item_item_links = array();

@@ -108,7 +108,7 @@ class ExternalExportManager {
      * @param int $id
      * @param array $options Options include:
      *		skipTransport = Don't perform  transport of exported data to configured destination. [Default is false]
-	 *		logLevel = KLogger constant for minimum log level to record. Default is KLogger::INFO. Constants are, in descending order of shrillness:
+	 *		logLevel = CALogger constant for minimum log level to record. Default is CALogger::INFO. Constants are, in descending order of shrillness:
 	 *			ALERT = Alert messages (action must be taken immediately)
 	 *			CRIT = Critical conditions
 	 *			ERR = Error conditions

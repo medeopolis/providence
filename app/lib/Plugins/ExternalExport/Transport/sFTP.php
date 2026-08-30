@@ -83,7 +83,7 @@ class WLPlugsFTP Extends BaseExternalExportTransportPlugin Implements IWLPlugExt
      * @param array $destination_info
      * @param array $files
      * @param array $options Options include:
-	 *		logLevel = KLogger constant for minimum log level to record. Default is KLogger::INFO. Constants are, in descending order of shrillness:
+	 *		logLevel = CALogger constant for minimum log level to record. Default is CALogger::INFO. Constants are, in descending order of shrillness:
 	 *			ALERT = Alert messages (action must be taken immediately)
 	 *			CRIT = Critical conditions
 	 *			ERR = Error conditions

@@ -28,7 +28,7 @@
 class autodeleteSetsPlugin extends BaseApplicationPlugin {
 	# -------------------------------------------------------
 	private $config;
-	/** @var KLogger  */
+	/** @var CALogger  */
 	private $log;
 	# -------------------------------------------------------
 	public function __construct($plugin_path) {

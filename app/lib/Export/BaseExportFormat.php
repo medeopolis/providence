@@ -67,7 +67,7 @@ abstract class BaseExportFormat {
 	}
 	# -------------------------------------------------------
 	public function setLogger($po_logger) {
-		if($po_logger instanceof KLogger){
+		if($po_logger instanceof CALogger){
 			$this->opo_log = $po_logger;
 		}
 	}
@@ -78,7 +78,7 @@ abstract class BaseExportFormat {
 	 * @param string $ps_message log message
 	 */
 	protected function log($ps_message) {
-		if($this->opo_log && ($this->opo_log instanceof KLogger)) {
+		if($this->opo_log && ($this->opo_log instanceof CALogger)) {
 			$this->opo_log->logDebug($ps_message);
 		}
 	}

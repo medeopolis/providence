@@ -34,7 +34,7 @@ require_once(__CA_LIB_DIR__.'/BundlableLabelableBaseModelWithAttributes.php');
 require_once(__CA_LIB_DIR__.'/Import/DataReaderManager.php');
 require_once(__CA_LIB_DIR__.'/Utils/DataMigrationUtils.php');
 require_once(__CA_LIB_DIR__.'/ProgressBar.php');
-require_once(__CA_LIB_DIR__.'/Logging/KLogger/KLogger.php');
+require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
 require_once(__CA_LIB_DIR__."/ApplicationPluginManager.php");
 require_once(__CA_LIB_DIR__.'/Db/Transaction.php');
 require_once(__CA_LIB_DIR__.'/Import/RefineryManager.php');
@@ -232,7 +232,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 	public $import_error_list = [];
 	
 	/** 
-	 * KLogger instance for import log
+	 * CALogger instance for import log
 	 */
 	private $log = null;
 	
@@ -1347,7 +1347,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 	 *		showCLIProgressBar = Show command-line progress bar. Default is false.
 	 *		format = Format of data being imported. MANDATORY
 	 *		logDirectory = path to directory where logs should be written
-	 *		logLevel = KLogger constant for minimum log level to record. Default is KLogger::INFO. Constants are, in descending order of shrillness:
+	 *		logLevel = CALogger constant for minimum log level to record. Default is CALogger::INFO. Constants are, in descending order of shrillness:
 	 *			ALERT = Alert messages (action must be taken immediately)
 	 *			CRIT = Critical conditions
 	 *			ERR = Error conditions
@@ -1472,7 +1472,7 @@ class ca_data_importers extends BundlableLabelableBaseModelWithAttributes {
 		}
 		
 		if (!is_array($pa_options) || !isset($pa_options['logLevel']) || !$pa_options['logLevel']) {
-			$pa_options['logLevel'] = KLogger::INFO;
+			$pa_options['logLevel'] = CALogger::INFO;
 		}
 		
 		if (!is_array($pa_options) || !isset($pa_options['logDirectory']) || !$pa_options['logDirectory'] || !file_exists($pa_options['logDirectory'])) {

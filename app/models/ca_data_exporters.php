@@ -32,7 +32,7 @@
 require_once(__CA_LIB_DIR__.'/ModelSettings.php');
 require_once(__CA_LIB_DIR__.'/Export/BaseExportFormat.php');
 require_once(__CA_LIB_DIR__.'/ApplicationPluginManager.php');
-require_once(__CA_LIB_DIR__.'/Logging/KLogger/KLogger.php');
+require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
 require_once(__CA_APP_DIR__.'/helpers/configurationHelpers.php');
 
 BaseModel::$s_ca_models_definitions['ca_data_exporters'] = array(
@@ -657,15 +657,15 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 	 *		showCLIProgressBar = Show command-line progress bar. Default is false.
 	 *		includeDeleted = Export deleted records that match criteria. [Default is false]
 	 *		logDirectory = path to directory where logs should be written
-	 *		logLevel = KLogger constant for minimum log level to record. Default is KLogger::INFO. Constants are, in descending order of shrillness:
-	 *			KLogger::EMERG = Emergency messages (system is unusable)
-	 *			KLogger::ALERT = Alert messages (action must be taken immediately)
-	 *			KLogger::CRIT = Critical conditions
-	 *			KLogger::ERR = Error conditions
-	 *			KLogger::WARN = Warnings
-	 *			KLogger::NOTICE = Notices (normal but significant conditions)
-	 *			KLogger::INFO = Informational messages
-	 *			KLogger::DEBUG = Debugging messages
+	 *		logLevel = CALogger constant for minimum log level to record. Default is CALogger::INFO. Constants are, in descending order of shrillness:
+	 *			CALogger::EMERG = Emergency messages (system is unusable)
+	 *			CALogger::ALERT = Alert messages (action must be taken immediately)
+	 *			CALogger::CRIT = Critical conditions
+	 *			CALogger::ERR = Error conditions
+	 *			CALogger::WARN = Warnings
+	 *			CALogger::NOTICE = Notices (normal but significant conditions)
+	 *			CALogger::INFO = Informational messages
+	 *			CALogger::DEBUG = Debugging messages
 	 *
 	 * @return boolean success state
 	 */
@@ -676,10 +676,10 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 		}
 
 		if(!($vn_log_level = caGetOption('logLevel', $pa_options))) {
-			$vn_log_level = KLogger::INFO;
+			$vn_log_level = CALogger::INFO;
 		}
 
-		$o_log = new KLogger($vs_log_dir, $vn_log_level);
+		$o_log = new CALogger($vs_log_dir, $vn_log_level);
 
 		$vb_show_cli_progress_bar = (isset($pa_options['showCLIProgressBar']) && ($pa_options['showCLIProgressBar']));
 
@@ -796,15 +796,15 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 	 *		showCLIProgressBar = Show command-line progress bar. Default is false.
 	 *		includeDeleted = Export deleted records that match criteria. [Default is false]
 	 *		logDirectory = path to directory where logs should be written
-	 *		logLevel = KLogger constant for minimum log level to record. Default is KLogger::INFO. Constants are, in descending order of shrillness:
-	 *			KLogger::EMERG = Emergency messages (system is unusable)
-	 *			KLogger::ALERT = Alert messages (action must be taken immediately)
-	 *			KLogger::CRIT = Critical conditions
-	 *			KLogger::ERR = Error conditions
-	 *			KLogger::WARN = Warnings
-	 *			KLogger::NOTICE = Notices (normal but significant conditions)
-	 *			KLogger::INFO = Informational messages
-	 *			KLogger::DEBUG = Debugging messages
+	 *		logLevel = CALogger constant for minimum log level to record. Default is CALogger::INFO. Constants are, in descending order of shrillness:
+	 *			CALogger::EMERG = Emergency messages (system is unusable)
+	 *			CALogger::ALERT = Alert messages (action must be taken immediately)
+	 *			CALogger::CRIT = Critical conditions
+	 *			CALogger::ERR = Error conditions
+	 *			CALogger::WARN = Warnings
+	 *			CALogger::NOTICE = Notices (normal but significant conditions)
+	 *			CALogger::INFO = Informational messages
+	 *			CALogger::DEBUG = Debugging messages
 	 *
 	 * @return boolean success state
 	 */
@@ -833,15 +833,15 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 	 * 		progressCallback = callback function for asynchronous UI status reporting
 	 *		showCLIProgressBar = Show command-line progress bar. Default is false.
 	 *		logDirectory = path to directory where logs should be written
-	 *		logLevel = KLogger constant for minimum log level to record. Default is KLogger::INFO. Constants are, in descending order of shrillness:
-	 *			KLogger::EMERG = Emergency messages (system is unusable)
-	 *			KLogger::ALERT = Alert messages (action must be taken immediately)
-	 *			KLogger::CRIT = Critical conditions
-	 *			KLogger::ERR = Error conditions
-	 *			KLogger::WARN = Warnings
-	 *			KLogger::NOTICE = Notices (normal but significant conditions)
-	 *			KLogger::INFO = Informational messages
-	 *			KLogger::DEBUG = Debugging messages
+	 *		logLevel = CALogger constant for minimum log level to record. Default is CALogger::INFO. Constants are, in descending order of shrillness:
+	 *			CALogger::EMERG = Emergency messages (system is unusable)
+	 *			CALogger::ALERT = Alert messages (action must be taken immediately)
+	 *			CALogger::CRIT = Critical conditions
+	 *			CALogger::ERR = Error conditions
+	 *			CALogger::WARN = Warnings
+	 *			CALogger::NOTICE = Notices (normal but significant conditions)
+	 *			CALogger::INFO = Informational messages
+	 *			CALogger::DEBUG = Debugging messages
 	 *
 	 * @return boolean success state
 	 */
@@ -858,10 +858,11 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 		}
 
 		if(!($log_level = caGetOption('logLevel', $options))) {
-			$log_level = KLogger::INFO;
+			$log_level = CALogger::INFO;
 		}
 
-		$o_log = new KLogger($log_dir, $log_level);
+		$o_log = new CALogger($log_dir, $log_level);
+
 		$o_config = Configuration::load();
 
 		ca_data_exporters::$s_exporter_cache = [];
@@ -1017,7 +1018,7 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 	 *		includeDeleted = Export deleted records that match criteria. [Default is false]
 	 *		showCLIProgressBar = Show command-line progress bar. Default is false.
 	 *		logDirectory = path to directory where logs should be written
-	 *		logLevel = KLogger constant for minimum log level to record. Default is KLogger::INFO.
+	 *		logLevel = CALogger constant for minimum log level to record. Default is CALogger::INFO.
 	 *
 	 * @return boolean success state
 	 */
@@ -1073,10 +1074,10 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 			}
 
 			if(!($vn_log_level = caGetOption('logLevel', $pa_options))) {
-				$vn_log_level = KLogger::INFO;
+				$vn_log_level = CALogger::INFO;
 			}
 
-			$o_log = new KLogger($vs_log_dir, $vn_log_level);
+			$o_log = new CALogger($vs_log_dir, $vn_log_level);
 			
 			$pa_options['logger'] = $o_log;
 		}
@@ -1129,16 +1130,16 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 	 *        rdfMode = Signals the implementation that this is an RDF mode export
 	 *		  includeDeleted = Export deleted records that match criteria. [Default is false]
 	 *        logDirectory = path to directory where logs should be written
-	 *		  logLevel = KLogger constant for minimum log level to record. Default is KLogger::INFO. Constants are, in descending order of shrillness:
-	 *			KLogger::EMERG = Emergency messages (system is unusable)
-	 *			KLogger::ALERT = Alert messages (action must be taken immediately)
-	 *			KLogger::CRIT = Critical conditions
-	 *			KLogger::ERR = Error conditions
-	 *			KLogger::WARN = Warnings
-	 *			KLogger::NOTICE = Notices (normal but significant conditions)
-	 *			KLogger::INFO = Informational messages
-	 *			KLogger::DEBUG = Debugging messages
-	 *		  logger = Optional ready-to-use instance of KLogger to use for logging/debugging
+	 *		logLevel = CALogger constant for minimum log level to record. Default is CALogger::INFO. Constants are, in descending order of shrillness:
+	 *			CALogger::EMERG = Emergency messages (system is unusable)
+	 *			CALogger::ALERT = Alert messages (action must be taken immediately)
+	 *			CALogger::CRIT = Critical conditions
+	 *			CALogger::ERR = Error conditions
+	 *			CALogger::WARN = Warnings
+	 *			CALogger::NOTICE = Notices (normal but significant conditions)
+	 *			CALogger::INFO = Informational messages
+	 *			CALogger::DEBUG = Debugging messages
+	 *		  logger = Optional ready-to-use instance of CALogger to use for logging/debugging
 	 *
 	 * @return string Exported record as string or bool on error
 	 */
@@ -1146,17 +1147,17 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 		$o_log = caGetOption('logger', $options);
 		
 		// only set up new logging facilities if no existing one has been passed down
-		if(!$o_log || !($o_log instanceof KLogger)) {
+		if(!$o_log || !($o_log instanceof CALogger)) {
 			$log_dir = caGetOption('logDirectory', $options);
 			if(!file_exists($log_dir) || !is_writable($log_dir)) {
 				$log_dir = caGetTempDirPath();
 			}
 
 			if(!($log_level = caGetOption('logLevel', $options))) {
-				$log_level = KLogger::INFO;
+				$log_level = CALogger::INFO;
 			}
 
-			$o_log = new KLogger($log_dir, $log_level);
+			$o_log = new CALogger($log_dir, $log_level);
 		}
 		
 		// The variable cache is valid for the whole record export.
@@ -1254,7 +1255,7 @@ class ca_data_exporters extends BundlableLabelableBaseModelWithAttributes {
 	 * 		attribute_id = signals that this is an export relative to a specific attribute instance
 	 * 			this triggers special behavior that allows getting container values in a kind of sub-export
 	 *			it's really only useful for Containers but in theory can be any attribute
-	 *		logger = KLogger instance to use for logging. This option is mandatory!
+	 *		  logger = CALogger instance to use for logging. This option is mandatory!
 	 * 		offset =
 	 *
 	 * @return array Item info
@@ -2132,10 +2133,12 @@ itemOutput:
 		}
 
 		if(!($log_level = caGetOption('logLevel', $options))) {
-			$log_level = KLogger::INFO;
+				$log_level = CALogger::INFO;
+
 		}
 
-		$o_log = new KLogger($log_dir, $log_level);
+			$o_log = new CALogger($log_dir, $log_level);
+
 
 
 		$o_sheet = DelimitedDataParser::load($source_file, ['worksheet' => 0]);

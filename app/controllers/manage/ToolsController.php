@@ -199,7 +199,7 @@ class ToolsController extends ActionController {
 		}
 		$o_tool->setJobID($ps_job_id); 
 		$o_tool->setMode('WebUI');
-		$o_tool->setLogLevel(caGetOption('logLevel', $va_settings, KLogger::ERR));
+		$o_tool->setLogLevel(caGetOption('logLevel', $va_settings, CALogger::ERR));
 		$vn_status = $o_tool->run($ps_command);
 		
 		$o_progress = new ProgressBar('WebUI', null, $ps_job_id);

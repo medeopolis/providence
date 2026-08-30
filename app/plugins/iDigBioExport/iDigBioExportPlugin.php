@@ -197,7 +197,7 @@ class iDigBioExportPlugin extends BaseApplicationPlugin {
 		$va_errors = [];
 		$vo_exporter = ca_data_exporters::loadExporterFromFile($vs_exporter_dir.'/'.$vf_exporter, $va_errors);
 		$vs_exporter_code = $vo_exporter->get('exporter_code');
-		ca_data_exporters::exportRecordsFromSearchResult($vs_exporter_code, $qr_search_result, $vs_rss_dir.$vs_file_name, ['logLevel' => KLogger::DEBUG, 'logDirectory' => __CA_BASE_DIR__.'/app/plugins/iDigBioExport/logs', 'showCLIProgressBar' => True]);
+		ca_data_exporters::exportRecordsFromSearchResult($vs_exporter_code, $qr_search_result, $vs_rss_dir.$vs_file_name, ['logLevel' => CALogger::DEBUG, 'logDirectory' => __CA_BASE_DIR__.'/app/plugins/iDigBioExport/logs', 'showCLIProgressBar' => True]);
 		return $vs_file_name;
 	}
 }
