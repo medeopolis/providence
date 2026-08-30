@@ -32,7 +32,7 @@
 require_once(__CA_LIB_DIR__.'/ModelSettings.php');
 require_once(__CA_LIB_DIR__.'/Export/BaseExportFormat.php');
 require_once(__CA_LIB_DIR__.'/ApplicationPluginManager.php');
-require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
+require_once(__CA_LIB_DIR__.'/Logging/CALogger.php');
 require_once(__CA_APP_DIR__.'/helpers/configurationHelpers.php');
 
 BaseModel::$s_ca_models_definitions['ca_data_exporters'] = array(

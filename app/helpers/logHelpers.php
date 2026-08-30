@@ -29,7 +29,7 @@
  * 
  * ----------------------------------------------------------------------
  */
-require_once(__CA_LIB_DIR__."/Logging/KLogger/CALogger.php");
+require_once(__CA_LIB_DIR__."/Logging/CALogger.php");
 require_once(__CA_LIB_DIR__."/Logging/AccessLogger.php");
 # ---------------------------------------
 /**
@@ -110,7 +110,7 @@ function caGetLogPath($options=null, $opt_name=null) {
  * @return int
  */
 function caLogLevelStringToNumber($log_level) {
-	require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
+	require_once(__CA_LIB_DIR__.'/Logging/CALogger.php');
 	
 	if (is_numeric($log_level)) {
 		$log_level = (int)$log_level;

@@ -29,7 +29,7 @@
  * 
  * ----------------------------------------------------------------------
  */
-require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
+require_once(__CA_LIB_DIR__.'/Logging/CALogger.php');
 require_once(__CA_LIB_DIR__.'/Import/BaseDataReader.php');
 
 require_once(__CA_LIB_DIR__.'/Plugins/InformationService/TGN.php');

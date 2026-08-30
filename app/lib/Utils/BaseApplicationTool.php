@@ -31,7 +31,7 @@
  */
 require_once(__CA_LIB_DIR__.'/Utils/IApplicationTool.php');
 require_once(__CA_LIB_DIR__.'/Utils/ApplicationToolSettings.php');
-require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
+require_once(__CA_LIB_DIR__.'/Logging/CALogger.php');
 require_once(__CA_LIB_DIR__.'/ProgressBar.php');
  
 abstract class BaseApplicationTool implements IApplicationTool {

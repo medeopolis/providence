@@ -134,7 +134,7 @@ function caInitErrorHandler() : void {
  * @param Exception $e
  */
 function caDisplayException(Exception $e, ?array $options=null) : void {
-    if (defined("__CA_LIB_DIR__")) { require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php'); }
+    if (defined("__CA_LIB_DIR__")) { require_once(__CA_LIB_DIR__.'/Logging/CALogger.php'); }
 	if(!is_a($e, "DatabaseException") && class_exists('AppController')) { AppController::getInstance()->removeAllPlugins(); }
 
 	$errno = 0;

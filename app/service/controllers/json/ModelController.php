@@ -74,7 +74,7 @@ class ModelController extends BaseServiceController {
 	# -------------------------------------------------------
 	public function updateConfig() {
 		$vs_post_data = $this->getRequest()->getRawPostData();
-		require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
+		require_once(__CA_LIB_DIR__.'/Logging/CALogger.php');
 		// @todo make this configurable or get from app.conf?
 		$o_log = new CALogger(__CA_LOG_DIR__, CALogger::DEBUG);
 		try {

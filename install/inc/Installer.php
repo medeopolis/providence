@@ -131,7 +131,7 @@ class Installer {
 		}
 
 		if($log_output) {
-			require_once(__CA_LIB_DIR__.'/Logging/KLogger/CALogger.php');
+			require_once(__CA_LIB_DIR__.'/Logging/CALogger.php');
 			// @todo make this configurable or get from app.conf?
 			$this->log = new \CALogger(__CA_LOG_DIR__, \CALogger::DEBUG);
 			$this->logging_status = true;
