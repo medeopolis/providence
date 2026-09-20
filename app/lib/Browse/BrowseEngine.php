@@ -1846,7 +1846,6 @@ class BrowseEngine extends BaseFindEngine {
 									if ($vn_row_id !== 'null') {
 										if (!$o_tep->parse($vn_row_id)) { continue; } // invalid date?
 										$va_dates = $o_tep->getHistoricTimestamps();
-										
 										$tmp = explode('.', $va_dates['start']);
 										if (substr($tmp[1], 0, 10) == '0101000000') { // rewrite start date to encompass circa dates
 											$va_dates['start'] = (int)$va_dates['start'].".01010000002";
@@ -6277,10 +6276,10 @@ class BrowseEngine extends BaseFindEngine {
 							$row_id = $qr_res->get('row_id');
 
 
-							if (((int)$vn_start === -2000000000) && $va_facet_info['treat_before_dates_as_circa']) {
+							if (((int)$vn_start === -2000000000) && ($va_facet_info['treat_before_dates_as_circa'] ?? false)) {
 								$vn_start = (int)$vn_end;
 							}
-							if (((int)$vn_end === 2000000000) && $va_facet_info['treat_after_dates_as_circa']) {
+							if (((int)$vn_end === 2000000000) && ($va_facet_info['treat_after_dates_as_circa'] ?? false)) {
 								$vn_end = (int)$vn_start + .1231235959;
 							}
 							
@@ -8212,7 +8211,8 @@ if (!($va_facet_info['show_all_when_first_facet'] ?? null) || ($this->numCriteri
 			";
 		} else { // path of length 2, i.e. direct relationship like ca_objects.lot_id = ca_object_lots.lot_id ==> join relative_to and browse target tables directly
 			$va_rel_info = Datamodel::getRelationships($ps_relative_to_table, $t_rel_item->tableName());
-			$va_relative_to_join[] = "INNER JOIN {$ps_relative_to_table} ON {$ps_relative_to_table}.{$va_rel_info[$t_rel_item->tableName()][$ps_relative_to_table][1][1]} = {$t_rel_item->tableName()}.{$va_rel_info[$ps_relative_to_table][$t_rel_item->tableName()][1][1]}";
+			$vn_rel_index = isset($va_rel_info[$t_rel_item->tableName()][$ps_relative_to_table][1]) ? 1 : 0;
+			$va_relative_to_join[] = "INNER JOIN {$ps_relative_to_table} ON {$ps_relative_to_table}.{$va_rel_info[$t_rel_item->tableName()][$ps_relative_to_table][$vn_rel_index][1]} = {$t_rel_item->tableName()}.{$va_rel_info[$ps_relative_to_table][$t_rel_item->tableName()][$vn_rel_index][1]}";
 		}
 
 		return array(
