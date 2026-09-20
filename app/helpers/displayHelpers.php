@@ -6484,7 +6484,7 @@ function caGetCK5Toolbar(array $options=null) : ?array {
 		'video' => ['code' => 'mediaEmbed'],
 	];
 	
-	$toolbar = $config->get(strtolower((caGetOption('type', $options, 'editor') )!== 'content') ? 'wysiwyg_editor_toolbar' : 'wysiwyg_content_editor_toolbar');
+	$toolbar = caGetOption('type', $options, 'wysiwyg_editor_toolbar');
 	if(!is_array($toolbar)) { return null; }
 		
 	$groups = [];

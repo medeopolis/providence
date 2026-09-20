@@ -206,11 +206,12 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 	if ($use_wysiwyg_editor) {
 		$o_config = Configuration::load();
 		$use_editor = $o_config->get('wysiwyg_editor');
+		if(!is_array($va_toolbar_config = $o_config->getAssoc(caGetOption('cktoolbar', $options, 'wysiwyg_editor_toolbar')))) { $va_toolbar_config = []; }
 		switch($use_editor) {
 			case 'ckeditor':
 				AssetLoadManager::register("ck5");
 				
-				$toolbar = caGetCK5Toolbar();
+				$toolbar = caGetCK5Toolbar(array('type' => $va_toolbar_config));
 				$element .= "
 				<script type=\"module\">
 					import {
@@ -321,7 +322,7 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 				break;
 		}
 		
-		if(!is_array($va_toolbar_config = $o_config->getAssoc(caGetOption('cktoolbar', $options, 'wysiwyg_editor_toolbar')))) { $va_toolbar_config = []; }
+		#if(!is_array($va_toolbar_config = $o_config->getAssoc(caGetOption('cktoolbar', $options, 'wysiwyg_editor_toolbar')))) { $va_toolbar_config = []; }
 	} elseif ($is_textarea) {
 		$value = $attributes['value'] ?? null;
 		if ($attributes['size'] ?? null) { $attributes['cols'] = $attributes['size']; }
