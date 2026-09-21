@@ -1,4 +1,4 @@
-import { Plugin, Command, ButtonView, View, LinkUI } from 'ckeditor5';
+import { Plugin, Command, ButtonView, View} from 'ckeditor5';
 
 class InsertBookmarkCommand extends Command {
 	execute( options = {} ) {
@@ -58,7 +58,7 @@ class BookmarkDialogView extends View {
 
 export default class Bookmark extends Plugin {
 	static get requires() {
-		return [ LinkUI, 'Dialog' ];
+		return [ 'Dialog' ];
 	}
 
 	init() {
@@ -68,9 +68,7 @@ export default class Bookmark extends Plugin {
 		editor.model.schema.register( 'bookmark', {
 			allowWhere: '$text',
 			isInline: true,
-			isObject: true,
-			inheritAllFrom: '$inlineObject',
-			allowAttributes: [ 'id','class','href' ]
+			allowAttributes: [ 'id','class' ]
 		} );
 
 		// Conversion
@@ -80,7 +78,6 @@ export default class Bookmark extends Plugin {
 				return writer.createEmptyElement( 'a', {
 					id: modelElement.getAttribute( 'id' ),
 					class: 'ck-anchor',
-					href: '#'+modelElement.getAttribute( 'id' )
 				} );
 			}
 		} );
@@ -91,7 +88,7 @@ export default class Bookmark extends Plugin {
 				classes: [ 'ck-anchor' ]
 			},
 			model: ( viewElement, { writer } ) => {
-				if ( viewElement.hasAttribute( 'id' ) ) {
+				if ( viewElement.hasAttribute( 'id' ) && !viewElement.getAttribute( 'href')) {
 					return writer.createElement( 'bookmark', { 
 						id: viewElement.getAttribute( 'id' ),
 						class: viewElement.getAttribute( 'class' )
