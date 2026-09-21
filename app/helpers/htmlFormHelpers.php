@@ -282,7 +282,7 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 				</script>\n";
 				
 				$attr_string = _caHTMLMakeAttributeString($attributes, $options);			
-				$element .= "<div id=\"{$name}_container\" style='width: {$width}px; height: {$height}px; overflow-y: auto;'>
+				$element .= "<div id=\"{$name}_container\">
 					<{$tag_name} name=\"{$name}\" id=\"{$name}\">{$attributes['value']}</{$tag_name}></div>
 				<style>
 					#{$name}_container .ck-editor__editable_inline {

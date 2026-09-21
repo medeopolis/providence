@@ -8217,6 +8217,7 @@ div.ql-container {
     padding-bottom: 20px;  
 }
 
+/* ck-editor style overrides */
 div.ck-reset {
     font-weight: normal;
 }
@@ -8229,6 +8230,10 @@ div.ck-reset {
 
 .ckeditor-wrapper {
     font: 14px "Helvetica Neue", Arial, Helvetica, Sans-serif;
+}
+
+.formLabel .ck-source-editing-area textarea{
+    overflow: auto; /*The bottom of source editing was being cut off comment in this issue https://github.com/ckeditor/ckeditor5/issues/10422#issuecomment-925579184 says to add overflow auto to solve.*/
 }
 
 div.anonymousAccessUrl, div.anonymousAccessDownloads {
