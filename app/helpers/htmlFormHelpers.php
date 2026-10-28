@@ -206,6 +206,7 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 	if ($use_wysiwyg_editor) {
 		$o_config = Configuration::load();
 		$use_editor = $o_config->get('wysiwyg_editor');
+	//	$height_w_suffix = is_numeric($height) ? "{$height}px" : $height;
 		if(!is_array($va_toolbar_config = $o_config->getAssoc(caGetOption('cktoolbar', $options, 'wysiwyg_editor_toolbar')))) { $va_toolbar_config = []; }
 		switch($use_editor) {
 			case 'ckeditor':
@@ -222,32 +223,33 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 						Font,
 						GeneralHtmlSupport,
 						Heading, Highlight, HorizontalLine, HtmlComment,
-						Image, ImageCaption, ImageInsert, ImageResize, ImageStyle, ImageTextAlternative, ImageToolbar, Indent, IndentBlock, Italic,
+						Image, ImageCaption, ImageInsertViaUrl, ImageResize, ImageStyle, ImageTextAlternative, ImageToolbar, Indent, IndentBlock, Italic,
 						Link, LinkImage, List, ListProperties,
 						MediaEmbed,
 						PasteFromOffice, Paragraph,
 						RemoveFormat,
-						SelectAll, ShowBlocks, SourceEditing, SpecialCharacters, SpecialCharactersEssentials, Strikethrough, Subscript, Superscript,
+						SelectAll, ShowBlocks, SourceEditing, SpecialCharacters, SpecialCharactersEssentials, Strikethrough, Style, Subscript, Superscript,
 						Table, TableCaption, TableColumnResize, TableToolbar, TextTransformation, TodoList,
 						Underline, Undo,
 					} from 'ckeditor5';
 			 		import Bookmark from 'ckbookmark';	
+					import { ResizableHeight } from 'ckresizeable';
 					ClassicEditor
 						.create( document.querySelector( '#{$name}' ), {
 							plugins: [ 
-								Alignment, Autoformat, AutoImage, AutoLink, 
+								Alignment, Autoformat, AutoImage, AutoLink,
 								Bookmark, BlockQuote, Bold, 
 								Clipboard, Code, CodeBlock, 
 								Essentials, 
 								Font,
 								GeneralHtmlSupport,
 								Heading, Highlight, HorizontalLine, HtmlComment,
-								Image, ImageCaption, ImageInsert, ImageResize, ImageStyle, ImageTextAlternative, ImageToolbar, Indent, IndentBlock, Italic, 
+								Image, ImageCaption, ImageInsertViaUrl, ImageResize, ImageStyle, ImageTextAlternative, ImageToolbar, Indent, IndentBlock, Italic, 
 								Link, LinkImage, List, ListProperties, 
 								MediaEmbed, 
 								PasteFromOffice, Paragraph, 
-								RemoveFormat,
-								SelectAll, ShowBlocks, SourceEditing, SpecialCharacters, SpecialCharactersEssentials, Strikethrough, Subscript, Superscript, 
+								RemoveFormat, ResizableHeight,
+								SelectAll, ShowBlocks, SourceEditing, SpecialCharacters, SpecialCharactersEssentials, Strikethrough, Style, Subscript, Superscript, 
 								Table, TableToolbar, TableColumnResize, TableCaption, TextTransformation, TodoList, 
 								Underline, Undo,
 							],
@@ -256,7 +258,7 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 								shouldNotGroupWhenFull: true
 							},
 							table: {
-								contentToolbar: [ 'tablecolumn', 'tableRow', 'mergeTableCells' ]
+								contentToolbar: [ 'tablecolumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties' ]
 							},
 							// Try and minimise what is allowed here. Eg. Attributes like id and class. 
 							htmlSupport: { 
@@ -270,8 +272,35 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 									{ name: 'details' },
 									{ name: 'summary' }
 								]
-							}
-							//TODO - Add Image toolbar. Disable upload image
+							},
+							heading: {
+								options: [
+									{ model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+									{ model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+									{ model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+									{ model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+									{ model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+									{ model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+								]
+							},
+							image: {
+								toolbar: [
+									'imageTextAlternative',
+									'toggleImageCaption',
+									'|',
+									'imageStyle:inline',
+									'imageStyle:wrapText',
+									'imageStyle:breakText',
+									'|',
+									'resizeImage'
+								]
+							},
+							ResizableHeight: {
+                                                                resize: true,
+                                                                height: 'auto',
+                                                                minHeight: '50px',
+                                                                maxHeight: '1500px'
+                                                        }		
 						} ).then(editor => {
 								// Add current instance to list of initialized editors
 								if(!caUI) { caUI = {}; }

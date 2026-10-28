@@ -6471,6 +6471,7 @@ function caGetCK5Toolbar(array $options=null) : ?array {
 		'redo' => ['code' => 'redo'],
 		'removeformat' => ['code' => 'removeFormat'],	// synonym for "clean"
 		'selectall' => ['code' => 'selectAll'],
+		'style' => ['code' => 'style' ],
 		'showblocks' => ['code' => 'showBlocks'],
 		'source' => ['code' => 'sourceEditing'],
 		'specialcharacters' => ['code' => 'specialCharacters'], // Premium feature
