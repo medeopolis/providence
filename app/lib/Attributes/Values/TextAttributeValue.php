@@ -413,12 +413,14 @@ class TextAttributeValue extends AttributeValue implements IAttributeValue {
 			$o_config = Configuration::load();
 			
 			$use_editor = $o_config->get('wysiwyg_editor');
-			
-			if(is_numeric($width) && ($width < 200)) { $width = 200; } 	// force absolute minimum width	
-			if(is_numeric($height) && ($height < 50)) { $height = 50; } 	// force absolute minimum height	
 
-			$width_w_suffix = is_numeric($width) ? "{$width}px" : $width;
-			$height_w_suffix = is_numeric($height) ? "{$height}px" : $height;
+      $toolbar_config = $o_config->getAssoc('wysiwyg_editor_toolbar'); 
+      $toolbar = caGetCK5Toolbar(array('type' => $toolbar_config)); 
+			//if(is_numeric($width) && ($width < 200)) { $width = 200; } 	// force absolute minimum width	
+			//if(is_numeric($height) && ($height < 50)) { $height = 50; } 	// force absolute minimum height	
+
+			//$width_w_suffix = is_numeric($width) ? "{$width}px" : $width;
+			//$height_w_suffix = is_numeric($height) ? "{$height}px" : $height;
 			
 			switch($use_editor) {
 				case 'ckeditor':
@@ -426,43 +428,91 @@ class TextAttributeValue extends AttributeValue implements IAttributeValue {
 					$element .= "
 					<script type=\"module\">
 						import {
-						 ClassicEditor, BlockQuote, BlockToolbar, Bold, Code, Essentials, FontBackgroundColor, Font, FontColor, FontFamily, 
-						 FontSize, GeneralHtmlSupport, Heading, Highlight, HtmlComment, ImageBlock, ImageCaption, ImageInline, 
-						 ImageTextAlternative, Indent, IndentBlock, Italic, Link, List, ListProperties, MediaEmbed, 
-						 Paragraph, PasteFromOffice, RemoveFormat, SelectAll, SourceEditing, SpecialCharacters, SpecialCharactersArrows, 
-						 SpecialCharactersCurrency, SpecialCharactersEssentials, SpecialCharactersLatin, SpecialCharactersMathematical, 
-						 SpecialCharactersText, Strikethrough, Subscript, Superscript, TextTransformation, TodoList, Underline, Undo, LinkImage
+							Alignment, Autoformat, AutoImage, AutoLink, 
+							BlockQuote, Bold, 
+							Clipboard, ClassicEditor, Code, CodeBlock, 
+							Essentials, 
+							Font, 
+						 	GeneralHtmlSupport, 
+							Heading, Highlight, HorizontalLine, HtmlComment, 
+							Image, ImageCaption, ImageInsertViaUrl, ImageResize, ImageStyle, ImageTextAlternative, ImageToolbar, Indent, IndentBlock, Italic, 
+						 	Link, LinkImage, List, ListProperties, 
+							MediaEmbed, 
+						 	PasteFromOffice, Paragraph, 
+							RemoveFormat, 
+							SelectAll, ShowBlocks, SourceEditing, SpecialCharacters, SpecialCharactersEssentials, Strikethrough, Style, Subscript, Superscript, 
+							Table, TableCaption, TableColumnResize, TableToolbar, TextTransformation, TodoList, 
+							Underline, Undo,
 						} from 'ckeditor5';
-						
+						import Bookmark from 'ckbookmark';	
 						import { ResizableHeight} from 'ckresizeable';
 					
 						ClassicEditor
 							.create( document.querySelector( '#{fieldNamePrefix}{$element_info['element_id']}_{n}' ), {
-								plugins: [ 
-									BlockQuote, BlockToolbar, Bold, Code, Essentials, FontBackgroundColor, FontColor, FontFamily, FontSize, 
-									GeneralHtmlSupport, Heading, Highlight, HtmlComment, ImageBlock, ImageCaption, ImageInline, 
-									ImageTextAlternative, Indent, IndentBlock, Italic, Link, List, ListProperties, MediaEmbed, 
-									Paragraph, PasteFromOffice, RemoveFormat, SelectAll, SourceEditing, SpecialCharacters, 
-									SpecialCharactersArrows, SpecialCharactersCurrency, SpecialCharactersEssentials, 
-									SpecialCharactersLatin, SpecialCharactersMathematical, SpecialCharactersText, Strikethrough, 
-									Subscript, Superscript, TextTransformation, TodoList, Underline, Undo, LinkImage, ResizableHeight
+                plugins: [ 
+                  Alignment, Autoformat, AutoImage, AutoLink,
+                  Bookmark, BlockQuote, Bold, 
+                  Clipboard, Code, CodeBlock, 
+                  Essentials, 
+                  Font, 
+                  GeneralHtmlSupport, 
+                  Heading, Highlight, HorizontalLine, HtmlComment, 
+                  Image, ImageCaption, ImageInsertViaUrl, ImageResize, ImageTextAlternative, ImageToolbar, Indent, IndentBlock, Italic, 
+                  Link, LinkImage, List, ListProperties, 
+                  MediaEmbed, 
+                  PasteFromOffice, Paragraph,
+                  RemoveFormat, ResizableHeight,
+                  SelectAll, ShowBlocks, SourceEditing, SpecialCharacters, SpecialCharactersEssentials, Strikethrough, Style, Subscript, Superscript, 
+                  Table, TableToolbar, TableColumnResize, TableCaption, TextTransformation, TodoList, 
+                  Underline, Undo,
 								],
 								toolbar: {
-									items: ".json_encode(caGetCK5Toolbar()).",
+									items: ".json_encode($toolbar).",
 									shouldNotGroupWhenFull: true
-								},
+                },
+                table: {
+                  contentToolbar: [ 'tablecolumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties' ]
+                },
 								ResizableHeight: {
 									resize: true,
-									height: '{$height_w_suffix}',
+									height: 'auto',
 									minHeight: '50px',
 									maxHeight: '1500px'
 								},
 								htmlSupport: {
-									allow: [
+                  allow: [
+                    {
+                      name: /.*/,
+                      attributes: true,
+                      classes: true,
+                      styles: true
+                    },
 										{ name: 'details' },
 										{ name: 'summary' }
 									]
-								}
+                },
+                heading: {
+                  options: [
+                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1'},
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2'}, 
+                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3'},
+                    { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4'},
+                    { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5'},
+                  ]
+                },
+                image: {
+                  toolbar: [
+                    'imageTextAlternative',
+                    'toggleImageCaption',
+                    '|',
+                    'imageStyle:inline',
+                    'imageStyle:wrapText',
+                    'imageStyle:breakText',
+                    '|',
+                    'resizeImage'
+                  ]
+                },
 							}).then(editor => {
 								// Add current instance to list of initialized editors
 								if(!caUI) { caUI = {}; }
@@ -472,10 +522,10 @@ class TextAttributeValue extends AttributeValue implements IAttributeValue {
 								editor.model.document.on('change:data', () => {
 									if(caUI.utils.showUnsavedChangesWarning) { console.log('set'); caUI.utils.showUnsavedChangesWarning(true); }
 								});
-							}).catch((e) => console.log('Error initializing CKEditor: ' + e));
+							}).catch((e) => console.log('Error initializing CKEditor: ' + e.stack));
 					</script>\n";
 									
-					$element .= "<div style='width: {$width_w_suffix}; overflow-y: auto;' class='{fieldNamePrefix}{$element_info['element_id']}_container_{n} ckeditor-wrapper'>".caHTMLTextInput(
+					$element .= "<div class='{fieldNamePrefix}{$element_info['element_id']}_container_{n} ckeditor-wrapper'>".caHTMLTextInput(
 						'{fieldNamePrefix}'.$element_info['element_id'].'_{n}', 
 						$attr, $opts
 					)."</div>\n";
