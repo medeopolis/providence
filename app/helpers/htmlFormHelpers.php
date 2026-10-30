@@ -253,21 +253,15 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 								Table, TableToolbar, TableColumnResize, TableCaption, TextTransformation, TodoList, 
 								Underline, Undo,
 							],
-							toolbar: {
-								items: ".json_encode($toolbar).",
-								shouldNotGroupWhenFull: true
-							},
-							table: {
-								contentToolbar: [ 'tablecolumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties' ]
-							},
-							// Try and minimise what is allowed here. Eg. Attributes like id and class. 
-							htmlSupport: { 
+							htmlSupport: {
 								allow: [
 									{
-										name: /.*/,
-										attributes: true,
-										classes: true,
-										styles: true
+										name: 'a',
+										attributes: ['name', 'id'] 
+									},
+									{
+										name: /(div|p|h[1-6])/,
+										attributes: ['id', 'class']
 									},
 									{ name: 'details' },
 									{ name: 'summary' }
@@ -282,7 +276,10 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 									{ model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
 									{ model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
 								]
-							},
+              },
+              table: {
+                contentToolbar: [ 'tablecolumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties' ]
+              },
 							image: {
 								toolbar: [
 									'imageTextAlternative',
@@ -296,11 +293,15 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 								]
 							},
 							ResizableHeight: {
-                                                                resize: true,
-                                                                height: 'auto',
-                                                                minHeight: '50px',
-                                                                maxHeight: '1500px'
-                                                        }		
+                resize: true,
+                height: 'auto',
+                minHeight: '50px',
+                maxHeight: '1500px'
+              },		
+							toolbar: {
+								items: ".json_encode($toolbar).",
+								shouldNotGroupWhenFull: true
+							}
 						} ).then(editor => {
 								// Add current instance to list of initialized editors
 								if(!caUI) { caUI = {}; }
@@ -535,9 +536,13 @@ function caHTMLImage($ps_url, $pa_options=null) {
 		}
 
 		$vn_layers = 						(int)$pa_options["layers"];
-		
+
 		if (!($vs_id_name = (string)($pa_options["idname"] ?? null))) {
 			$vs_id_name = (string)($pa_options["id"] ?? null);
+		}
+
+		if (!$vs_id_name) {
+			$vs_id_name = uniqid('caTileViewer_');
 		}
 
 		$vn_viewer_width = 				$pa_options["viewer_width"];

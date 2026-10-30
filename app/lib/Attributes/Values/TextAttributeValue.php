@@ -229,7 +229,7 @@ $_ca_attribute_settings['TextAttributeValue'] = array(		// global
 		'formatType' => FT_TEXT,
 		'displayType' => DT_FIELD,
 		'default' => '',
-		'width' => 90, 'height' => 4,
+		'width' => '670px', 'height' => 12,
 		'label' => _t('Dependent value template'),
 		'validForNonRootOnly' => 1,
 		'description' => _t('Template to be used to format content for dependent values. Template should reference container values using their bare element code prefixed with a caret (^). Do not include the table or container codes.')
@@ -466,6 +466,20 @@ class TextAttributeValue extends AttributeValue implements IAttributeValue {
                   Table, TableToolbar, TableColumnResize, TableCaption, TextTransformation, TodoList, 
                   Underline, Undo,
 								],
+								htmlSupport: {
+									allow: [
+										{
+											name: 'a',
+											attributes: ['name', 'id'] 
+										},
+										{
+											name: /(div|p|h[1-6])/,
+											attributes: ['id', 'class']
+										},
+										{ name: 'details' },
+										{ name: 'summary' }
+									]
+								},
 								toolbar: {
 									items: ".json_encode($toolbar).",
 									shouldNotGroupWhenFull: true
@@ -479,18 +493,6 @@ class TextAttributeValue extends AttributeValue implements IAttributeValue {
 									minHeight: '50px',
 									maxHeight: '1500px'
 								},
-								htmlSupport: {
-                  allow: [
-                    {
-                      name: /.*/,
-                      attributes: true,
-                      classes: true,
-                      styles: true
-                    },
-										{ name: 'details' },
-										{ name: 'summary' }
-									]
-                },
                 heading: {
                   options: [
                     { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
