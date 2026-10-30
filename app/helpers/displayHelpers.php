@@ -6425,21 +6425,21 @@ function caGetQuillToolbar(array $options=null) : ?array {
 		'removeformat' => ['code' => 'clean'],	// synonym for "clean"
 
 		//'font' => ['code' => 'font', 'value' => []],	// Doesn't actually set font - sets Quill-specific class so let's not offer this
-		//'fontsize' => ['code' => 'size', 'value' => []], / Doesn't actually set size - sets Quill-specific class so let's not offer this
+		//'fontsize' => ['code' => 'size', 'value' => []], // Doesn't actually set size - sets Quill-specific class so let's not offer this
 		'textcolor' => ['code' => 'color', 'value' => []],
 		//'background' => ['code' => 'background', 'value' => []], // Doesn't appear to render even thought Quill docs reference it
 
 		'blockquote' => ['code' => 'blockquote'],
 		'code' => ['code' => 'code', 'class' => 'ql-code-block'],
 		'link' => ['code' => 'link'],
-		'image' => ['code' => 'image'],
+		//'image' => ['code' => 'image'], //Doesn't work. It gets you to pick an image from local computer, but then doesn't save it.
 		'video' => ['code' => 'video'],
 		'formula' => ['code' => 'formula'],
 		'align' => ['code' => 'align', 'value' => []],
 
 		'numberedlist' => ['code' => 'list', 'value' => 'ordered'],
 		'bulletedlist' => ['code' => 'list', 'value' => 'bullet'],
-		'checkList' => ['code' => 'list', 'value' => 'check'],
+		'checklist' => ['code' => 'list', 'value' => 'check'],//Doesn't appear to render
 		'outdent' => ['code' => 'indent', 'value' => '+1'],
 		'indent' => ['code' => 'indent', 'value' => '-1'],
 
@@ -6480,45 +6480,50 @@ function caGetCK5Toolbar(array $options=null) : ?array {
 	$config = Configuration::load();
 
 	$map = [
-		'bold' => ['code' => 'bold'],
+		'-'	=> ['code' => '-'], //new line separator
+		'|' => ['code' => '|'], //horizonal line separator between elements
+		'align' => ['code' => 'alignment'], 
+		'background' => ['code' => 'fontBackgroundColor'],
+		'blockquote' => ['code' => 'blockQuote'],
+		'bold' => ['code' => 'bold'], //
+		'insertbookmark' => ['code' => 'insertBookmark'], 
+		'bulletedlist' => ['code' => 'bulletedList'],
+		'checklist' => ['code' => 'todoList'],
+		'clean' => ['code' => 'removeFormat'],
+		'code' => ['code' => 'code'],
+		'codeblock' => ['code' => 'codeBlock'], 
+		'font' => ['code' => 'fontfamily'],	
+		'fontsize' => ['code' => 'fontsize'],
+		//'fullscreen' => ['code' => 'fullscreen'], //saying it's not available. Only available in newer version?
+		'header' => ['code' => 'heading'],	
+		'highlight' => ['code' => 'highlight'], 
+		'horizontalline' => ['code' => 'horizontalLine'], 
+		'image' => ['code' => 'insertImage'],
+		'indent' => ['code' => 'indent'],
 		'italic' => ['code' => 'italic'],
-		'underline' => ['code' => 'underline'],
+		'link' => ['code' => 'link'],
+		'numberedlist' => ['code' => 'numberedList'],
+		'outdent' => ['code' => 'outdent'],
+		'redo' => ['code' => 'redo'],
+		'removeformat' => ['code' => 'removeFormat'],	// synonym for "clean"
+		'selectall' => ['code' => 'selectAll'],
+		'style' => ['code' => 'style' ],
+		'showblocks' => ['code' => 'showBlocks'],
+		'source' => ['code' => 'sourceEditing'],
+		'specialcharacters' => ['code' => 'specialCharacters'], // Premium feature
 		'strike' => ['code' => 'strikethrough'],
 		'subscript' => ['code' => 'subscript'],
 		'superscript' => ['code' => 'superscript'],
-		'code' => ['code' => 'code'],
-		'header' => ['code' => 'heading'],
-
-		'clean' => ['code' => 'removeFormat'],
-		'removeformat' => ['code' => 'removeFormat'],	// synonym for "clean"
-
-		'font' => ['code' => 'fontfamily'],
-		'fontsize' => ['code' => 'fontsize'],
+		'table' => ['code' => 'insertTable'],
 		'textcolor' => ['code' => 'fontColor'],
-		'background' => ['code' => 'fontBackgroundColor'],
-
-		'blockquote' => ['code' => 'blockQuote'],
-		'link' => ['code' => 'link'],
-		'image' => ['code' => 'linkImage'],
-		'video' => ['code' => 'mediaEmbed'],
-		'formula' => ['code' => 'formula'],
-		'align' => ['code' => 'alignment'],
-
-		'numberedlist' => ['code' => 'numberedList'],
-		'bulletedlist' => ['code' => 'bulletedList'],
-		'checkList' => ['code' => 'todoList'],
-		'outdent' => ['code' => 'outdent'],
-		'indent' => ['code' => 'indent'],
-		'source' => ['code' => 'sourceEditing'],
-	
+		'underline' => ['code' => 'underline'],
 		'undo' => ['code' => 'undo'],	
-		'redo' => ['code' => 'redo'],
-		
+		'video' => ['code' => 'mediaEmbed'],
 		'medialist' => ['code' => 'camedialist'],
 		'itemlink' => ['code' => 'caitemlink'],
 	];
-
-	$toolbar = $config->get(strtolower((caGetOption('type', $options, 'editor') )!== 'content') ? 'wysiwyg_editor_toolbar' : 'wysiwyg_content_editor_toolbar');
+	
+	$toolbar = caGetOption('type', $options, 'wysiwyg_editor_toolbar');
 	if(!is_array($toolbar)) { return null; }
 
 	$groups = [];

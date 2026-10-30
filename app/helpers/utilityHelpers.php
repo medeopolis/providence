@@ -4995,6 +4995,7 @@ function caFileIsIncludable($ps_file) {
 		#$config = HTMLPurifier_Config::createDefault();
 		# Swapping out config with html5 compatiable config
 		$config = HTMLPurifier_HTML5Config::createDefault();
+		$config->set('Attr.EnableID', true);
 		$config->set('URI.DisableExternalResources', !Configuration::load()->get('purify_allow_external_references'));
 		$serializer_path = Configuration::load()->get('purify_serializer_path');
 		# Check if path exists, if not make dir and set owner:group to same as ca tmp dir

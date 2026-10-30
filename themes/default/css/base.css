@@ -6,9 +6,12 @@ html {
 	box-sizing: content-box !important;
 }
 
+/* 
+* commenting this out, as it's interferring with ckeditor elements.
+* Not sure what this will upset just yet.
 *, *:before, *:after {
   box-sizing: inherit !important;
-}
+} */
 
 html {
     font: 12px "Helvetica Neue", Arial, Helvetica, Sans-serif;
@@ -652,6 +655,7 @@ h3.currentSort div {
 /* --- FOOTER STYLES --- */
 #footerContainer {
     position: fixed;
+    z-index: 100; /* needed to stop Ckeditor content from showing on top */
     width: 100%;
     bottom: 0px;
     left: 0px;
@@ -8223,18 +8227,27 @@ div.ql-container {
     padding-bottom: 20px;  
 }
 
+/* ck-editor style overrides */
 div.ck-reset {
     font-weight: normal;
 }
 
-.ck.ck-editor__top.ck-reset_all {
+/*.ck.ck-editor__top.ck-reset_all {
   z-index: var(--ck-z-modal);
   position: sticky;
   top: 0;
+} Breaks the CKEditor natural sticky ability*/ 
+
+.ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content{
+ 	top: 57px !important /* override the sticky panel top:0px that hides it under the menu bar */
 }
 
 .ckeditor-wrapper {
     font: 14px "Helvetica Neue", Arial, Helvetica, Sans-serif;
+}
+
+.formLabel .ck-source-editing-area textarea{
+    overflow: auto; /*The bottom of source editing was being cut off comment in this issue https://github.com/ckeditor/ckeditor5/issues/10422#issuecomment-925579184 says to add overflow auto to solve.*/
 }
 
 div.anonymousAccessUrl, div.anonymousAccessDownloads {

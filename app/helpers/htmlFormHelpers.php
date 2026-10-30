@@ -209,37 +209,55 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 	if ($use_wysiwyg_editor) {
 		$o_config = Configuration::load();
 		$use_editor = $o_config->get('wysiwyg_editor');
+	//	$height_w_suffix = is_numeric($height) ? "{$height}px" : $height;
+		if(!is_array($va_toolbar_config = $o_config->getAssoc(caGetOption('cktoolbar', $options, 'wysiwyg_editor_toolbar')))) { $va_toolbar_config = []; }
 		switch($use_editor) {
 			case 'ckeditor':
 				AssetLoadManager::register("ck5");
 				
-				$toolbar = caGetCK5Toolbar();
+				$toolbar = caGetCK5Toolbar(array('type' => $va_toolbar_config));
 				$element .= "
 				<script type=\"module\">
 					import {
-					 ClassicEditor, BlockQuote, BlockToolbar, Bold, Code, Essentials, FontBackgroundColor, Font, FontColor, FontFamily, 
-					 FontSize, GeneralHtmlSupport, Heading, Highlight, HtmlComment, ImageBlock, ImageCaption, ImageInline, 
-					 ImageTextAlternative, Indent, IndentBlock, Italic, Link, List, ListProperties, MediaEmbed, 
-					 Paragraph, PasteFromOffice, RemoveFormat, SelectAll, SourceEditing, SpecialCharacters, SpecialCharactersArrows, 
-					 SpecialCharactersCurrency, SpecialCharactersEssentials, SpecialCharactersLatin, SpecialCharactersMathematical, 
-					 SpecialCharactersText, Strikethrough, Subscript, Superscript, TextTransformation, TodoList, Underline, Undo, LinkImage
+						Alignment, Autoformat, AutoImage, AutoLink,
+						BlockQuote, Bold,
+						Clipboard, ClassicEditor, Code, CodeBlock,
+						Essentials,
+						Font,
+						GeneralHtmlSupport,
+						Heading, Highlight, HorizontalLine, HtmlComment,
+						Image, ImageCaption, ImageInsertViaUrl, ImageResize, ImageStyle, ImageTextAlternative, ImageToolbar, Indent, IndentBlock, Italic,
+						Link, LinkImage, List, ListProperties,
+						MediaEmbed,
+						PasteFromOffice, Paragraph,
+						RemoveFormat,
+						SelectAll, ShowBlocks, SourceEditing, SpecialCharacters, SpecialCharactersEssentials, Strikethrough, Style, Subscript, Superscript,
+						Table, TableCaption, TableColumnResize, TableToolbar, TextTransformation, TodoList,
+						Underline, Undo,
 					} from 'ckeditor5';
-						
-					import { ResizableHeight} from 'ckresizeable';						
-					import { CAMediaList } from 'ckcamedialist';					
-					import { CAItemLink } from 'ckcaitemlink';
-				
+			 		import Bookmark from 'ckbookmark';	
+          import { ResizableHeight } from 'ckresizeable';
+          import { CAMediaList } from 'ckcamedialist';
+          import { CAItemLink } from 'ckcaitemlink';
 					ClassicEditor
 						.create( document.querySelector( '#{$name}' ), {
 							plugins: [ 
-								BlockQuote, BlockToolbar, Bold, Code, Essentials, FontBackgroundColor, FontColor, FontFamily, FontSize, 
-								GeneralHtmlSupport, Heading, Highlight, HtmlComment, ImageBlock, ImageCaption, ImageInline, 
-								ImageTextAlternative, Indent, IndentBlock, Italic, Link, List, ListProperties, MediaEmbed, 
-								Paragraph, PasteFromOffice, RemoveFormat, SelectAll, SourceEditing, SpecialCharacters, 
-								SpecialCharactersArrows, SpecialCharactersCurrency, SpecialCharactersEssentials, 
-								SpecialCharactersLatin, SpecialCharactersMathematical, SpecialCharactersText, Strikethrough, 
-								Subscript, Superscript, TextTransformation, TodoList, Underline, Undo, LinkImage,
-								ResizableHeight, CAMediaList, CAItemLink
+								Alignment, Autoformat, AutoImage, AutoLink,
+								Bookmark, BlockQuote, Bold, 
+                CAMediaList, CAItemLink,
+                Clipboard, Code, CodeBlock,
+								Essentials, 
+								Font,
+								GeneralHtmlSupport,
+								Heading, Highlight, HorizontalLine, HtmlComment,
+								Image, ImageCaption, ImageInsertViaUrl, ImageResize, ImageStyle, ImageTextAlternative, ImageToolbar, Indent, IndentBlock, Italic, 
+								Link, LinkImage, List, ListProperties, 
+								MediaEmbed, 
+								PasteFromOffice, Paragraph, 
+								RemoveFormat, ResizableHeight,
+								SelectAll, ShowBlocks, SourceEditing, SpecialCharacters, SpecialCharactersEssentials, Strikethrough, Style, Subscript, Superscript, 
+								Table, TableToolbar, TableColumnResize, TableCaption, TextTransformation, TodoList, 
+								Underline, Undo,
 							],
 							htmlSupport: {
 								allow: [
@@ -255,6 +273,37 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 									{ name: 'summary' }
 								]
 							},
+							heading: {
+								options: [
+									{ model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+									{ model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+									{ model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+									{ model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+									{ model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+									{ model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+								]
+              },
+              table: {
+                contentToolbar: [ 'tablecolumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties' ]
+              },
+							image: {
+								toolbar: [
+									'imageTextAlternative',
+									'toggleImageCaption',
+									'|',
+									'imageStyle:inline',
+									'imageStyle:wrapText',
+									'imageStyle:breakText',
+									'|',
+									'resizeImage'
+								]
+							},
+							ResizableHeight: {
+                resize: true,
+                height: 'auto',
+                minHeight: '50px',
+                maxHeight: '1500px'
+              },		
 							toolbar: {
 								items: ".json_encode($toolbar).",
 								shouldNotGroupWhenFull: true
@@ -288,16 +337,15 @@ function caHTMLTextInput($name, $attributes=null, $options=null) {
 							})
 						.catch((e) => console.log('Error initializing CKEditor: ' + e));
 				</script>\n";
-							
 				
 				$attr_string = _caHTMLMakeAttributeString($attributes, $options);			
-				$element .= "<div id=\"{$name}_container\" style='width: {$width}px; overflow-y: auto;'>
+				$element .= "<div id=\"{$name}_container\">
 					<{$tag_name} name=\"{$name}\" id=\"{$name}\">{$attributes['value']}</{$tag_name}></div>
-<style>
-#{$name}_container .ck-editor__editable_inline {
-min-height: calc({$height}px - 100px);
-}
-</style>";
+				<style>
+					#{$name}_container .ck-editor__editable_inline {
+						min-height: calc({$height}px - 100px);
+					}
+				</style>";
 				break;
 			case 'quilljs';
 			default:
@@ -331,8 +379,7 @@ min-height: calc({$height}px - 100px);
 				break;
 		}
 		
-		$o_config = Configuration::load();
-		if(!is_array($va_toolbar_config = $o_config->getAssoc(caGetOption('cktoolbar', $options, 'wysiwyg_editor_toolbar')))) { $va_toolbar_config = []; }
+		#if(!is_array($va_toolbar_config = $o_config->getAssoc(caGetOption('cktoolbar', $options, 'wysiwyg_editor_toolbar')))) { $va_toolbar_config = []; }
 	} elseif ($is_textarea) {
 		$value = $attributes['value'] ?? null;
 		if ($attributes['size'] ?? null) { $attributes['cols'] = $attributes['size']; }
