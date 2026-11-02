@@ -346,7 +346,7 @@ class Replicator {
 		if(!$to) { return false; }
 		
 		if(!($from = $this->opo_replication_conf->get('email_reports_from'))) { 
-			$from = __CA_ADMIN_EMAIL__;
+			$from = __CA_SMTP_EMAIL ?: __CA_ADMIN_EMAIL__;
 		}
 		$sync_list = $this->getSyncList();
 		$sync_list['end'] = time();

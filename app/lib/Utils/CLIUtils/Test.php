@@ -55,8 +55,9 @@ trait CLIUtilsTest {
 		if(!caCheckEmailAddress($to)) { 
 			CLIUtils::addError(_t('Email %1 address is invalid', $to));
 			return false;
-		}
-		if(!caSendmail($to, __CA_ADMIN_EMAIL__, _t("[%1] Test email message", __CA_APP_DISPLAY_NAME__), 
+    }
+    $from_address = __CA_SMTP_EMAIL__ ?: __CA_ADMIN_EMAIL__;
+		if(!caSendmail($to, $from_address, _t("[%1] Test email message", __CA_APP_DISPLAY_NAME__), 
 			_t("This is a test of the %1 system outgoing email configuration. If you are receiving this message then your outgoing email configuration appears to work!", __CA_APP_DISPLAY_NAME__),
 			_t("This is a test of the <em>%1</em> system outgoing email configuration. If you are receiving this message then your outgoing email configuration appears to work!", __CA_APP_DISPLAY_NAME__),
 			null,
