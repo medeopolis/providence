@@ -86,6 +86,10 @@ if (!defined("__CA_AUTH_ADAPTER__")) {
 #
 # __CA_SMTP_AUTH__ = authentication method for outgoing mail connection (set to PLAIN, LOGIN, XOAUTH2 or CRAM-MD5; leave blank if no authentication is used.)
 # __CA_SMTP_SSL__ = SSL method to use for outgoing mail connection (set to SSL or TLS; leave blank if no authentication is used.)
+# __CA_SMTP_USER__ = username to authenticate to the SMTP server
+# __CA_SMTP_PASSWORD__ = password to authenticate to the SMTP server.
+# __CA_SMTP_EMAIL__ = the email address to send email from. This might be the same as __CA_SMTP_USER__ if the email address is used for authentication.
+# NB: The __CA_SMTP_EMAIL__ should at least be on the same domain as the authenticated mailbox, or the sent emails will be blocked as unsecure/spam on the recieving side.
 
 ## Extra SMTP XOAUTH2 Authentication settings: These settings must be set if __CA_SMTP_AUTH__ is set to XOAUTH2 (with exception of __CA_SMTP_XOAUTH2_AZURE_TENANTID, which is only needed if provider is Azure)
 # __CA_SMTP_XOAUTH_PROVIDER__ = Email provider: Might be Azure, Microsoft, Google or Yahoo. Only tested with Azure so far 
