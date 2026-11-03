@@ -457,7 +457,7 @@ class TextAttributeValue extends AttributeValue implements IAttributeValue {
                 plugins: [ 
                   Alignment, Autoformat, AutoImage, AutoLink,
                   Bookmark, BlockQuote, Bold, 
-                  CAMediaList, CAItemLink                  
+                  CAMediaList, CAItemLink,                  
                   Clipboard, Code, CodeBlock, 
                   Essentials, 
                   Font, 
