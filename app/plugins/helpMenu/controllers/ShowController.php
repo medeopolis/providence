@@ -46,7 +46,10 @@ class ShowController extends ActionController {
 	 */
 	public function __call($ps_method, $pa_path) {
 		$this->view->setVar('response', $this->response);
-		
+
+    if(strtolower(Configuration::load()->get('wysiwyg_editor')) == 'ckeditor'){
+      AssetLoadManager::register('ck5-content');
+    }  
 		$page = new ca_site_pages((int)$this->request->getAction());
 		if (!$page->isLoaded()) {
 			throw new ApplicationException(_t('Cannot load page'));
