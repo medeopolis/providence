@@ -4520,16 +4520,6 @@ function caProcessBottomLineTemplateForPlacement($request, $placement, $res, $op
 	// Post processing
 	foreach($subelements_to_process as $subelement => $subelement_datatype) {
 		$value_name = ($is_multiple) ? "Value_{$subelement_datatype}" : $subelement;
-		// [0] => Array
-//         (
-//             [originalTag] => COUNT%filter=loan_out
-//             [tag] => COUNT
-//             [options] => Array
-//                 (
-//                     [filter] => loan_out
-//                 )
-// 
-//         )
 
 		switch($subelement_datatype) {
 			case __CA_ATTRIBUTE_VALUE_LIST__:
@@ -4727,7 +4717,10 @@ function caRepresentationList($request, $subject, ?array $options=null) : ?array
 
 	$t_rep = new ca_object_representations();
 	$reps = [];
-
+	
+	$trans_start_rep_id = caGetOption('transcription_start_representation_id', $options, null);
+	$trans_start = caGetOption('transcription_start', $options, null);
+	
 	$caption_template = caGetOption('mediaCaptionTemplate', $options, '???');
 	while($qr->nextHit()) {
 		$rep_id = $qr->get('ca_object_representations.representation_id');
@@ -4757,6 +4750,20 @@ function caRepresentationList($request, $subject, ?array $options=null) : ?array
 				];
 			}
 		}
+		$sidecars = null;
+		if(is_array($sidecar_list = $t_rep->getSidecarFileList($rep_id))) {
+			$sidecars = [];
+			foreach($sidecar_list as $sid => $sf) {
+				$sidecars[] = [
+					'url' => $sf['url'],
+					'mimetype' => $sf['mimetype'],
+					'typename' => $sf['typename'],
+					'filesize' => $sf['filesize'],
+					'original_filename' => $sf['original_filename'],
+					'sidecarUrl' => caNavUrl($request, '*', '*', 'getMediaSidecarData', ['sidecar_id' => $sid], ['absolute' => true]).'/filename/'.$sf['original_filename']
+				];
+			}
+		}
 
 		$embedded_player = null;
 		if(is_array($media_data = $qr->getMediaInfo('ca_object_representations.media')) && is_array($media_data['INPUT'] ?? null)) {
@@ -4767,8 +4774,10 @@ function caRepresentationList($request, $subject, ?array $options=null) : ?array
 		$use_embedded_player = ($embedded_player && (!$mimetype || $display_info['use_embedded_when_available'] ?? false));
 
 		$rep = [
+			'id' => $rep_id,
 			'representation_id' => $rep_id,
-			'mimetype' => $mimetype,
+			'original_mimetype' => $mimetype,
+			'mimetype' => $qr->get("ca_object_representations.media.{$display_version}.mimetype"),
 			'media_class' => $use_embedded_player ? 'embed' : caGetMediaClass($mimetype),
 			'original_url' => $qr->get("ca_object_representations.media.original.url"),
 			'url' => $qr->get("ca_object_representations.media.{$display_version}.url"),
@@ -4779,10 +4788,15 @@ function caRepresentationList($request, $subject, ?array $options=null) : ?array
 			'no_overlay' => (bool)($display_info['no_overlay'] ?? false),
 			'caption' => caProcessTemplateForIDs($caption_template, $qr->tableName(), [$rep_id]),
 			'vttCaptions' => $vtt_captions,
+			'sidecars' => $sidecars,
 			'embeddedPlayer' => $embedded_player,
 			'download_version' => $allow_download ? caGetOption('download_version', $download_info, null) : null
 		];
-
+		
+		if($rep_id == $trans_start_rep_id) {
+			$rep['start'] = $trans_start;
+		}
+		
 		if(is_array($file_list = $qr->getFileList()) && sizeof($file_list)) {
 			$pages = array_map(function($v) {
 				return $v['preview_url'];
@@ -4855,7 +4869,8 @@ function caRepresentationViewer($request, $subject, ?array $options=null) {
 	$media_list = caRepresentationList($request, $t_instance, $options);
 
 	$o_view->setVar('media_list', $media_list);
-
+	$o_view->setVar('detail_options', $options['detail_options'] ?? []);
+	
 	if (is_null($index) || !isset($media_list[$index])) {
 		$t_rep = $t_instance->getPrimaryRepresentationInstance($options);
 	} else {
@@ -6116,18 +6131,20 @@ function caGetMediaDownloadArchiveName($table, $id, $options=null) {
  *
  * @param string $content Content where logo will be used. Possible values are: "menuBar" (application menu bar); "login" (application login screen), "report" (report headers)
  *
- * @return string
+ * @return string 
  */
 function caGetBrandingLogo(string $type, array $options=null) : ?string {
-	//if(!in_array($type, ['menuBar', 'login', 'report'], true)) { return null; }
-
 	$abs = caGetOption('absolute', $options, false);
 
 	global $g_request;
 	$config = Configuration::load();
 
 	if(is_array($branding = $config->getAssoc('branding')) && is_array($logo = caGetOption($type, $branding, null)) && !empty($logo['src'])) {
-		return caHTMLImage(($abs ? __CA_BASE_DIR__ : __CA_URL_ROOT__).'/'.caGetOption('src', $logo), ['alt' => caGetOption('alt', $logo), 'class' => caGetOption('class', $logo), 'style' => caGetOption('style', $logo), 'id' => caGetOption('id', $logo), 'scaleCSSWidthTo' => caGetOption('width', $logo), 'scaleCSSHeightTo' => caGetOption('height', $logo)]);
+		$path = ($abs ? __CA_BASE_DIR__ : __CA_URL_ROOT__).'/'.caGetOption('src', $logo);
+		if(caGetOption('returnAsPath', $options, null)) { 
+			return $path;
+		}
+		return caHTMLImage($path, ['alt' => caGetOption('alt', $logo), 'class' => caGetOption('class', $logo), 'style' => caGetOption('style', $logo), 'id' => caGetOption('id', $logo), 'scaleCSSWidthTo' => caGetOption('width', $logo), 'scaleCSSHeightTo' => caGetOption('height', $logo)]);
 	}
 
 	if(!$g_request) { return null; }
@@ -6148,7 +6165,11 @@ function caGetBrandingLogo(string $type, array $options=null) : ?string {
 
 	}
 	if ($img) {
-		return caHTMLImage($g_request->getUrlPathForThemeFile("graphics/logos/{$img}"), ['alt' => _t("CollectiveAccess Logo"), 'class' => 'headerImg']);
+		$path = $g_request->getUrlPathForThemeFile("graphics/logos/{$img}");
+		if(caGetOption('returnAsPath', $options, null)) { 
+			return $path;
+		}
+		return caHTMLImage($path, ['alt' => _t("Logo"), 'class' => 'headerImg']);
 	}
 	return null;
 }
@@ -6172,15 +6193,17 @@ function caGetLoginLogo() {
 }
 # ------------------------------------------------------------------
 /**
- * Return currently configured logo graphic for report headers
+ * Return currently configured logo graphic for report headers as HTML <img> tag or path (if returnAsPath option is set)
  *
  * @param array $options Options include:
  *		name = key in branding configuration to use; if omitted "report" is used
+ *		absolute = use absolute path to logo. [Default is true]
+ *		returnAsPath = return as path to logo. If not set value is returned as HTML <img> tag. [Default is false]
  *
  * @return string
  */
 function caGetReportLogo(?array $options=null) {
-	return caGetBrandingLogo(caGetOption('name', $options, 'report'), ['absolute' => true]);
+	return caGetBrandingLogo(caGetOption('name', $options, 'report'), array_merge(['absolute' => true], $options));
 }
 # ------------------------------------------------------------------
 /**
